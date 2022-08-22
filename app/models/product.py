@@ -38,9 +38,9 @@ class Product(db.Model, UserMixin):
             'description': self.description ,
             'image': self.image ,
             'price': self.price ,
-            # 'stock': self.stock,
-            # 'category': self.category,
             'create_at': self.create_at,
             'update_at': self.update_at ,
             'owner_id': self.owner_id ,
+            # 'stock': self.stock,
+            # 'category': self.category,
         }
