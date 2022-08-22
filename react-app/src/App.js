@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import LoginForm from './components/auth/LoginForm';
 import { Modal } from './context/Modal';
 import SignUpForm from './components/auth/SignUpForm';
 import NavBar from './components/NavBar';
+import Products from './components/Products';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import UsersList from './components/UsersList';
 import User from './components/User';
@@ -15,6 +16,7 @@ function App() {
   const [loaded, setLoaded] = useState(false);
   const [showLogin, setShowLogin] = useState(false)
   const [showSignup, setShowSignup] = useState(false)
+  const products = useSelector(state => state.products.productsList)
   const dispatch = useDispatch();
   useEffect(() => {
     (async () => {
@@ -48,7 +50,7 @@ function App() {
           <User />
         </ProtectedRoute>
         <Route path='/' exact={true} >
-          <h1>My Home Page</h1>
+          <Products products={products} />
         </Route>
       </Switch>
     </BrowserRouter>
