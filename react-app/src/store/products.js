@@ -28,7 +28,8 @@ export default function productsReducer(state = {}, action) {
   switch (action.type) {
     case GET_PRODUCTS: {
       const newState = {};
-      action.products.forEach(product => {
+      console.log(action.products.products)
+      action.products.products.forEach(product => {
         newState[product.id] = product
       })
       return newState;
