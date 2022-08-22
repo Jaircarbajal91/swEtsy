@@ -47,3 +47,14 @@ def new_product():
         # "image":"https://picsum.photos/200",
         # "price":99
         # }
+
+@product_routes.route('/<int:id>', methods=["PUT"])
+def edit_product():
+    product = Product.query.get(id)
+    if product is not None:
+        form = ListForm()
+        form = ['csrf_token'].data = request.cookies['csrf_token']
+
+        # return product.to_dict()
+    else:
+        return {'errors':['product not found']}, 404
