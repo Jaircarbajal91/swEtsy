@@ -49,12 +49,27 @@ def new_product():
         # }
 
 @product_routes.route('/<int:id>', methods=["PUT"])
-def edit_product():
+@login_required
+def edit_product(id):
     product = Product.query.get(id)
     if product is not None:
+        product_dict = product.to_dict()
+        if product_dict["owner_id"] != int(current_user.get_id()):
+            return {'errors':['Forbbiden: you are not the owner!']}, 403
         form = ListForm()
-        form = ['csrf_token'].data = request.cookies['csrf_token']
-
-        # return product.to_dict()
+        form['csrf_token'].data = request.cookies['csrf_token']
+        for k in form.data:
+            if not form.data[k]:
+                form[k].data = product_dict[k]
+        print(form.data)
+        if form.validate_on_submit():
+            for k in form.data:
+                if k != 'csrf_token':
+                    # product[k] = form.data[k] -> this doesn't work, it's not a dict, only dict uses []
+                    setattr(product, k, form.data[k])
+            product.update_at = today
+            db.session.commit()
+            return {'updated_product':[product.to_dict()]}
+        return {'errors':validation_errors_to_error_messages(form.errors)}
     else:
         return {'errors':['product not found']}, 404
