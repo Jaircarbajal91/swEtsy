@@ -1,0 +1,10 @@
+.input.search-bar {
+  width: 1097px;
+  height: 48px;
+  border-radius: 4em;
+  text-align: left;
+}
+
+.input.search-bar::placeholder {
+  padding-left: 2em;
+}

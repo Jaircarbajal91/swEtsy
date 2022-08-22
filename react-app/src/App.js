@@ -13,8 +13,9 @@ import { authenticate } from './store/session';
 function App() {
   const [loaded, setLoaded] = useState(false);
   const [showLogin, setShowLogin] = useState(false)
+  const [showSignup, setShowSignup] = useState(false)
   const dispatch = useDispatch();
-
+  console.log(showSignup)
   useEffect(() => {
     (async () => {
       await dispatch(authenticate());
@@ -25,18 +26,22 @@ function App() {
   if (!loaded) {
     return null;
   }
-
   return (
     <BrowserRouter>
-      <NavBar setShowLogin={setShowLogin}/>
+      <NavBar setShowLogin={setShowLogin} setShowSignup={setShowSignup}/>
       <Switch>
-        <Route path='' exact={true}>
+        <Route path='/login' exact={true}>
           {showLogin && <Modal onClose={() => setShowLogin(false)}>
-            <LoginForm  setShowLogin={setShowLogin}/>
+            <LoginForm setShowLogin={setShowLogin} />
           </Modal>}
         </Route>
         <Route path='/sign-up' exact={true}>
-          <SignUpForm />
+          {showSignup && <Modal onClose={() => {
+            setShowSignup(false)
+            console.log(showSignup)
+            }}>
+            <SignUpForm setShowSignup={setShowSignup} />
+          </Modal>}
         </Route>
         <ProtectedRoute path='/users' exact={true} >
           <UsersList />
