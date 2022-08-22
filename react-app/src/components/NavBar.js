@@ -12,7 +12,7 @@ const NavBar = ({ setShowLogin, setShowSignup }) => {
   return (
     <nav className='nav-container'>
       <NavLink to='/' exact={true} activeClassName='active'>
-        <img src={logo} />
+        <img src={logo} alt='logo' />
         <SearchBar />
       </NavLink>
       <NavLink to='/sign-up' onClick={() => setShowSignup(true)} exact={true} activeClassName='active'>

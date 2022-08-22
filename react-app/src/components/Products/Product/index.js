@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { NavLink } from 'react-router-dom';
+import Stars from '../../Reviews/Stars'
 
 const Product = ({ product }) => {
 
@@ -12,11 +13,12 @@ const Product = ({ product }) => {
         <NavLink to={`/products/${product.id}`}>
             <div className='card-container'>
                 <div className='product image-container'>
-                    <img src={product.image} alt='product image' />
+                    <img src={product.image} alt='product' />
                 </div>
                 <div className='product name'>
                     {product.name}
                 </div>
+                <Stars rating={4.64} />
                 <div className='price'>
                     {formatter.format(product.price)}
                 </div>

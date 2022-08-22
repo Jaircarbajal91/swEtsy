@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import React from 'react';
 import Product from './Product';
 
 const Products = ({ products }) => {
@@ -7,7 +6,7 @@ const Products = ({ products }) => {
     return (
         <div>
             { products.map(product => (
-                <Product product={product}/>
+                <Product key={product.id} product={product}/>
             ))}
         </div>
     );
