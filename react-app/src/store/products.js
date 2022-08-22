@@ -7,7 +7,6 @@ const getProductsAction = (products) => ({
 })
 
 
-
 export const getProductsThunk = () => async (dispatch) => {
   const response = await fetch('/api/products/', {
     headers: {
@@ -28,9 +27,10 @@ export default function productsReducer(state = {}, action) {
   switch (action.type) {
     case GET_PRODUCTS: {
       const newState = {};
-      action.products.forEach(product => {
+      action.products.products.forEach(product => {
         newState[product.id] = product
-      })
+      });
+      newState.productsList = [ ...action.products.products ]
       return newState;
     }
     default:
