@@ -6,8 +6,8 @@ import './NavBar.css'
 import logo from './images/logo.svg'
 
 
-const NavBar = () => {
-  
+const NavBar = ({setShowLogin}) => {
+
 
   return (
     <nav className='nav-container'>
@@ -19,11 +19,9 @@ const NavBar = () => {
       </NavLink>
       <ul>
         <li>
-          <NavLink to='/login' exact={true} activeClassName='active'>
+          <NavLink to='/login' onClick={() => setShowLogin(true)} exact={true} activeClassName='active'>
             Login
           </NavLink>
-        </li>
-        <li>
         </li>
         <li>
           <NavLink to='/users' exact={true} activeClassName='active'>
