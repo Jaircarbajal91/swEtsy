@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
-const HomePage = () => {
+const Products = () => {
     const [products, setProducts] = useState([])
     const productComponents = products.map((product) => {
         return (
@@ -21,4 +21,4 @@ const HomePage = () => {
     );
 }
 
-export default HomePage;
+export default Products;

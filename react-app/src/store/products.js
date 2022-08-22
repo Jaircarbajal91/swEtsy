@@ -28,10 +28,10 @@ export default function productsReducer(state = {}, action) {
   switch (action.type) {
     case GET_PRODUCTS: {
       const newState = {};
-      console.log(action.products.products)
       action.products.products.forEach(product => {
         newState[product.id] = product
-      })
+      });
+      newState.productsList = [ ...action.products.products ]
       return newState;
     }
     default:
