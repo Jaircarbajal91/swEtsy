@@ -50,7 +50,7 @@ def new_product():
 
 @product_routes.route('/<int:id>', methods=["PUT"])
 @login_required
-def edit_product(id):
+def delete_product(id):
     product = Product.query.get(id)
     if product is not None:
         product_dict = product.to_dict()
@@ -71,5 +71,20 @@ def edit_product(id):
             db.session.commit()
             return {'updated_product':[product.to_dict()]}
         return {'errors':validation_errors_to_error_messages(form.errors)}
+    else:
+        return {'errors':['product not found']}, 404
+
+
+@product_routes.route('/<int:id>', methods=["DELETE"])
+@login_required
+def edit_product(id):
+    product = Product.query.get(id)
+    if product is not None:
+        product_dict = product.to_dict()
+        if product_dict["owner_id"] != int(current_user.get_id()):
+            return {'errors':['Forbbiden: you are not the owner!']}, 403
+        db.session.delete(product)
+        db.session.commit()
+        return {"deleted_product":product_dict}
     else:
         return {'errors':['product not found']}, 404
