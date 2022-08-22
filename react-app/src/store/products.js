@@ -7,7 +7,6 @@ const getProductsAction = (products) => ({
 })
 
 
-
 export const getProductsThunk = () => async (dispatch) => {
   const response = await fetch('/api/products/', {
     headers: {
