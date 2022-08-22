@@ -5,7 +5,7 @@ from app.forms import ListForm
 from datetime import datetime, date, timedelta
 from .auth_routes import validation_errors_to_error_messages
 
-product_routes = Blueprint('products',__name__)
+product_routes = Blueprint('products', __name__, url_prefix='/api/products')
 
 @product_routes.route('/',methods=['GET'])
 def all_products():
