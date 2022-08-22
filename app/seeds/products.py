@@ -4,39 +4,9 @@ from datetime import datetime, date, timedelta
 today = date.today()
 
 def seed_products():
-    p1 = Product(
-        name='product-1', 
-        description='product-test',
-        image='https://picsum.photos/200',
-        price=7,
-        stock=100, 
-        category ='equipment',
-        create_at='2020-08-01',
-        update_at='2020-08-01',
-        owner_id=1
-        )
-    p2 = Product(
-        name='product-2', 
-        description='product-test',
-        image='https://picsum.photos/200',
-        price=8,
-        stock=100, 
-        category ='equipment',
-        create_at='2020-08-02',
-        update_at='2020-08-02',
-        owner_id=2
-        )
-    p3 = Product(
-        name='product-3', 
-        description='product-test',
-        image='https://picsum.photos/200',
-        price=9,
-        stock=100, 
-        category ='equipment',
-        create_at='2020-08-03',
-        update_at='2020-08-03',
-        owner_id=3
-        )
+    p1 = Product(name='product-1', description='product-test',image='https://picsum.photos/200',price=7,stock=100, category ='equipment',create_at=today,update_at=today,owner_id=1)
+    p2 = Product(name='product-2', description='product-test',image='https://picsum.photos/200',price=8,stock=100, category ='equipment',create_at=today,update_at=today,owner_id=2)
+    p3 = Product(name='product-3', description='product-test',image='https://picsum.photos/200',price=9,stock=100, category ='equipment',create_at=today,update_at=today,owner_id=3)
 
     db.session.add(p1)
     db.session.add(p2)
