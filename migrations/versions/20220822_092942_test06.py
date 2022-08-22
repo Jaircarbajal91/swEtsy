@@ -1,8 +1,8 @@
-"""test-5
+"""test06
 
-Revision ID: 5d05e94454c7
+Revision ID: 6bb8188c1f89
 Revises: 
-Create Date: 2022-08-21 23:32:22.716750
+Create Date: 2022-08-22 09:29:42.514339
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '5d05e94454c7'
+revision = '6bb8188c1f89'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -33,8 +33,6 @@ def upgrade():
     sa.Column('description', sa.String(length=255), nullable=False),
     sa.Column('image', sa.String(length=300), nullable=False),
     sa.Column('price', sa.Float(), nullable=False),
-    sa.Column('stock', sa.Integer(), nullable=False),
-    sa.Column('category', sa.String(), nullable=False),
     sa.Column('create_at', sa.DateTime(), nullable=False),
     sa.Column('update_at', sa.DateTime(), nullable=False),
     sa.Column('owner_id', sa.Integer(), nullable=False),

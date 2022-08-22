@@ -14,8 +14,8 @@ class Product(db.Model, UserMixin):
     description = db.Column(db.String(255), nullable=False)
     image = db.Column(db.String(300),nullable=False)
     price = db.Column(db.Float, nullable=False)
-    stock = db.Column(db.Integer, nullable=False)
-    category = db.Column(db.String, nullable=False)
+    # stock = db.Column(db.Integer, nullable=False)
+    # category = db.Column(db.String, nullable=False)
     create_at = db.Column(db.DateTime, nullable=False)
     update_at = db.Column(db.DateTime, nullable=False)
     owner_id = db.Column(db.Integer, db.ForeignKey('users.id'),nullable=False)
@@ -38,9 +38,9 @@ class Product(db.Model, UserMixin):
             'description': self.description ,
             'image': self.image ,
             'price': self.price ,
-            'stock': self.stock,
-            'category': self.category,
-            'create_at': self.created_at ,
+            # 'stock': self.stock,
+            # 'category': self.category,
+            'create_at': self.create_at,
             'update_at': self.update_at ,
             'owner_id': self.owner_id ,
         }
