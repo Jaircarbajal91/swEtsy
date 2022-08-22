@@ -18,7 +18,7 @@ const Product = ({ product }) => {
                 <div className='product name'>
                     {product.name}
                 </div>
-                <Stars rating={4.64} />
+                <Stars rating={3.99} />
                 <div className='price'>
                     {formatter.format(product.price)}
                 </div>
