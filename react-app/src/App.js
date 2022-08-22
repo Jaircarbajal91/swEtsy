@@ -12,6 +12,7 @@ import User from './components/User';
 import { authenticate } from './store/session';
 import { getProductsThunk } from './store/products';
 import ProductDetail from './components/ProductDetail';
+import CreateProductPage from './components/CreateProductPage';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -55,6 +56,9 @@ function App() {
         </Route>
         <Route path='/products/:id' exact={true} >
           <ProductDetail  products={products}/>
+        </Route>
+        <Route path='/products/new' exact={true}>
+          <CreateProductPage />
         </Route>
       </Switch>
     </BrowserRouter>
