@@ -5,13 +5,14 @@ import LogoutButton from './auth/LogoutButton';
 
 const NavBar = () => {
   return (
-    <nav>
+    <nav className='nav-container'>
       <ul>
         <li>
           <NavLink to='/' exact={true} activeClassName='active'>
             Home
           </NavLink>
         </li>
+        <input type='text' placeholder='Search for anything'></input>
         <li>
           <NavLink to='/login' exact={true} activeClassName='active'>
             Login
