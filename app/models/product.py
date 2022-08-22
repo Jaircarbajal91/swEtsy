@@ -14,11 +14,11 @@ class Product(db.Model, UserMixin):
     description = db.Column(db.String(255), nullable=False)
     image = db.Column(db.String(300),nullable=False)
     price = db.Column(db.Float, nullable=False)
-    # stock = db.Column(db.Integer, nullable=False)
-    # category = db.Column(db.String, nullable=False)
     create_at = db.Column(db.DateTime, nullable=False)
     update_at = db.Column(db.DateTime, nullable=False)
     owner_id = db.Column(db.Integer, db.ForeignKey('users.id'),nullable=False)
+    # stock = db.Column(db.Integer, nullable=False)
+    # category = db.Column(db.String, nullable=False)
 
     user = db.relationship("User",back_populates="products",foreign_keys=[owner_id])
     # images = db.relationship('Image',back_populates='products')
