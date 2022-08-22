@@ -15,7 +15,6 @@ function App() {
   const [showLogin, setShowLogin] = useState(false)
   const [showSignup, setShowSignup] = useState(false)
   const dispatch = useDispatch();
-  console.log(showSignup)
   useEffect(() => {
     (async () => {
       await dispatch(authenticate());
@@ -36,10 +35,7 @@ function App() {
           </Modal>}
         </Route>
         <Route path='/sign-up' exact={true}>
-          {showSignup && <Modal onClose={() => {
-            setShowSignup(false)
-            console.log(showSignup)
-            }}>
+          {showSignup && <Modal onClose={() => setShowSignup(false)}>
             <SignUpForm setShowSignup={setShowSignup} />
           </Modal>}
         </Route>
