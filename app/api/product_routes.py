@@ -85,6 +85,6 @@ def edit_product(id):
             return {'errors':['Forbbiden: you are not the owner!']}, 403
         db.session.delete(product)
         db.session.commit()
-        return {"deleted_product":product_dict}
+        return product_dict
     else:
         return {'errors':['product not found']}, 404

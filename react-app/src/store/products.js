@@ -1,6 +1,8 @@
 const GET_PRODUCTS = 'products/GET_PRODUCTS';
 const CREATE_PRODUCT = 'products/CREATE_PRODUCT';
 
+const DELETE_PRODUCT = 'products/DELETE_PRODUCT';
+
 
 const getProductsAction = products => ({
   type: GET_PRODUCTS,
@@ -10,6 +12,14 @@ const getProductsAction = products => ({
 const createProductAction = product => ({
   type: CREATE_PRODUCT,
   product,
+});
+
+
+
+
+const deleteProductAction = id => ({
+  type: DELETE_PRODUCT,
+  id
 });
 
 export const getProductsThunk = () => async dispatch => {
@@ -45,6 +55,22 @@ export const createProductThunk = payload => async dispatch => {
   };
 };
 
+
+export const deleteProductThunk = id => async dispatch => {
+  const response = await fetch(`/api/products/${id}`, {
+    method: 'DELETE'
+  });
+
+  if (response.ok) {
+    const deleted = await response.json();
+    dispatch(deleteProductAction(id));
+    return deleted;
+  } else {
+    const data = await response.json();
+    return data.errors;
+  };
+};
+
 export default function productsReducer(state = {}, action) {
   switch (action.type) {
     case GET_PRODUCTS: {
@@ -52,13 +78,18 @@ export default function productsReducer(state = {}, action) {
       action.products.products.forEach(product => {
         newState[product.id] = product
       });
-      newState.productsList = [ ...action.products.products ]
+      newState.productsList = [...action.products.products]
       return newState;
     }
     case CREATE_PRODUCT: {
       const newState = { ...state };
       newState[action.product.id] = action.product;
       return newState;
+    }
+    case DELETE_PRODUCT: {
+      const newState = { ...state }
+      delete newState[action.id]
+      return newState
     }
     default:
       return state;
