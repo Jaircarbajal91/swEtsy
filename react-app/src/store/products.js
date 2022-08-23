@@ -1,6 +1,6 @@
 const GET_PRODUCTS = 'products/GET_PRODUCTS';
 const CREATE_PRODUCT = 'products/CREATE_PRODUCT';
-
+const EDIT_PRODUCT = 'products/EDIT_PRODUCT';
 const DELETE_PRODUCT = 'products/DELETE_PRODUCT';
 
 
@@ -14,7 +14,10 @@ const createProductAction = product => ({
   product,
 });
 
-
+const editProductAction = product => ({
+  type: EDIT_PRODUCT,
+  product,
+});
 
 
 const deleteProductAction = id => ({
@@ -55,6 +58,19 @@ export const createProductThunk = payload => async dispatch => {
   };
 };
 
+export const editProductThunk = product => async dispatch => {
+  const response = await fetch(`/api/products/${product.id}`, {
+    method: 'PUT',
+    body: JSON.stringify(product),
+    headers: {'Content-Type': 'application/json'},
+  });
+  if (response.ok) {
+    const product = await response.json();
+    dispatch(editProductAction(product));
+    return product;
+  }
+}
+
 
 export const deleteProductThunk = id => async dispatch => {
   const response = await fetch(`/api/products/${id}`, {
@@ -85,6 +101,12 @@ export default function productsReducer(state = {}, action) {
       const newState = { ...state };
       newState[action.product.id] = action.product;
       return newState;
+    }
+    case EDIT_PRODUCT: {
+      return {
+        ...state,
+        [action.product.id]: action.product,
+      }
     }
     case DELETE_PRODUCT: {
       const newState = { ...state }

@@ -71,7 +71,7 @@ def edit_product(id):
                     setattr(product, k, form.data[k])
             product.update_at = today
             db.session.commit()
-            return {'updated_product':[product.to_dict()]}
+            return {product_dict}
         return {'errors':validation_errors_to_error_messages(form.errors)}
     else:
         return {'errors':['product not found']}, 404
