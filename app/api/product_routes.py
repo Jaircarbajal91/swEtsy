@@ -41,7 +41,7 @@ def new_product():
         )
         db.session.add(product)
         db.session.commit()
-        return product.to_dict()
+        return {'newproduct':[product.to_dict()]}
     return {'errors':validation_errors_to_error_messages(form.errors)},400
         # {
         # "name":"create01",
@@ -89,7 +89,7 @@ def delete_product(id):
         form['csrf_token'].data = request.cookies['csrf_token']
         db.session.delete(product)
         db.session.commit()
-        return product_dict
+        return {"deleted_product":product_dict}
     else:
         return {'errors':['product not found']}, 404
 
