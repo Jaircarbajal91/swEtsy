@@ -93,7 +93,12 @@ def delete_product(id):
 @login_required
 def add_product_to_cart(id):
     # get cart has a problem, length
-    uid = int(current_user.get(id))
+    uid = int(current_user.get_id())
+    product = Product.query.get(id)
+    if product is None:
+        return {'errors':['product not found']}, 404
+    if product.owner_id == uid:
+        return {'errors':['You cannot purchase your own product!']}, 400
     cart_prod = db.session.query(Cart) \
                 .filter(Cart.user_id == uid) \
                 .filter(Cart.product_id == id) \
@@ -115,6 +120,8 @@ def add_product_to_cart(id):
         else:
             if form.validate_on_submit():
                 cart_prod.quantity = form.data["quantity"]
+                cart_prod.update_at = today
                 db.session.commit()
                 res = cart_prod.to_dict()
+        res['product_detail'] = product.to_dict()
         return {"new_cartitem":res}
