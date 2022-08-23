@@ -19,7 +19,7 @@ export default function CreateProductPage() {
     const [isDisabled, setIsDisabled] = useState(true);
 
     const sessionUser = useSelector(state => state.session.user);
-    console.log(isDisabled)
+    
     useEffect(() => {
         if (page === 1) {
             const newNameErrors = [];
@@ -27,7 +27,6 @@ export default function CreateProductPage() {
                 newNameErrors.push('Please give your product a name');
             }
             setNameErrors(newNameErrors);
-            console.log(nameErrors)
             if (!nameErrors.length) setIsDisabled(false);
             else setIsDisabled(true);
         }
