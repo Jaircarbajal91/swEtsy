@@ -1,8 +1,11 @@
+from itertools import product
 from flask_wtf import FlaskForm
-from wtforms import StringField, TextAreaField, DecimalField, IntegerField,SelectField
-from wtforms.validators import DataRequired, Email, ValidationError, NumberRange,Length, URL, StopValidation
-from app.models import Cart
-from datetime import datetime, date, timedelta
+from wtforms import IntegerField
+from wtforms.validators import DataRequired
+# from app.models import Cart
+# from datetime import datetime, date, timedelta
 
 class CartItemForm(FlaskForm):
-    name = StringField()
+    user_id = IntegerField('user_id', validators=[DataRequired()])
+    product_id = IntegerField('product_id', validators=[DataRequired()])
+    quantity = IntegerField('quantity', validators=[DataRequired()])
