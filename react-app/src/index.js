@@ -8,13 +8,20 @@ import configureStore from './store';
 
 const store = configureStore();
 
-ReactDOM.render(
-  <React.StrictMode>
+
+function Root() {
+  return (
     <Provider store={store}>
       <ModalProvider>
         <App />
       </ModalProvider>
     </Provider>
+  );
+}
+
+ReactDOM.render(
+  <React.StrictMode>
+    <Root />
   </React.StrictMode>,
   document.getElementById('root')
 );

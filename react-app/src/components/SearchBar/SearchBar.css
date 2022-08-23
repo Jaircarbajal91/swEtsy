@@ -1,10 +1,22 @@
 .input.search-bar {
-  width: 1097px;
-  height: 48px;
+  width: 95%;
+  height: 2.4em;
   border-radius: 4em;
+  border: .1em solid black;
   text-align: left;
+  padding-left: 1rem;
+  margin-left: 1em;
+  margin-right: 1em;
+  font-size: large;
+  background-color: #F4F4F4;
 }
 
 .input.search-bar::placeholder {
-  padding-left: 2em;
+  font-size: large;
+  vertical-align: center;
+  font-weight: lighter;
+}
+
+.search-bar-container {
+  width: 966px;
 }
