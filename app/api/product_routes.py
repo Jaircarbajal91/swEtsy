@@ -50,7 +50,7 @@ def new_product():
 
 @product_routes.route('/<int:id>', methods=["PUT"])
 @login_required
-def delete_product(id):
+def edit_product(id):
     product = Product.query.get(id)
     if product is not None:
         product_dict = product.to_dict()
@@ -77,7 +77,7 @@ def delete_product(id):
 
 @product_routes.route('/<int:id>', methods=["DELETE"])
 @login_required
-def edit_product(id):
+def delete_product(id):
     product = Product.query.get(id)
     if product is not None:
         product_dict = product.to_dict()
