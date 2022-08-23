@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required,current_user
-from app.models import db, Product, User
+from app.models import db, Product, User, Cart
 from app.forms import ListForm
 from datetime import datetime, date, timedelta
 from .auth_routes import validation_errors_to_error_messages
@@ -88,3 +88,12 @@ def delete_product(id):
         return {"deleted_product":product_dict}
     else:
         return {'errors':['product not found']}, 404
+
+@product_routes.route('/<int:id>/cart', methods=['POST'])
+@login_required
+def add_product_to_cart(id):
+    uid = int(current_user.get(id))
+    cart_prod = db.session.query(Cart) \
+                .filter(Cart.user_id == uid) \
+                .filter(Cart.product_id == id) \
+                .first()

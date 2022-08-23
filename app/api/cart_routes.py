@@ -28,5 +28,3 @@ def get_cart():
         return {'message':'Cart is Empty!'}
 
 today = date.today()
-
-# @cart_routes.route('/')
