@@ -8,6 +8,7 @@ from .auth_routes import validation_errors_to_error_messages
 cart_routes = Blueprint('cart', __name__)
 
 @cart_routes.route('/', methods=['GET'])
+@cart_routes.route('', methods=['GET'])
 @login_required
 def get_cart():
     uid = int(current_user.get_id())
@@ -15,7 +16,7 @@ def get_cart():
                             .filter(Cart.user_id == uid) \
                             .options(db.joinedload(Cart.product)) \
                             .all()
-    if cart_prods is not None:
+    if cart_prods is not None and len(cart_prods)>0:
         cart_details = []
         for item in cart_prods:
             prod = item.product.to_dict()
@@ -46,3 +47,32 @@ def edit_cart(id):
         return {'updated_cartitem':[item.to_dict()]}
     else:
         return {'errors':validation_errors_to_error_messages(form.errors)}
+
+@cart_routes.route('/<int:id>',methods=['DELETE'])
+@login_required
+def delete_cart(id):
+    item = Cart.query.get(id)
+    if item is None:
+        return {'errors':['cart item not found']}, 404
+    if item.user_id != int(current_user.get_id()):
+        return {'errors':['Forbbiden: you are not the user having the cart!']}, 403
+    form = CartItemForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    db.session.delete(item)
+    db.session.commit()
+    return {'deleted_cartitem':[item.to_dict()]}
+
+@cart_routes.route('/',methods=['DELETE'])
+@cart_routes.route('',methods=['DELETE'])
+@login_required
+def delete_all_cart():
+    uid = int(current_user.get_id())
+    cart_prods = db.session.query(Cart).filter(Cart.user_id == uid).all()
+    if len(cart_prods) == 0:
+        return {'errors':['your cart is already empty']}, 404
+    form = CartItemForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    for item in cart_prods:
+        db.session.delete(item)
+    db.session.commit()
+    return {'message':"your cart is now empty", "cart_details":[]}

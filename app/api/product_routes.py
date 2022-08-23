@@ -8,11 +8,12 @@ from .auth_routes import validation_errors_to_error_messages
 product_routes = Blueprint('products', __name__)
 
 @product_routes.route('/',methods=['GET'])
+@product_routes.route('',methods=['GET'])
 def all_products():
     products = Product.query.all()
     return {'products': [product.to_dict() for product in products]}
 
-@product_routes.route('/<int:id>')
+@product_routes.route('/<int:id>',methods=['GET'])
 def product_details(id):
     product = Product.query.get(id)
     if product is not None:
@@ -23,6 +24,7 @@ def product_details(id):
 today = date.today()
 
 @product_routes.route('/',methods=['POST'])
+@product_routes.route('',methods=['POST'])
 @login_required
 def new_product():
     form = ListForm()
@@ -83,6 +85,8 @@ def delete_product(id):
         product_dict = product.to_dict()
         if product_dict["owner_id"] != int(current_user.get_id()):
             return {'errors':['Forbbiden: you are not the owner!']}, 403
+        form = ListForm()
+        form['csrf_token'].data = request.cookies['csrf_token']
         db.session.delete(product)
         db.session.commit()
         return {"deleted_product":product_dict}
@@ -116,7 +120,7 @@ def add_product_to_cart(id):
             )
             db.session.add(item)
             db.session.commit()
-            res = item.to_dict
+            res = item.to_dict()
         else:
             if form.validate_on_submit():
                 cart_prod.quantity = form.data["quantity"]
