@@ -21,6 +21,7 @@ class Product(db.Model, UserMixin):
     # category = db.Column(db.String, nullable=False)
 
     user = db.relationship("User",back_populates="products",foreign_keys=[owner_id])
+    carts = db.relationship("Cart", back_populates="product")
     # images = db.relationship('Image',back_populates='products')
     # reviews = db.relationship('Review', back_populates='product',cascade='all,delete')
 
@@ -30,7 +31,7 @@ class Product(db.Model, UserMixin):
 
     # @product_details.setter
     # def update_product(self,)
-    
+
     def to_dict(self):
         return {
             'id': self.id ,
