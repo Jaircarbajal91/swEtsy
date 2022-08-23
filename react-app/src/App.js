@@ -54,11 +54,11 @@ function App() {
         <Route path='/' exact={true} >
           <Products products={products} />
         </Route>
-        <Route path='/products/:id' exact={true} >
-          <ProductDetail  products={products}/>
-        </Route>
         <Route path='/products/new' exact={true}>
           <CreateProductPage />
+        </Route>
+        <Route path='/products/:id' exact={true} >
+          <ProductDetail />
         </Route>
       </Switch>
     </BrowserRouter>
