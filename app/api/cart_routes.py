@@ -33,6 +33,8 @@ today = date.today()
 @login_required
 def edit_cart(id):
     item = Cart.query.get(id)
+    if item is None:
+        return {'errors':['cart item not found']}, 404 
     form = CartItemForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
@@ -40,3 +42,5 @@ def edit_cart(id):
         item.quantity = form.data['quantity']
         db.session.commit()
         return {'updated_cart':[item.to_dict()]}
+    else:
+        return {'errors':validation_errors_to_error_messages(form.errors)}
