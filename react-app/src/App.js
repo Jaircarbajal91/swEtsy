@@ -37,7 +37,7 @@ function App() {
   return (
     <BrowserRouter>
       <div className='content container'>
-        <NavBar setShowLogin={setShowLogin} setShowSignup={setShowSignup} />
+        <NavBar setShowLogin={setShowLogin} setShowSignup={setShowSignup} sessionUser={sessionUser} />
         <div className='main-header'>
           <Header sessionUser={sessionUser}/>
         </div>

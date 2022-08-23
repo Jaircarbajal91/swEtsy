@@ -1,8 +1,8 @@
-"""create users products cart tables
+"""empty message
 
-Revision ID: 4d4c13950503
+Revision ID: eab3f2386fd8
 Revises: 
-Create Date: 2022-08-23 02:13:18.787208
+Create Date: 2022-08-23 00:18:10.984918
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '4d4c13950503'
+revision = 'eab3f2386fd8'
 down_revision = None
 branch_labels = None
 depends_on = None

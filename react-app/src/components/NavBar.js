@@ -8,7 +8,9 @@ import './NavBar.css'
 import logo from './images/logo.svg'
 
 
-const NavBar = ({ setShowLogin, setShowSignup }) => {
+const NavBar = ({ setShowLogin, setShowSignup, sessionUser }) => {
+
+  
 
   return (
     <nav className='nav-container'>
