@@ -10,6 +10,4 @@ def validate_int(form, field):
         raise StopValidation('This input must be a integer')
 
 class CartItemForm(FlaskForm):
-    user_id = IntegerField('user_id', validators=[DataRequired()])
-    product_id = IntegerField('product_id', validators=[DataRequired()])
     quantity = IntegerField('quantity', validators=[DataRequired(), validate_int, NumberRange(min=0, max=200)])
