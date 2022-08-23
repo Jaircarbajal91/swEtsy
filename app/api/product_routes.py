@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required,current_user
 from app.models import db, Product, User, Cart
-from app.forms import ListForm
+from app.forms import ListForm, CartItemForm
 from datetime import datetime, date, timedelta
 from .auth_routes import validation_errors_to_error_messages
 
@@ -92,8 +92,15 @@ def delete_product(id):
 @product_routes.route('/<int:id>/cart', methods=['POST'])
 @login_required
 def add_product_to_cart(id):
+    # get cart has a problem, length
     uid = int(current_user.get(id))
     cart_prod = db.session.query(Cart) \
                 .filter(Cart.user_id == uid) \
                 .filter(Cart.product_id == id) \
                 .first()
+    form = CartItemForm()
+    if form.validate_on_submit():
+        if cart_prod is None:
+            item = Cart(
+
+            )
