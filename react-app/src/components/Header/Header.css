@@ -1,0 +1,10 @@
+h1.header.text {
+  text-align: center;
+  font-weight: 100;
+  font-family: Georgia,serif;
+}
+
+span.name.header {
+  text-transform: capitalize;
+  text-decoration: underline;
+}
