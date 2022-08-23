@@ -148,7 +148,7 @@ export default function CreateProductPage() {
                         <input
                             placeholder='Please upload an image'
                             className='input-field'
-                            type='text'
+                            type='url'
                             value={image}
                             onChange={e => setImage(e.target.value)}
                         />
@@ -168,6 +168,7 @@ export default function CreateProductPage() {
                             className='input-field'
                             type='number'
                             min='0'
+                            max='1000000'
                             step='.01'
                             pattern="^\d+(?:\.\d{1,2})?$"
                             value={price}
