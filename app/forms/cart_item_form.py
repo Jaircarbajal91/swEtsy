@@ -1,11 +1,14 @@
 from itertools import product
 from flask_wtf import FlaskForm
 from wtforms import IntegerField
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, StopValidation, NumberRange
 # from app.models import Cart
 # from datetime import datetime, date, timedelta
 
+def validate_int(form, field):
+    print(field.data)
+    if field.data is None or field.data != int(field.data):
+        raise StopValidation('This input must be a integer')
+
 class CartItemForm(FlaskForm):
-    user_id = IntegerField('user_id', validators=[DataRequired()])
-    product_id = IntegerField('product_id', validators=[DataRequired()])
-    quantity = IntegerField('quantity', validators=[DataRequired()])
+    quantity = IntegerField('quantity', validators=[validate_int, DataRequired(), NumberRange(min=0, max=200)])
