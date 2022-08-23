@@ -99,8 +99,22 @@ def add_product_to_cart(id):
                 .filter(Cart.product_id == id) \
                 .first()
     form = CartItemForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         if cart_prod is None:
             item = Cart(
-
+                user_id=uid,
+                product_id=id,
+                quantity=form.data["quantity"],
+                create_at=today,
+                update_at=today
             )
+            db.session.add(item)
+            db.session.commit()
+            res = item.to_dict
+        else:
+            if form.validate_on_submit():
+                cart_prod.quantity = form.data["quantity"]
+                db.session.commit()
+                res = cart_prod.to_dict()
+        return {"new_cartitem":res}
