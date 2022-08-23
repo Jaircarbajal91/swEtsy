@@ -29,7 +29,7 @@ export const getProductsThunk = () => async dispatch => {
 }
 
 export const createProductThunk = payload => async dispatch => {
-  const response = await fetch(`/api/products`, {
+  const response = await fetch(`/api/products/`, {
     method: 'POST',
     body: JSON.stringify(payload),
     headers: { 'Content-Type': 'application/json' },

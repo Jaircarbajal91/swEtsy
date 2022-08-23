@@ -15,11 +15,11 @@ export default function CreateProductPage() {
     const [descriptionErrors, setDescriptionErrors] = useState([]);
     const [imageErrors, setImageErrors] = useState([]);
     const [priceErrors, setPriceErrors] = useState([]);
-    const [hasSubmitted, setHasSubmitted] = useState(false);
+    // const [hasSubmitted, setHasSubmitted] = useState(false);
     const [isDisabled, setIsDisabled] = useState(true);
 
     const sessionUser = useSelector(state => state.session.user);
-    
+
     useEffect(() => {
         if (page === 1) {
             const newNameErrors = [];
@@ -68,7 +68,7 @@ export default function CreateProductPage() {
 
     const handleSubmit = async e => {
         e.preventDefault();
-        setHasSubmitted(true);
+        // setHasSubmitted(true);
         if (
             nameErrors.length ||
             descriptionErrors.length ||
@@ -81,7 +81,7 @@ export default function CreateProductPage() {
             description,
             owner_id: sessionUser.id,
             image,
-            price,
+            price: Number(price),
         };
 
         const newProduct = await dispatch(createProductThunk(payload));
@@ -94,49 +94,91 @@ export default function CreateProductPage() {
     return (
         <form onSubmit={handleSubmit}>
             <div className='inner-form'>
-            {page === 1 &&
-                <input
-                    placeholder='What are you selling?'
-                    className='input-field'
-                    type='text'
-                    value={name}
-                    onChange={e => setName(e.target.value)}
-                />
-            }
-            {page === 2 &&
-                <input
-                    placeholder='Tell us about your product!'
-                    className='input-field'
-                    type='text'
-                    value={description}
-                    onChange={e => setDescription(e.target.value)}
-                />
-            }
-            {page === 3 &&
-                <input
-                    placeholder='Please upload an image'
-                    className='input-field'
-                    type='text'
-                    value={image}
-                    onChange={e => setImage(e.target.value)}
-                />
-            }
-            {page === 4 &&
-                <input
-                    placeholder='How much do you want to charge?'
-                    className='input-field'
-                    type='number'
-                    min='0'
-                    step='.01'
-                    pattern="^\d+(?:\.\d{1,2})?$"
-                    value={price}
-                    onChange={e => setPrice(e.target.value)}
-                    required
-                />
-            }
-            {page > 1 && <button className='back button' onClick={() => setPage(currPage => currPage - 1)}>Back</button>}
-            {page < 4 && <button disabled={isDisabled} className='next button' onClick={() => setPage(currPage => currPage + 1)}>Next</button>}
-            {page === 4 && <button disabled={isDisabled} className='submit button' type='submit'>List Product</button>}
+                {page === 1 &&
+                    <div className='form name container'>
+                        <div className='product form errors container'>
+                            {nameErrors.length > 0 && (
+                                <ul className='form errors name'>
+                                    {nameErrors.map(error => (
+                                        <li key={error}>{error}</li>
+                                    ))}
+                                </ul>
+                            )}
+                        </div>
+                        <input
+                            placeholder='What are you selling?'
+                            className='input-field'
+                            type='text'
+                            value={name}
+                            onChange={e => setName(e.target.value)}
+                        />
+                    </div>
+                }
+                {page === 2 &&
+                    <div className='form description container'>
+                        <div className='product form errors container'>
+                            {descriptionErrors.length > 0 && (
+                                <ul className='form errors description'>
+                                    {descriptionErrors.map(error => (
+                                        <li key={error}>{error}</li>
+                                    ))}
+                                </ul>
+                            )}
+                        </div>
+                        <input
+                            placeholder='Tell us about your product!'
+                            className='input-field'
+                            type='text'
+                            value={description}
+                            onChange={e => setDescription(e.target.value)}
+                        />
+                    </div>
+                }
+                {page === 3 &&
+                    <div className='form image container'>
+                        <div className='product form errors container'>
+                            {imageErrors.length > 0 && (
+                                <ul className='form errors image'>
+                                    {imageErrors.map(error => (
+                                        <li key={error}>{error}</li>
+                                    ))}
+                                </ul>
+                            )}
+                        </div>
+                        <input
+                            placeholder='Please upload an image'
+                            className='input-field'
+                            type='text'
+                            value={image}
+                            onChange={e => setImage(e.target.value)}
+                        />
+                    </div>
+                }
+                {page === 4 &&
+                    <div className='form price container'>
+                        {priceErrors.length > 0 && (
+                            <ul className='form errors price'>
+                                {priceErrors.map(error => (
+                                    <li key={error}>{error}</li>
+                                ))}
+                            </ul>
+                        )}
+                        <input
+                            placeholder='How much do you want to charge?'
+                            className='input-field'
+                            type='number'
+                            min='0'
+                            step='.01'
+                            pattern="^\d+(?:\.\d{1,2})?$"
+                            value={price}
+                            onChange={e => setPrice(e.target.value)}
+                            required
+                        />
+                    </div>
+                }
+                {page > 1 && <button className='back button' onClick={() => setPage(currPage => currPage - 1)}>Back</button>}
+                {page < 4 && <button disabled={isDisabled} className='next button' onClick={() => setPage(currPage => currPage + 1)}>Next</button>}
+                {page === 4 && <button disabled={isDisabled} className='submit button' type='submit'>List Product</button>}
             </div>
         </form>
     );

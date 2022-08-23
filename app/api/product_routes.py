@@ -39,7 +39,7 @@ def new_product():
         )
         db.session.add(product)
         db.session.commit()
-        return {'newproduct':[product.to_dict()]}
+        return product.to_dict()
     return {'errors':validation_errors_to_error_messages(form.errors)},400
         # {
         # "name":"create01",
