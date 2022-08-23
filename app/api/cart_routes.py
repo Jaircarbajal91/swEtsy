@@ -25,7 +25,7 @@ def get_cart():
         # print(cart_details)
         return {'cart_details':cart_details, 'message':'Cart detail read done!'}
     else:
-        return {'message':'Cart is Empty!'}
+        return {'message':'Cart is Empty!', 'cart_details':[]}
 
 today = date.today()
 
@@ -34,13 +34,15 @@ today = date.today()
 def edit_cart(id):
     item = Cart.query.get(id)
     if item is None:
-        return {'errors':['cart item not found']}, 404 
+        return {'errors':['cart item not found']}, 404
+    if item.user_id != int(current_user.get_id()):
+        return {'errors':['Forbbiden: you are not the user having the cart!']}, 403
     form = CartItemForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         item.update_at = today
         item.quantity = form.data['quantity']
         db.session.commit()
-        return {'updated_cart':[item.to_dict()]}
+        return {'updated_cartitem':[item.to_dict()]}
     else:
         return {'errors':validation_errors_to_error_messages(form.errors)}

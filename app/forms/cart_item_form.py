@@ -6,8 +6,9 @@ from wtforms.validators import DataRequired, StopValidation, NumberRange
 # from datetime import datetime, date, timedelta
 
 def validate_int(form, field):
-    if field.data != int(field.data):
+    print(field.data)
+    if field.data is None or field.data != int(field.data):
         raise StopValidation('This input must be a integer')
 
 class CartItemForm(FlaskForm):
-    quantity = IntegerField('quantity', validators=[DataRequired(), validate_int, NumberRange(min=0, max=200)])
+    quantity = IntegerField('quantity', validators=[validate_int, DataRequired(), NumberRange(min=0, max=200)])

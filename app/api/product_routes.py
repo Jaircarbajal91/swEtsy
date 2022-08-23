@@ -124,4 +124,4 @@ def add_product_to_cart(id):
                 db.session.commit()
                 res = cart_prod.to_dict()
         res['product_detail'] = product.to_dict()
-        return {"new_cartitem":res}
+        return {"new_cartitem":[res]}
