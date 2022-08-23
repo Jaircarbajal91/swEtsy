@@ -20,28 +20,24 @@ from datetime import datetime, date, timedelta
 # today = date.today()
 
 def validate_str(form, field):
-    # print("Im here")
-    # print(field.data)
-    # print(str(field.data))
-    # print(field.data != str(field.data))
-    if field.data != str(field.data):
+    if field.data is None or field.data != str(field.data):
         raise StopValidation('This input must be a string')
-    # StopValidation = True
+
 
 
 def validate_int(form, field):
-    if field.data != int(field.data):
+    if field.data is None or field.data != int(field.data):
         raise StopValidation('This input must be a integer')
 
 def validate_float(form, field):
-    if field.data != float(field.data):
+    if field.data is None or field.data != float(field.data):
         raise StopValidation('This input must be a float')
 
 class ListForm(FlaskForm):
-    name= StringField('name',validators=[DataRequired(),validate_str, Length(min=3,max=80)])
-    description= TextAreaField('description',validators=[DataRequired(), validate_str, Length(min=1,max=300)])
-    image= StringField('image',validators=[DataRequired(), validate_str, URL(message='invalid image url ~')])
-    price= DecimalField('price',validators=[DataRequired(), validate_float, NumberRange(min=0,max=1000000)],places=2)
+    name= StringField('name',validators=[validate_str, DataRequired(), Length(min=3,max=80)])
+    description= TextAreaField('description',validators=[validate_str, DataRequired(),  Length(min=1,max=300)])
+    image= StringField('image',validators=[validate_str, DataRequired(),  URL(message='invalid image url ~')])
+    price= DecimalField('price',validators=[validate_float, DataRequired(),  NumberRange(min=0,max=1000000)],places=2)
 
     # submit=SubmitField('submit')
     # create_at= DateField('create_at',default='2022-08-01',validators=[DataRequired()],format='%Y-%m-%d')
