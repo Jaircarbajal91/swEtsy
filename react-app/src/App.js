@@ -11,12 +11,17 @@ import UsersList from './components/UsersList';
 import User from './components/User';
 import { authenticate } from './store/session';
 import { getProductsThunk } from './store/products';
+import ProductDetail from './components/ProductDetail';
+import CreateProductPage from './components/CreateProductPage';
+import Header from './components/Header';
+
 
 function App() {
   const [loaded, setLoaded] = useState(false);
   const [showLogin, setShowLogin] = useState(false)
   const [showSignup, setShowSignup] = useState(false)
   const products = useSelector(state => state.products.productsList)
+  const sessionUser = useSelector(state => state.session.user)
   const dispatch = useDispatch();
   useEffect(() => {
     (async () => {
@@ -31,28 +36,39 @@ function App() {
   }
   return (
     <BrowserRouter>
-      <NavBar setShowLogin={setShowLogin} setShowSignup={setShowSignup}/>
-      <Switch>
-        <Route path='/login' exact={true}>
-          {showLogin && <Modal onClose={() => setShowLogin(false)}>
-            <LoginForm setShowLogin={setShowLogin} />
-          </Modal>}
-        </Route>
-        <Route path='/sign-up' exact={true}>
-          {showSignup && <Modal onClose={() => setShowSignup(false)}>
-            <SignUpForm setShowSignup={setShowSignup} />
-          </Modal>}
-        </Route>
-        <ProtectedRoute path='/users' exact={true} >
-          <UsersList />
-        </ProtectedRoute>
-        <ProtectedRoute path='/users/:userId' exact={true} >
-          <User />
-        </ProtectedRoute>
-        <Route path='/' exact={true} >
-          <Products products={products} />
-        </Route>
-      </Switch>
+      <div className='content container'>
+        <NavBar setShowLogin={setShowLogin} setShowSignup={setShowSignup} sessionUser={sessionUser} />
+        <div className='main-header'>
+          <Header sessionUser={sessionUser}/>
+        </div>
+        <Switch>
+          <Route path='/login' exact={true}>
+            {showLogin && <Modal onClose={() => setShowLogin(false)}>
+              <LoginForm setShowLogin={setShowLogin} />
+            </Modal>}
+          </Route>
+          <Route path='/sign-up' exact={true}>
+            {showSignup && <Modal onClose={() => setShowSignup(false)}>
+              <SignUpForm setShowSignup={setShowSignup} />
+            </Modal>}
+          </Route>
+          <ProtectedRoute path='/users' exact={true} >
+            <UsersList />
+          </ProtectedRoute>
+          <ProtectedRoute path='/users/:userId' exact={true} >
+            <User />
+          </ProtectedRoute>
+          <Route path='/' exact={true} >
+            <Products products={products} />
+          </Route>
+          <Route path='/products/new' exact={true}>
+            <CreateProductPage />
+          </Route>
+          <Route path='/products/:id' exact={true} >
+            <ProductDetail />
+          </Route>
+        </Switch>
+      </div>
     </BrowserRouter>
   );
 }

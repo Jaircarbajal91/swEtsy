@@ -14,15 +14,16 @@ const Stars = ({ rating }) => {
     for (let j = 0; j < (5 - Math.ceil(rating)); j++) {
         starArray.push('empty');
     }
-    // console.log(starArray);
-    starArray.forEach(star => console.log(star));
     starArray = starArray.slice(0, 5);
     return (
-            <>
+            <div style={{
+                display: 'flex',
+                maxWidth: '.8em'
+            }}>
             {starArray.map((star, i) => (
                 <Star key={i} star={star}/>
             ))}
-        </>
+        </div>
     );
 };
 
