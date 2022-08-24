@@ -12,6 +12,7 @@ import User from './components/User';
 import { authenticate } from './store/session';
 import { getProductsThunk } from './store/products';
 import ProductDetail from './components/ProductDetail';
+import Cart from './components/Cart';
 import CreateProductPage from './components/CreateProductPage';
 import Header from './components/Header';
 import SearchResult from './components/SearchResult';
@@ -67,6 +68,9 @@ function App() {
           </Route>
           <Route path='/products/:id' exact={true} >
             <ProductDetail />
+          </Route>
+          <Route path='/cart' exact={true} >
+            <Cart />
           </Route>
           <Route path='/search'>
             <SearchResult />

@@ -5,18 +5,27 @@ from app.forms import ListForm, CartItemForm
 from datetime import datetime, date, timedelta
 from .auth_routes import validation_errors_to_error_messages
 from sqlalchemy import or_, desc
+import re
 
 search_routes = Blueprint('search', __name__)
 
+
+
+
 def get_filter(key, value):
     if key == 'keyword':
-        return [or_(Product.name.like(f'%{value}%'), Product.description.like(f'%{value}%'))]
+        value = re.sub(r'[^A-Za-z0-9 ]+', '',value)
+        li = value.split(' ')
+        keys = [ [Product.name.like(f'%{e}%'), Product.description.like(f'%{e}%')] for e in li if e != '' ]
+        flatten = [e for l in keys for e in l]
+        return [or_(*flatten)]
+        #searching kewords include spaces
     elif key == 'minPrice':
-        return [Product.price >= value]
+        return [Product.price >= value] if value.isdecimal() else False
     elif key == 'maxPrice':
-        return [Product.price <= value]
+        return [Product.price <= value]  if value.isdecimal() else False
     elif key == 'ownerId':
-        return [Product.owner_id == value]
+        return [Product.owner_id == value]  if value.isdecimal() else False
     else:
         return False
 
@@ -31,16 +40,20 @@ orders = {
 def search():
     filters = []
     args = request.args
-    args_dict = args.to_dict(flat=False)
+    args_dict = args.to_dict(flat=False) # query params are lists
     print(args_dict)
     query_order = (args_dict.get('order') and args_dict.get('order')[-1]) or 'id'
     order = orders.get(query_order) if orders.get(query_order) is not None else Product.id
-    isize = int((args_dict.get('size') and args_dict.get('size')[-1]) or 0)
-    ipage = int((args_dict.get('page') and args_dict.get('page')[-1]) or 0) # sanitize the Nonetype, am I spelling right?
+    try: #sanitize value errors that the query premeter is something strange
+        isize = int((args_dict.get('size') and args_dict.get('size')[-1]) or 0)
+        ipage = int((args_dict.get('page') and args_dict.get('page')[-1]) or 0) # sanitize the Nonetype, am I spelling right?
+    except ValueError:
+        isize = 0
+        ipage = 0
     size = isize if isize and isize > 0 and isize <= 20 else 20
     page = ipage if ipage or isize > 0 else 1
     for k,v in args_dict.items():
-        f = get_filter(k,v[-1])
+        f = get_filter(k,v[-1]) # Using the last filter if duplicated
         if f is not False:
             filters.extend(f)
     if len(filters) > 0:

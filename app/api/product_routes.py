@@ -71,7 +71,7 @@ def edit_product(id):
                     setattr(product, k, form.data[k])
             product.update_at = today
             db.session.commit()
-            return {'updated_product':[product.to_dict()]}
+            return {product_dict}
         return {'errors':validation_errors_to_error_messages(form.errors)}
     else:
         return {'errors':['product not found']}, 404
@@ -101,8 +101,8 @@ def add_product_to_cart(id):
     product = Product.query.get(id)
     if product is None:
         return {'errors':['product not found']}, 404
-    if product.owner_id == uid:
-        return {'errors':['You cannot purchase your own product!']}, 400
+    # if product.owner_id == uid:
+    #     return {'errors':['You cannot purchase your own product!']}, 400
     cart_prod = db.session.query(Cart) \
                 .filter(Cart.user_id == uid) \
                 .filter(Cart.product_id == id) \
@@ -128,4 +128,5 @@ def add_product_to_cart(id):
                 db.session.commit()
                 res = cart_prod.to_dict()
         res['product_detail'] = product.to_dict()
-        return {"new_cartitem":[res]}
+        # return {"new_cartitem":[res]}
+        return res

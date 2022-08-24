@@ -64,7 +64,7 @@ const ProductDetail = () => {
             onClick={() => setShowDelete(true)}>Delete</button>
           {showUpdate && (
             <Modal onClose={() => setShowUpdate(false)}>
-              <UpdateProduct setShowUpdate={setShowUpdate} />
+              <UpdateProduct product={product} setShowUpdate={setShowUpdate} />
             </Modal>
           )}
           {showDelete && (

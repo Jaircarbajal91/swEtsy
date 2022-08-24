@@ -18,6 +18,7 @@ const SearchResult = () => {
         setSortBy(e.target.value);
     }
 
+    
     return (
         <>
             <button onClick={() => setShowFilterModal(true)}>All Filters</button>
