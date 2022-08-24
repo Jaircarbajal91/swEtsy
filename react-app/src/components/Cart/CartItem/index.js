@@ -25,10 +25,10 @@ export default function CartItem({ item }) {
             const editedItem = cartDetails.find(editItem => editItem.id === item.id);
             setRevenue(formatter.format(editedItem.quantity * editedItem.product_detail.price))
         });
-    }, [quantity, revenue, dispatch]);
+    }, [quantity]);
 
     const deleteCartItem = async () => {
-        await dispatch(deleteCartItemThunk(item.id))
+        await dispatch(deleteCartItemThunk(item.id));
         await dispatch(getCartItemsThunk());
     }
 

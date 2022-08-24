@@ -2,6 +2,7 @@ const GET_CART_ITEMS = 'cart/GET_CART_ITEMS'
 const ADD_ITEM_TO_CART = 'cart/ADD_ITEM_TO_CART'
 const EDIT_CART_ITEM = 'cart/EDIT_CART_ITEM'
 const DELETE_CART_ITEM = 'cart/DELETE_CART_ITEM'
+const DELETE_CART = 'cart/DELETE_CART';
 
 const getCartItemsAction = cartItems => ({
     type: GET_CART_ITEMS,
@@ -22,6 +23,10 @@ const editCartItemAction = (id, quantity) => ({
 const deleteCartItemAction = id => ({
     type: DELETE_CART_ITEM,
     id
+});
+
+const deleteCartAction = () => ({
+    type: DELETE_CART,
 });
 
 export const getCartItemsThunk = () => async dispatch => {
@@ -85,6 +90,17 @@ export const deleteCartItemThunk = id => async dispatch => {
     }
 };
 
+export const deleteCartThunk = () => async dispatch => {
+    const response = await fetch('/', {method: 'DELETE'});
+    if (response.ok) {
+        const data = await response.json();
+        dispatch(deleteCartAction());
+        return data;
+    } else {
+        const data = await response.json();
+        return data.errors;
+    }
+};
 export default function cartItemsReducer(state = {}, action) {
     switch (action.type) {
         case GET_CART_ITEMS: {
@@ -107,9 +123,12 @@ export default function cartItemsReducer(state = {}, action) {
             return newState
         }
         case DELETE_CART_ITEM: {
-            const newState = { ...state }
-            delete newState[action.id]
-            return newState
+            const newState = { ...state };
+            delete newState[action.id];
+            return newState;
+        }
+        case DELETE_CART: {
+            return { cartItemsList: [] };
         }
         default:
             return state;
