@@ -32,6 +32,10 @@ export default function searchReducer(state = {}, action) {
             newState.page = action.data.page
             newState.order = action.data.order
             newState.size = action.data.size
+            newState.keyword = action.data.keyword
+            newState.minPrice = action.data.minPrice
+            newState.maxPrice = action.data.maxPrice
+            newState.ownerId = action.data.ownerId
             return newState;
         }
 
