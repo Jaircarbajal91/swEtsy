@@ -21,6 +21,7 @@ import { getCartItemsThunk } from './store/cart';
 function App() {
   // const history = useHistory();
   const [loaded, setLoaded] = useState(false);
+  const [cartLoaded, setCartLoaded] = useState(false);
   const [showLogin, setShowLogin] = useState(false)
   const [showSignup, setShowSignup] = useState(false)
   const products = useSelector(state => state.products.productsList);
@@ -31,10 +32,13 @@ function App() {
     (async () => {
       await dispatch(authenticate());
       await dispatch(getProductsThunk());
-      await dispatch(getCartItemsThunk());
+      if (sessionUser) {
+        await dispatch(getCartItemsThunk());
+        setCartLoaded(true)
+      }
       setLoaded(true);
     })();
-  }, [dispatch]);
+  }, [dispatch, cartItems?.length]);
 
   if (!loaded) {
     return null;
@@ -73,7 +77,7 @@ function App() {
             <ProductDetail />
           </Route>
           <Route path='/cart' exact={true} >
-            <Cart cartItems={cartItems} sessionUser={sessionUser} setShowLogin={setShowLogin} />
+            <Cart cartLoaded={cartLoaded} setCartLoaded={setCartLoaded} cartItems={cartItems} sessionUser={sessionUser} setShowLogin={setShowLogin} />
           </Route>
           <Route path='*' >
             <h1>Page not found</h1>
