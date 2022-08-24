@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
-import { editCartItemThunk, getCartItemsThunk } from "../../../store/cart";
+import { editCartItemThunk, getCartItemsThunk, deleteCartItemThunk } from "../../../store/cart";
 
 
 export default function CartItem({ item }) {
@@ -27,6 +27,11 @@ export default function CartItem({ item }) {
         });
     }, [quantity, revenue, dispatch]);
 
+    const deleteCartItem = async () => {
+        await dispatch(deleteCartItemThunk(item.id))
+        await dispatch(getCartItemsThunk());
+    }
+
     return (
         <div>
             <div>
@@ -34,7 +39,7 @@ export default function CartItem({ item }) {
             </div>
             <div>
                 <h4>{product.name}</h4>
-                <button>Remove</button>
+                <button onClick={() => deleteCartItem()}>Remove</button>
             </div>
             <div>
                 <div>
