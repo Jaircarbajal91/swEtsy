@@ -71,6 +71,9 @@ function App() {
           <Route path='/cart' exact={true} >
             <Cart />
           </Route>
+          <Route path='*' >
+            <h1>Page not found</h1>
+          </Route>
         </Switch>
       </div>
     </BrowserRouter>
