@@ -21,11 +21,11 @@ def get_filter(key, value):
         return [or_(*flatten)]
         #searching kewords include spaces
     elif key == 'minPrice':
-        return [Product.price >= value] if value.isdecimal() else False
+        return [Product.price >= value] if value.isdecimal() and len(value) <= 7 else False
     elif key == 'maxPrice':
-        return [Product.price <= value]  if value.isdecimal() else False
+        return [Product.price <= value]  if value.isdecimal() and len(value) <= 7 else False
     elif key == 'ownerId':
-        return [Product.owner_id == value]  if value.isdecimal() else False
+        return [Product.owner_id == value]  if value.isdecimal() and len(value) <= 10 else False
     else:
         return False
 
@@ -51,7 +51,7 @@ def search():
         isize = 0
         ipage = 0
     size = isize if isize and isize > 0 and isize <= 20 else 20
-    page = ipage if ipage or isize > 0 else 1
+    page = ipage if ipage and ipage > 0 and ipage < 100000000 else 1
     for k,v in args_dict.items():
         f = get_filter(k,v[-1]) # Using the last filter if duplicated
         if f is not False:
