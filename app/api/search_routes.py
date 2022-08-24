@@ -8,9 +8,16 @@ from sqlalchemy import or_, desc
 
 search_routes = Blueprint('search', __name__)
 
+
+
+
 def get_filter(key, value):
     if key == 'keyword':
-        return [or_(Product.name.like(f'%{value}%'), Product.description.like(f'%{value}%'))] #searching kewords include spaces?
+        li = value.split(' ')
+        keys = [ [Product.name.like(f'%{e}%'), Product.description.like(f'%{e}%')] for e in li if e != '' ]
+        flatten = [e for l in keys for e in l]
+        return [or_(*flatten)]
+        #searching kewords include spaces
     elif key == 'minPrice':
         return [Product.price >= value]
     elif key == 'maxPrice':
