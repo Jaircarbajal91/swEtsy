@@ -55,7 +55,7 @@ const ProductDetail = () => {
       <div className="product detail stars">
         <Stars rating={2.4} />
       </div>
-      {product?.owner_id === sessionUser?.id && (
+      {product.owner_id === sessionUser?.id && (
         <div>
           <button
             onClick={() => setShowUpdate(true)}>Edit</button>
