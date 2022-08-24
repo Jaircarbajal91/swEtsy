@@ -13,9 +13,10 @@ const addItemToCartAction = cartItem => ({
     cartItem
 });
 
-const editCartItemAction = cartItem => ({
+const editCartItemAction = (id, quantity) => ({
     type: EDIT_CART_ITEM,
-    cartItem
+    id,
+    quantity,
 });
 
 const deleteCartItemAction = id => ({
@@ -51,18 +52,19 @@ export const addCartItemThunk = product => async dispatch => {
     }
 };
 
-export const editCartItemThunk = product => async dispatch => {
-    const response = await fetch(`/api/cart/${product.id}`, {
+export const editCartItemThunk = (id, quantity) => async dispatch => {
+    const response = await fetch(`/api/cart/${id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(product)
+        body: JSON.stringify({ quantity })
     });
-
+    // console.log(quantity)
     if (response.ok) {
         const cartItem = await response.json();
-        dispatch(editCartItemAction(cartItem));
+        // console.log(cartItem)
+        dispatch(editCartItemAction(id, quantity));
         return cartItem;
     } else {
         const data = await response.json();
@@ -92,13 +94,13 @@ export default function cartItemsReducer(state = {}, action) {
             action.cartItems.cart_details.forEach(item => {
                 newState[item.id] = item;
             });
-            console.log(action.cartItems)
             newState.cartItemsList = [...action.cartItems.cart_details];
             return newState;
         }
         case EDIT_CART_ITEM: {
+            // console.log(action)
             const newState = { ...state }
-            newState[action.cartItem.id].quantity = action.cartItem.quantity
+            newState[action.id].quantity = action.quantity
             return newState
         }
         case ADD_ITEM_TO_CART: {

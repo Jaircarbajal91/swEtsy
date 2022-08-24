@@ -1,23 +1,33 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom"
+import { useHistory } from "react-router-dom"
+import { editCartItemThunk, getCartItemsThunk } from "../../../store/cart";
 
 
 export default function CartItem({ item }) {
     const dispatch = useDispatch();
     const product = item.product_detail;
-    const options = []
-    for (let i = 1; i <= 100; i++) {
-        options.push(i);
-    }
-    // console.log(options)
-
-    // Calculate gross revenue for this item
+    const options = [];
+    const [quantity, setQuantity] = useState(item.quantity);
     const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',
       });
-    const revenue = formatter.format(item.quantity * product.price);
+    const [revenue, setRevenue] = useState(formatter.format(item.quantity * product.price))
+
+    for (let i = 1; i <= 100; i++) {
+        options.push(i);
+    }
+
+    useEffect(() => {
+        dispatch(editCartItemThunk(item.id, quantity)).then(async () => {
+            const allItems = await dispatch(getCartItemsThunk());
+            const cartDetails = allItems.cart_details;
+            const editedItem = cartDetails.find(editItem => editItem.id === item.id);
+            setRevenue(formatter.format(editedItem.quantity * editedItem.product_detail.price))
+        });
+    }, [quantity, revenue]);
+
     return (
         <div>
             <div>
@@ -29,7 +39,7 @@ export default function CartItem({ item }) {
             </div>
             <div>
                 <div>
-                    <select>
+                    <select value={quantity} onChange={e => setQuantity(e.target.value)}>
                         {options.map(option => (
                             <option value={option}>{option}</option>
                         ))}
@@ -37,6 +47,7 @@ export default function CartItem({ item }) {
                 </div>
                 <div>
                     <p>{revenue}</p>
+                    x{quantity}
                     <p>({formatter.format(product.price)} each)</p>
                 </div>
             </div>
