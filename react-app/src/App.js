@@ -15,20 +15,23 @@ import ProductDetail from './components/ProductDetail';
 import Cart from './components/Cart';
 import CreateProductPage from './components/CreateProductPage';
 import Header from './components/Header';
-import SearchResult from './components/SearchResult';
+import { getCartItemsThunk } from './store/cart';
 
 
 function App() {
+  // const history = useHistory();
   const [loaded, setLoaded] = useState(false);
   const [showLogin, setShowLogin] = useState(false)
   const [showSignup, setShowSignup] = useState(false)
-  const products = useSelector(state => state.products.productsList)
-  const sessionUser = useSelector(state => state.session.user)
+  const products = useSelector(state => state.products.productsList);
+  const cartItems = useSelector(state => state.cart.cartItemsList);
+  const sessionUser = useSelector(state => state.session.user);
   const dispatch = useDispatch();
   useEffect(() => {
     (async () => {
       await dispatch(authenticate());
       await dispatch(getProductsThunk());
+      await dispatch(getCartItemsThunk());
       setLoaded(true);
     })();
   }, [dispatch]);
@@ -45,7 +48,7 @@ function App() {
         </div>
         <Switch>
           <Route path='/login' exact={true}>
-            {showLogin && <Modal onClose={() => setShowLogin(false)}>
+            {showLogin && <Modal onClose={() => { setShowLogin(false) }}>
               <LoginForm setShowLogin={setShowLogin} />
             </Modal>}
           </Route>
@@ -70,7 +73,10 @@ function App() {
             <ProductDetail />
           </Route>
           <Route path='/cart' exact={true} >
-            <Cart />
+            <Cart cartItems={cartItems} sessionUser={sessionUser} setShowLogin={setShowLogin} />
+          </Route>
+          <Route path='*' >
+            <h1>Page not found</h1>
           </Route>
           <Route path='/search'>
             <SearchResult />

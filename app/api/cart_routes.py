@@ -76,4 +76,4 @@ def delete_all_cart():
     for item in cart_prods:
         db.session.delete(item)
     db.session.commit()
-    return {'message':"Your cart is now empty", "cart_details":[]}
+    return {'message':"Your cart is now empty"}
