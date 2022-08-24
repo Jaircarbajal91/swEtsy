@@ -68,6 +68,9 @@ export const editProductThunk = product => async dispatch => {
     const product = await response.json();
     dispatch(editProductAction(product));
     return product;
+  } else {
+    const data = await response.json();
+    return data.errors;
   }
 }
 

@@ -44,7 +44,7 @@ def edit_cart(id):
         item.update_at = today
         item.quantity = form.data['quantity']
         db.session.commit()
-        return {'updated_cartitem':[item.to_dict()]}
+        return item.to_dict()
     else:
         return {'errors':validation_errors_to_error_messages(form.errors)}
 
@@ -60,7 +60,7 @@ def delete_cart(id):
     form['csrf_token'].data = request.cookies['csrf_token']
     db.session.delete(item)
     db.session.commit()
-    return {'deleted_cartitem':[item.to_dict()]}
+    return item.to_dict()
 
 @cart_routes.route('/',methods=['DELETE'])
 @cart_routes.route('',methods=['DELETE'])
