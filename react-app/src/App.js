@@ -16,6 +16,7 @@ import Cart from './components/Cart';
 import CreateProductPage from './components/CreateProductPage';
 import Header from './components/Header';
 import { getCartItemsThunk } from './store/cart';
+import SearchResult from './components/SearchResult';
 
 
 function App() {
