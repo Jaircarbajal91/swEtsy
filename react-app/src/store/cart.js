@@ -108,7 +108,7 @@ export default function cartItemsReducer(state = {}, action) {
             action.cartItems.cart_details.forEach(item => {
                 newState[item.id] = item;
             });
-            newState.cartItemsList = [...action.cartItems.cart_details];
+            newState.cartItemsList = [...action.cartItems.cart_details].sort((a, b) => a.id - b.id);
             return newState;
         }
         case EDIT_CART_ITEM: {
