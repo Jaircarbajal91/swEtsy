@@ -92,6 +92,7 @@ export default function cartItemsReducer(state = {}, action) {
             action.cartItems.cart_details.forEach(item => {
                 newState[item.id] = item;
             });
+            console.log(action.cartItems)
             newState.cartItemsList = [...action.cartItems.cart_details];
             return newState;
         }

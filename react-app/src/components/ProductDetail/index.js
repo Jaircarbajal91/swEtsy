@@ -6,7 +6,6 @@ import UpdateProduct from "../UpdateProduct";
 import { Modal } from "../../context/Modal";
 import { getProductsThunk } from "../../store/products";
 import { deleteProductThunk } from "../../store/products";
-import { Redirect } from "react-router-dom";
 import Stars from "../Reviews/Stars";
 
 const ProductDetail = () => {
