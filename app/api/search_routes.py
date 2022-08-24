@@ -10,7 +10,7 @@ search_routes = Blueprint('search', __name__)
 
 def get_filter(key, value):
     if key == 'keyword':
-        return [or_(Product.name.like(f'%{value}%'), Product.description.like(f'%{value}%'))]
+        return [or_(Product.name.like(f'%{value}%'), Product.description.like(f'%{value}%'))] #searching kewords include spaces?
     elif key == 'minPrice':
         return [Product.price >= value]
     elif key == 'maxPrice':
@@ -31,7 +31,7 @@ orders = {
 def search():
     filters = []
     args = request.args
-    args_dict = args.to_dict(flat=False)
+    args_dict = args.to_dict(flat=False) # query params are lists
     print(args_dict)
     query_order = (args_dict.get('order') and args_dict.get('order')[-1]) or 'id'
     order = orders.get(query_order) if orders.get(query_order) is not None else Product.id
@@ -40,7 +40,7 @@ def search():
     size = isize if isize and isize > 0 and isize <= 20 else 20
     page = ipage if ipage or isize > 0 else 1
     for k,v in args_dict.items():
-        f = get_filter(k,v[-1])
+        f = get_filter(k,v[-1]) # Using the last filter if duplicated
         if f is not False:
             filters.extend(f)
     if len(filters) > 0:
