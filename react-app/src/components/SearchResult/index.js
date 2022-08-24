@@ -13,7 +13,7 @@ const SearchResult = () => {
     const products = useSelector(state => state.session.products);
     return (
         <>
-            <button onClick={() => setShowModal(true)}>all filters</button>
+            <button onClick={() => setShowModal(true)}>All Filters</button>
             {showModal &&
                 <Modal onClose={() => setShowModal(false)}>Modal Filter</Modal>}
         </>
