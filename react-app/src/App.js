@@ -48,11 +48,11 @@ function App() {
       <div className='content container'>
         <NavBar setShowLogin={setShowLogin} setShowSignup={setShowSignup} sessionUser={sessionUser} />
         <div className='main-header'>
-          <Header sessionUser={sessionUser}/>
+          <Header sessionUser={sessionUser} />
         </div>
         <Switch>
           <Route path='/login' exact={true}>
-            {showLogin && <Modal onClose={() => {setShowLogin(false)}}>
+            {showLogin && <Modal onClose={() => { setShowLogin(false) }}>
               <LoginForm setShowLogin={setShowLogin} />
             </Modal>}
           </Route>
@@ -81,6 +81,9 @@ function App() {
           </Route>
           <Route path='*' >
             <h1>Page not found</h1>
+          </Route>
+          <Route path='/search'>
+            <SearchResult />
           </Route>
         </Switch>
       </div>
