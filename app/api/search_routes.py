@@ -39,6 +39,7 @@ orders = {
 @search_routes.route('/',methods=['GET'])
 def search():
     filters = []
+    filter_obj = {}
     args = request.args
     args_dict = args.to_dict(flat=False) # query params are lists
     print(args_dict)
@@ -56,11 +57,12 @@ def search():
         f = get_filter(k,v[-1]) # Using the last filter if duplicated
         if f is not False:
             filters.extend(f)
+            filter_obj[k] = v[-1]
     if len(filters) > 0:
         filtered_products = Product.query.filter(*filters).order_by(order).offset((page-1)*size).limit(size).all()
     else:
         filtered_products = Product.query.order_by(order).offset((page-1)*size).limit(size).all()
-    res = {'products': [product.to_dict() for product in filtered_products], 'page':page, 'size':size, 'order':'id'}
+    res = {'products': [product.to_dict() for product in filtered_products], 'page':page, 'size':size, 'order':'id', **filter_obj}
     # size will be the real size if there are no more than 20 products
     # this is good for the feature "showing xxx products in page xxx"
     # if we have it lmao
