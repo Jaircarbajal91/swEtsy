@@ -24,14 +24,14 @@ def get_filter(key, value):
 def search():
     filters = []
     args = request.args
-    args_dict = args.to_dict()
+    args_dict = args.to_dict(flat=False)
     print(args_dict)
     for k,v in args_dict.items():
-        f = get_filter(k,v)
+        f = get_filter(k,v[-1])
         if f is not False:
             filters.extend(f)
     if len(filters) > 0:
         filtered_products = Product.query.filter(*filters).all()
-    else: 
+    else:
         filtered_products = Product.query.all()
     return {'products': [product.to_dict() for product in filtered_products]}
