@@ -1,20 +1,19 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom"
 import { editCartItemThunk, getCartItemsThunk } from "../../../store/cart";
 
 
 export default function CartItem({ item }) {
     const dispatch = useDispatch();
     const product = item.product_detail;
-    const options = [];
     const [quantity, setQuantity] = useState(item.quantity);
     const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',
-      });
+    });
     const [revenue, setRevenue] = useState(formatter.format(item.quantity * product.price))
 
+    const options = [];
     for (let i = 1; i <= 100; i++) {
         options.push(i);
     }
@@ -26,7 +25,7 @@ export default function CartItem({ item }) {
             const editedItem = cartDetails.find(editItem => editItem.id === item.id);
             setRevenue(formatter.format(editedItem.quantity * editedItem.product_detail.price))
         });
-    }, [quantity, revenue]);
+    }, [quantity, revenue, dispatch]);
 
     return (
         <div>
@@ -41,7 +40,7 @@ export default function CartItem({ item }) {
                 <div>
                     <select value={quantity} onChange={e => setQuantity(e.target.value)}>
                         {options.map(option => (
-                            <option value={option}>{option}</option>
+                            <option key={option} value={option}>{option}</option>
                         ))}
                     </select>
                 </div>

@@ -1,6 +1,4 @@
-import { useSelector, useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom"
+import { useHistory } from "react-router-dom"
 import CartItem from "./CartItem";
 
 
