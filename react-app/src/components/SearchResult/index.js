@@ -18,7 +18,11 @@ const SearchResult = () => {
         setSortBy(e.target.value);
     }
 
-    
+    const handleSearch = async e => {
+        e.preventDefault();
+
+    }
+
     return (
         <>
             <button onClick={() => setShowFilterModal(true)}>All Filters</button>
@@ -28,7 +32,11 @@ const SearchResult = () => {
                         <h1>Filters</h1>
                         <fieldset> Keyword Search
                             <br></br>
-                            <input type='text'></input>
+                            <input 
+                            type='text'
+                            placeholder="keyword"
+                            value={}
+                            ></input>
                             <button>clear</button>
                         </fieldset>
                         <br></br>
@@ -51,8 +59,8 @@ const SearchResult = () => {
                             </div>
                         </fieldset>
                         <br></br>
-                        <button>Cancel</button>
-                        <button>Apply</button>
+                        <button onClick={() => setShowFilterModal(false)}>Cancel</button>
+                        <button onClick={handleSearch}>Apply</button>
                     </div>
                 </Modal>}
             <select className='search sort' onChange={sortSelected} value={sortBy}>
