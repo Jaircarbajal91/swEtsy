@@ -14,6 +14,7 @@ import { getProductsThunk } from './store/products';
 import ProductDetail from './components/ProductDetail';
 import CreateProductPage from './components/CreateProductPage';
 import Header from './components/Header';
+import SearchResult from './components/SearchResult';
 
 
 function App() {
@@ -39,7 +40,7 @@ function App() {
       <div className='content container'>
         <NavBar setShowLogin={setShowLogin} setShowSignup={setShowSignup} sessionUser={sessionUser} />
         <div className='main-header'>
-          <Header sessionUser={sessionUser}/>
+          <Header sessionUser={sessionUser} />
         </div>
         <Switch>
           <Route path='/login' exact={true}>
@@ -66,6 +67,9 @@ function App() {
           </Route>
           <Route path='/products/:id' exact={true} >
             <ProductDetail />
+          </Route>
+          <Route path='/search'>
+            <SearchResult />
           </Route>
         </Switch>
       </div>
