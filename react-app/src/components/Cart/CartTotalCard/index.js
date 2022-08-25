@@ -1,25 +1,22 @@
-import { useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom'
 import { deleteCartThunk } from '../../../store/cart';
 
-export default function CartTotalCard({ cartItems }) {
+export default function CartTotalCard({ cartItems, initialSubtotal}) {
     const dispatch = useDispatch();
     const history = useHistory();
-    let initialSubtotal = 0;
-    for (let item of cartItems) {
-        initialSubtotal += item.quantity * item.product_detail.price
-    };
 
-    const [subtotal, setSubtotal] = useState(initialSubtotal);
-    const [discount, setDiscount] = useState(initialSubtotal * 0.2);
-    const [total, setTotal] = useState(initialSubtotal - discount);
+    console.log(initialSubtotal)
+
     const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',
     });
-    // console.log(subtotal)
-    // console.log(cartItems)
+
+    const subtotal = initialSubtotal;
+    const discount = initialSubtotal * 0.2;
+    const total = subtotal - discount;
+
     const deleteCart = async e => {
         e.preventDefault();
         await dispatch(deleteCartThunk());
