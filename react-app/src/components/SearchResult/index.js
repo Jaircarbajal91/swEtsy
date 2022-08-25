@@ -41,10 +41,11 @@ const SearchResult = () => {
         dispatch(getSearchThunk(filterstring))
     }, [dispatch, filterstring])
 
-    const sortSelected = async e => {
+    const handleSort = async e => {
         e.preventDefault();
+        console.log('value of sort----------', sortBy)
         setSortBy(e.target.value);
-        console.log('value of sort', sortBy)
+        console.log('value of sort----------', sortBy)
     }
 
     const handleSearch = async e => {
@@ -164,13 +165,15 @@ const SearchResult = () => {
                         <button onClick={handleSearch}>Apply</button>
                     </div>
                 </Modal>}
-            <select className='search sort' value={sortBy}>
-                <option value='' selected>Default</option>
-                <option value='ascPrice' >Lowest Price</option>
-                <option value='descPrice' >Highest Price</option>
-                {/* <option value='descReview'>Top Customer Reviews</option> */}
-                <option value='descCreate' >Most Recent</option>
-            </select>
+            <div type='menue' className='search sort' value={sortBy} onChange={handleSort}>
+                <select>
+                    <option value='' selected disabled>Default</option>
+                    <option value='ascPrice' >Lowest Price</option>
+                    <option value='descPrice' >Highest Price</option>
+                    {/* <option value='descReview'>Top Customer Reviews</option> */}
+                    <option value='descCreate' >Most Recent</option>
+                </select>
+            </div>
         </>
     )
 }
