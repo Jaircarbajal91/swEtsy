@@ -8,8 +8,8 @@ class Review(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     stars = db.Column(db.Integer, nullable=False)
     review_body = db.Column(db.String(1000))
-    product_id = db.Column(db.Integer, nullable=False)
-    user_id = db.Column(db.Integer, nullable=False)
+    product_id = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
     user = db.relationship('User', back_populates='user_reviews', foreign_keys=[user_id])
     product = db.relationship('Product', back_populates='reviews', foreign_keys=[product_id])

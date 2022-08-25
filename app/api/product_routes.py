@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required,current_user
-from app.models import db, Product, User, Cart
-from app.forms import ListForm, CartItemForm
+from app.models import db, Product, User, Cart, Review
+from app.forms import ListForm, CartItemForm, ReviewForm
 from datetime import datetime, date, timedelta
 from .auth_routes import validation_errors_to_error_messages
 
@@ -130,3 +130,14 @@ def add_product_to_cart(id):
         res['product_detail'] = product.to_dict()
         # return {"new_cartitem":[res]}
         return res
+
+@product_routes.route('/<int:id>/reviews', methods=['GET'])
+@product_routes.route('/<int:id>/reviews/', methods=['GET'])
+def get_product_reviews(id):
+    product = Product.query.get(id)
+    product_reviews = db.session.query(Review) \
+                        .filter
+    cart_prod = db.session.query(Cart) \
+                .filter(Cart.user_id == uid) \
+                .filter(Cart.product_id == id) \
+                .first()
