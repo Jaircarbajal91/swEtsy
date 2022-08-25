@@ -16,7 +16,7 @@ const SearchResult = ({searchWords, setSearchWords}) => {
     // console.log('what would minPrice be??', query.get('minPrice'))
     const dispatch = useDispatch();
     const history = useHistory();
-    const [keyword, setKeyWord] = useState(query.get('keyword'))
+    const [keyword, setKeyWord] = useState(query.get('keyword') || searchWords)
     const [minPrice, setMinPrice] = useState(query.get('minPrice'))
     const [maxPrice, setMaxPrice] = useState(query.get('maxPrice'))
     const [ownerId, setOwnerId] = useState(query.get('ownerId'))
@@ -26,25 +26,40 @@ const SearchResult = ({searchWords, setSearchWords}) => {
     const sessionUser = useSelector(state => state.session.user);
     const searchProducts = useSelector(state => state.search.products);
 
+    useEffect(() => {
+        setKeyWord(searchWords)
+    },[searchWords])
+
     let filtered = []
     const data = { keyword, minPrice, maxPrice, ownerId, order }
+    console.log(data)
     for (let key in data) {
         if (data[key]) {
             filtered.push(`${key}=${data[key]}`)
         }
     }
 
-
     let filterstring = filtered.join("&")
-
+    console.log('filterstring: ', filterstring)
 
     // console.log('it is -=-------', data)
     // console.log('it is -=-------', filtered)
     // console.log('it is -=-------', filterstring)
 
     useEffect(() => {
-        dispatch(getSearchThunk(filterstring))
-    }, [dispatch, filterstring])
+        let filterInClick = []
+        console.log(search)
+        let query = new URLSearchParams(search)
+        data.keyword = query.get('keyword')
+        for (let key in data) {
+            if (data[key]) {
+                filterInClick.push(`${key}=${data[key]}`)
+            }
+        }
+        let filterStringInClick = filterInClick.join("&")
+        console.log('filterStringInClick:', filterStringInClick)
+        dispatch(getSearchThunk(filterStringInClick))
+    }, [dispatch, filterstring, query.get('keyword')])
 
     const sortSelected = e => {
         e.preventDefault();
@@ -97,12 +112,13 @@ const SearchResult = ({searchWords, setSearchWords}) => {
 
     const handleCancel = async e => {
         e.preventDefault();
-        setKeyWord('')
+        // setKeyWord('')
         setMinPrice('')
         setMaxPrice('')
         setOwnerId('')
         setCustomPrice('')
         setShowFilterModal(false)
+        history.push(`/search?keyword=${keyword}`)
     }
 
     let range = { min1: '0', min2: '50', min3: '100' }

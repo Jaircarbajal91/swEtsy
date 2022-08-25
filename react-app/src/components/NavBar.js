@@ -13,8 +13,7 @@ import logo from './images/logo.svg'
 
 
 const NavBar = ({ setShowLogin, setShowSignup, sessionUser, searchWords, setSearchWords }) => {
-  const loc = useLocation()
-  // console.log(loc)
+
   const [showDropDown, setShowDropDown] = useState(false)
 
   useEffect(() => {
