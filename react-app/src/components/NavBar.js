@@ -10,7 +10,7 @@ import logo from './images/logo.svg'
 
 const NavBar = ({ setShowLogin, setShowSignup, sessionUser }) => {
 
-  
+
 
   return (
     <nav className='nav-container'>
@@ -26,7 +26,7 @@ const NavBar = ({ setShowLogin, setShowSignup, sessionUser }) => {
           Sign in
         </NavLink>
         <div className='cart-icon-container'>
-          <NavLink to='' className='navlink' activeClassName='active'>
+          <NavLink to='/cart' className='navlink' activeClassName='active'>
             <img className='cart-icon' src={CartIcon} alt="cart-icon" />
           </NavLink>
         </div>
