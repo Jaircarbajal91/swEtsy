@@ -32,7 +32,12 @@ const SearchResult = () => {
             filtered.push(`${key}=${data[key]}`)
         }
     }
+
+
+
     let filterstring = filtered.join("&")
+
+
     console.log('it is -=-------', data)
     console.log('it is -=-------', filtered)
     console.log('it is -=-------', filterstring)
@@ -41,16 +46,27 @@ const SearchResult = () => {
         dispatch(getSearchThunk(filterstring))
     }, [dispatch, filterstring])
 
-    const sortSelected = async e => {
+    const sortSelected = e => {
         e.preventDefault();
         setSortBy(e.target.value);
-        console.log('value of sort', sortBy)
+        if(sortBy){
+            filtered.push(`order=${sortBy}`);
+        }
+        let filterStringWithOrder = filtered.join('&');
+        setShowFilterModal(false)
+        setKeyWord('')
+        setMinPrice('')
+        setMaxPrice('')
+        setOwnerId('')
+        setCustomPrice('')
+        history.push(`/search?${filtered.join("&")}`)
+
     }
 
     const handleSearch = async e => {
         e.preventDefault();
-        dispatch(getSearchThunk(filterstring))
-            .then((res) => {
+        // dispatch(getSearchThunk(filterstring))
+            // .then((res) => {
                 history.push(`/search?${filtered.join("&")}`)
                 setShowFilterModal(false)
                 setKeyWord('')
@@ -58,7 +74,7 @@ const SearchResult = () => {
                 setMaxPrice('')
                 setOwnerId('')
                 setCustomPrice('')
-            })
+            // })
     }
 
     const handleCancel = async e => {
@@ -164,7 +180,7 @@ const SearchResult = () => {
                         <button onClick={handleSearch}>Apply</button>
                     </div>
                 </Modal>}
-            <select className='search sort' value={sortBy}>
+            <select className='search sort' onChange={sortSelected} value={sortBy}>
                 <option value='' selected>Default</option>
                 <option value='ascPrice' >Lowest Price</option>
                 <option value='descPrice' >Highest Price</option>
