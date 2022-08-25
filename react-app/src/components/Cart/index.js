@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { NavLink, useHistory } from "react-router-dom"
 import { getCartItemsThunk } from "../../store/cart";
@@ -9,6 +9,16 @@ import CartTotalCard from "./CartTotalCard";
 const Cart = ({ cartItems, sessionUser, setShowLogin, cartLoaded, setCartLoaded }) => {
   const history = useHistory();
   const dispatch = useDispatch();
+  let initialSubtotal = 0;
+  if (cartItems) {
+    for (let item of cartItems) {
+      initialSubtotal += item.quantity * item.product_detail.price;
+    };
+  }
+
+  const [subtotal, setSubtotal] = useState(initialSubtotal);
+  const [discount, setDiscount] = useState(initialSubtotal * 0.2);
+  const [total, setTotal] = useState(initialSubtotal - discount);
 
   useEffect(() => {
     dispatch(getCartItemsThunk()).then(() => setCartLoaded(true))
@@ -29,7 +39,10 @@ const Cart = ({ cartItems, sessionUser, setShowLogin, cartLoaded, setCartLoaded 
         </div>
       )}
       {cartItems?.length > 0 &&
-        <CartTotalCard cartItems={cartItems} />
+        <CartTotalCard
+          cartItems={cartItems}
+          initialSubtotal={initialSubtotal}
+        />
       }
       {!cartItems?.length &&
         <div>
