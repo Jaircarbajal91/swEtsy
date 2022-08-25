@@ -1,0 +1,19 @@
+.drop-down-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  cursor: pointer;
+  border-radius: .7em;
+}
+
+.signout-icon {
+  max-width: 11%;
+  margin: .6em;
+  margin-bottom: .5em;
+}
+
+.signout-text {
+  margin-left: .7em;
+  font-weight: 300;
+  font-size: medium;
+}
