@@ -1,5 +1,5 @@
 .input.search-bar {
-  width: 95%;
+  min-width: 95%;
   height: 2.4em;
   border-radius: 4em;
   border: .1em solid black;
