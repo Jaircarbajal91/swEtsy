@@ -6,7 +6,7 @@ import { getSearchThunk } from "../../store/search";
 import Product from '../Products/Product';
 
 
-const SearchResult = () => {
+const SearchResult = ({searchWords, setSearchWords}) => {
     const { search } = useLocation()
     // useMemo(() => {
     let query = new URLSearchParams(search)

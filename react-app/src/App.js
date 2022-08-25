@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import LoginForm from './components/auth/LoginForm';
 import { Modal } from './context/Modal';
@@ -21,11 +21,13 @@ import SearchResult from './components/SearchResult';
 
 
 function App() {
-  // const history = useHistory();
+
+
   const [loaded, setLoaded] = useState(false);
   const [cartLoaded, setCartLoaded] = useState(false);
   const [showLogin, setShowLogin] = useState(false)
   const [showSignup, setShowSignup] = useState(false)
+  const [searchWords, setSearchWords] = useState('');
   const products = useSelector(state => state.products.productsList);
   const cartItems = useSelector(state => state.cart.cartItemsList);
   const sessionUser = useSelector(state => state.session.user);
@@ -48,7 +50,8 @@ function App() {
   return (
     <BrowserRouter>
       <div className='content container'>
-        <NavBar setShowLogin={setShowLogin} setShowSignup={setShowSignup} sessionUser={sessionUser} />
+        <NavBar setShowLogin={setShowLogin} setShowSignup={setShowSignup} sessionUser={sessionUser}
+                searchWords={searchWords} setSearchWords={setSearchWords}/>
         <div className='main-header'>
           <Header sessionUser={sessionUser} />
         </div>
@@ -85,7 +88,7 @@ function App() {
             <Reviews />
           </Route>
           <Route path='/search'>
-            <SearchResult />
+            <SearchResult searchWords={searchWords} setSearchWords={setSearchWords} />
           </Route>
           <Route path='*' >
             <h1>Page not found</h1>

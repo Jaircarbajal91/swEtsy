@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import SearchBar from './SearchBar/SearchBar';
 import LogoutButton from './auth/LogoutButton';
@@ -12,7 +12,9 @@ import './NavBar.css'
 import logo from './images/logo.svg'
 
 
-const NavBar = ({ setShowLogin, setShowSignup, sessionUser }) => {
+const NavBar = ({ setShowLogin, setShowSignup, sessionUser, searchWords, setSearchWords }) => {
+  const loc = useLocation()
+  // console.log(loc)
   const [showDropDown, setShowDropDown] = useState(false)
 
   useEffect(() => {
@@ -32,7 +34,7 @@ const NavBar = ({ setShowLogin, setShowSignup, sessionUser }) => {
       <NavLink to='/' className='navlink logo' exact={true} activeClassName='active'>
         <img src={logo} alt='logo' />
       </NavLink>
-      <SearchBar />
+      <SearchBar searchWords={searchWords} setSearchWords={setSearchWords} />
       {/* <NavLink to='/sign-up' onClick={() => setShowSignup(true)} exact={true} activeClassName='active'>
         Sign Up
       </NavLink> */}

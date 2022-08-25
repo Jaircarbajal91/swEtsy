@@ -1,6 +1,6 @@
 import './SearchBar.css'
 
-const SearchBar = () => {
+const SearchBar = ({searchWords, setSearchWords}) => {
   return (
     <div className="search-bar-container">
       <input className='input search-bar' type="text" placeholder='Search for anything'/>
