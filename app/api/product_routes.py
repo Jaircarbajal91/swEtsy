@@ -136,8 +136,14 @@ def add_product_to_cart(id):
 def get_product_reviews(id):
     product = Product.query.get(id)
     product_reviews = db.session.query(Review) \
-                        .filter
-    cart_prod = db.session.query(Cart) \
-                .filter(Cart.user_id == uid) \
-                .filter(Cart.product_id == id) \
-                .first()
+                        .filter(Review.product_id == id) \
+                        .all()
+    if product_reviews is not None and len(product_reviews) > 0:
+        review_details = []
+        for review in product_reviews:
+            review = review.to_dict()
+            review_details.append(review)
+    # prod_reviews_dict = product_reviews.to_dict()
+    print(review_details)
+    # return product_reviews.to_dict()
+    return { "review_details": review_details }
