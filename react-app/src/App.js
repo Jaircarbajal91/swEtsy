@@ -84,11 +84,11 @@ function App() {
           <Route path='/reviews' exact={true} >
             <Reviews />
           </Route>
-          <Route path='*' >
-            <h1>Page not found</h1>
-          </Route>
           <Route path='/search'>
             <SearchResult />
+          </Route>
+          <Route path='*' >
+            <h1>Page not found</h1>
           </Route>
         </Switch>
       </div>

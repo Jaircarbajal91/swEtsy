@@ -21,7 +21,7 @@ const SearchResult = () => {
     const [ownerId, setOwnerId] = useState(query.get('ownerId'))
     const [customPrice, setCustomPrice] = useState(false)
     const [showFilterModal, setShowFilterModal] = useState(false)
-    const [sortBy, setSortBy] = useState()
+    const [sortBy, setSortBy] = useState(query.get('order'))
     const sessionUser = useSelector(state => state.session.user);
     const products = useSelector(state => state.session.products);
 
@@ -32,7 +32,6 @@ const SearchResult = () => {
             filtered.push(`${key}=${data[key]}`)
         }
     }
-
 
 
     let filterstring = filtered.join("&")
@@ -48,7 +47,11 @@ const SearchResult = () => {
 
     const sortSelected = e => {
         e.preventDefault();
-        setSortBy(e.target.value);
+        setSortBy(prev => {
+            console.log(prev);
+            console.log(e.target.value)
+            return e.target.value
+        });
         if(sortBy){
             filtered.push(`order=${sortBy}`);
         }
@@ -59,7 +62,7 @@ const SearchResult = () => {
         setMaxPrice('')
         setOwnerId('')
         setCustomPrice('')
-        history.push(`/search?${filtered.join("&")}`)
+        history.push(`/search?${filterStringWithOrder}`)
 
     }
 
@@ -67,6 +70,7 @@ const SearchResult = () => {
         e.preventDefault();
         // dispatch(getSearchThunk(filterstring))
             // .then((res) => {
+
                 history.push(`/search?${filtered.join("&")}`)
                 setShowFilterModal(false)
                 setKeyWord('')

@@ -42,7 +42,7 @@ def search():
     filter_obj = {}
     args = request.args
     args_dict = args.to_dict(flat=False) # query params are lists
-    print(args_dict)
+    # print(args_dict)
     query_order = (args_dict.get('order') and args_dict.get('order')[-1]) or 'id'
     order = orders.get(query_order) if orders.get(query_order) is not None else Product.id
     try: #sanitize value errors that the query premeter is something strange
