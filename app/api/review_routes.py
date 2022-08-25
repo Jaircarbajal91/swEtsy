@@ -5,3 +5,5 @@ from app.forms import ReviewForm
 
 review_routes = Blueprint('reviews', __name__)
 
+# @review_routes.route():
+#     pass

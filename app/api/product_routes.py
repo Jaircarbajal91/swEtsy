@@ -165,6 +165,8 @@ def get_product_reviews(id):
 @product_routes.route('/<int:id>/', methods=['POST'])
 @login_required
 def create_product_review(id):
+    uid = current_user.get_id()
+    reviews = Review.query.all()
     product = Product.query.get(id)
     if product.to_dict()["owner_id"] == int(current_user.get_id()):
         return {'error': 'You cannot review your own product'}, 403
@@ -176,12 +178,13 @@ def create_product_review(id):
             stars = data['stars'],
             review_body = data['review_body'],
             product_id = id,
-            user_id = int(current_user.get_id())
+            user_id = int(uid)
         )
         db.session.add(review)
         db.session.commit()
         return review.to_dict()
     return {'errors': validation_errors_to_error_messages(form.errors)}, 400
+
 
 @product_routes.route('/<int:prod_id>/reviews/<int:review_id>/', methods=['PUT'])
 @product_routes.route('/<int:prod_id>/reviews/<int:review_id>', methods=['PUT'])
