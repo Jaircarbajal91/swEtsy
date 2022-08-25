@@ -2,11 +2,11 @@ import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { editCartItemThunk, getCartItemsThunk, deleteCartItemThunk } from "../../../store/cart";
 
-
 export default function CartItem({ item }) {
     const dispatch = useDispatch();
     const product = item.product_detail;
     const [quantity, setQuantity] = useState(item.quantity);
+
     const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',
