@@ -80,11 +80,11 @@ function App() {
           <Route path='/cart' exact={true} >
             <Cart cartLoaded={cartLoaded} setCartLoaded={setCartLoaded} cartItems={cartItems} sessionUser={sessionUser} setShowLogin={setShowLogin} />
           </Route>
-          <Route path='*' >
-            <h1>Page not found</h1>
-          </Route>
           <Route path='/search'>
             <SearchResult />
+          </Route>
+          <Route path='*' >
+            <h1>Page not found</h1>
           </Route>
         </Switch>
       </div>
