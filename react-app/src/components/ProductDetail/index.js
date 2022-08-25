@@ -8,6 +8,7 @@ import { getProductsThunk } from "../../store/products";
 import { deleteProductThunk } from "../../store/products";
 import { addCartItemThunk, getCartItemsThunk } from "../../store/cart";
 import Stars from "../Reviews/Stars";
+import Reviews from '../Reviews'
 
 const ProductDetail = () => {
   const { id } = useParams()
@@ -97,6 +98,7 @@ const ProductDetail = () => {
           <div className="button add-to-cart">
             <button onClick={() => addToCart()}>Add to Cart</button>
           </div>
+          <Reviews product={product} isLoaded={isLoaded} />
         </div>
       )}
     </div>
