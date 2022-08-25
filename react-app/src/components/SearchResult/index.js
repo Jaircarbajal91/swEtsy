@@ -170,7 +170,7 @@ const SearchResult = ({searchWords, setSearchWords}) => {
                 <Modal onClose={() => setShowFilterModal(false)}>
                     <div>
                         <h1>Filters</h1>
-                        <fieldset> Keyword Search
+                        {/* <fieldset> Keyword Search
                             <br></br>
                             <input
                                 type='text'
@@ -179,7 +179,7 @@ const SearchResult = ({searchWords, setSearchWords}) => {
                                 onChange={e => setKeyWord(e.target.value)}
                             ></input>
                             <button onClick={e => setKeyWord('')}>clear</button>
-                        </fieldset>
+                        </fieldset> */}
                         <br></br>
                         <fieldset>Price
                             <div>
