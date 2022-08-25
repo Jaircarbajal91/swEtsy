@@ -4,25 +4,25 @@ const EDIT_REVIEW = 'reviews/EDIT_REVIEW';
 const DELETE_REVIEW = 'reviews/DELETE_REVIEW';
 
 
-const getProductsAction = reviews => ({
+const getReviewsAction = reviews => ({
     type: GET_REVIEW,
     reviews
 })
 
-const createProductAction = review => ({
+const createReviewsAction = review => ({
     type: CREATE_REVIEW,
     review,
 });
 
-const editProductAction = review => ({
+const editReviewAction = review => ({
     type: EDIT_REVIEW,
     review,
 });
 
 
-const deleteProductAction = review => ({
+const deleteReviewAction = id => ({
     type: DELETE_REVIEW,
-    review
+    id
 });
 
 export const getReviewThunk = id => async dispatch => {
@@ -33,7 +33,7 @@ export const getReviewThunk = id => async dispatch => {
     });
     if (response.ok) {
         const reviews = await response.json();
-        dispatch(getReviewAction(reviews));
+        dispatch(getReviewsAction(reviews));
         return reviews;
     } else {
         const data = await response.json();
@@ -49,7 +49,7 @@ export const getMyReviewThunk = () => async dispatch => {
     });
     if (response.ok) {
         const reviews = await response.json();
-        dispatch(getReviewAction(reviews));
+        dispatch(getReviewsAction(reviews));
         return reviews;
     } else {
         const data = await response.json();
@@ -57,33 +57,33 @@ export const getMyReviewThunk = () => async dispatch => {
     }
 }
 
-export const createProductThunk = payload => async dispatch => {
-    const response = await fetch(`/api/products/`, {
+export const createReviewThunk = id => async dispatch => {
+    const response = await fetch(`/api/products/${id}/reviews/`, {
         method: 'POST',
         body: JSON.stringify(payload),
         headers: { 'Content-Type': 'application/json' },
     });
 
     if (response.ok) {
-        const newProduct = await response.json();
-        dispatch(createProductAction(newProduct));
-        return newProduct;
+        const newReview = await response.json();
+        dispatch(createReviewsAction(newReview));
+        return newReview;
     } else {
         const data = await response.json();
         return data.errors;
     };
 };
 
-export const editProductThunk = product => async dispatch => {
-    const response = await fetch(`/api/products/${product.id}`, {
+export const editReviewThunk = review => async dispatch => {
+    const response = await fetch(`/api/reviews/${review.id}`, {
         method: 'PUT',
-        body: JSON.stringify(product),
+        body: JSON.stringify(review),
         headers: { 'Content-Type': 'application/json' },
     });
     if (response.ok) {
-        const product = await response.json();
-        dispatch(editProductAction(product));
-        return product;
+        const review = await response.json();
+        dispatch(editReviewAction(review));
+        return review;
     } else {
         const data = await response.json();
         return data.errors;
@@ -92,13 +92,13 @@ export const editProductThunk = product => async dispatch => {
 
 
 export const deleteProductThunk = id => async dispatch => {
-    const response = await fetch(`/api/products/${id}`, {
+    const response = await fetch(`/api/reviews/${id}`, {
         method: 'DELETE'
     });
 
     if (response.ok) {
         const deleted = await response.json();
-        dispatch(deleteProductAction(id));
+        dispatch(deleteReviewAction(id));
         return deleted;
     } else {
         const data = await response.json();
@@ -108,26 +108,26 @@ export const deleteProductThunk = id => async dispatch => {
 
 export default function productsReducer(state = {}, action) {
     switch (action.type) {
-        case GET_PRODUCTS: {
+        case GET_REVIEW: {
             const newState = {};
-            action.products.products.forEach(product => {
-                newState[product.id] = product
+            action.reviews.reviews.forEach(review => {
+                newState[review.id] = review
             });
-            newState.productsList = [...action.products.products]
+            newState.productsList = [...action.reviews.reviews]
             return newState;
         }
-        case CREATE_PRODUCT: {
+        case CREATE_REVIEW: {
             const newState = { ...state };
-            newState[action.product.id] = action.product;
+            newState[action.review.id] = action.review;
             return newState;
         }
-        case EDIT_PRODUCT: {
+        case EDIT_REVIEW: {
             return {
                 ...state,
-                [action.product.id]: action.product,
+                [action.review.id]: action.review,
             }
         }
-        case DELETE_PRODUCT: {
+        case DELETE_REVIEW: {
             const newState = { ...state }
             delete newState[action.id]
             return newState
