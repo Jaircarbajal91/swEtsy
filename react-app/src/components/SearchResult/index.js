@@ -27,6 +27,7 @@ const SearchResult = ({searchWords, setSearchWords}) => {
     const [order, setOrder] = useState(query.get('order') || '');
     const [radioMin, setRadioMin] = useState(minPrice)
     const [radioMax, setRadioMax] = useState(maxPrice)
+    const [rangeArray, setRangeArray] = useState([minPrice, maxPrice])
     const sessionUser = useSelector(state => state.session.user);
     const searchProducts = useSelector(state => state.search.products);
 
@@ -93,31 +94,41 @@ const SearchResult = ({searchWords, setSearchWords}) => {
 
     const handleSearch = async e => {
         e.preventDefault();
-        let filterForApply = []
-        let priceFilter = [parseInt(radioMin), parseInt(radioMax)]
-        console.log(priceFilter)
-        if(priceFilter[1] || priceFilter[1]===0){
-            setMinPrice(Math.min(...priceFilter).toString())
-            setMaxPrice(Math.max(...priceFilter).toString())
-        }else{
-            setMinPrice(priceFilter[0].toString())
-            setMaxPrice('')
-        }
-        for (let key in data) {
-            if (data[key]) {
-                filterForApply.push(`${key}=${data[key]}`)
+        setRangeArray(prev => {
+            let range = [];
+            let filterForApply = []
+            let priceFilter = [parseInt(radioMin), parseInt(radioMax)]
+            console.log(priceFilter)
+            if(priceFilter[1] || priceFilter[1]===0){
+                setMinPrice(Math.min(...priceFilter).toString())
+                setMaxPrice(Math.max(...priceFilter).toString())
+                range[0] = Math.min(...priceFilter).toString();
+                range[1] = Math.max(...priceFilter).toString();
+            }else{
+                setMinPrice(priceFilter[0].toString())
+                setMaxPrice('')
+                range[0] = (priceFilter[0].toString())
+                range[1] = '';
             }
-        }
-        let filterStringForApply = filterForApply.join('&');
-        setShowFilterModal(false)
-        // setKeyWord('')
-        // setMinPrice('')
-        // setMaxPrice('')
-        // setOwnerId('')
-        // setCustomPrice('')
-        console.log('fsfa:', filterStringForApply)
-        filterstring = filterStringForApply
-        history.push(`/search?${filterStringForApply}`)
+            data.minPrice = range[0]
+            data.maxPrice = range[1]
+            for (let key in data) {
+                if (data[key]) {
+                    filterForApply.push(`${key}=${data[key]}`)
+                }
+            }
+            let filterStringForApply = filterForApply.join('&');
+            setShowFilterModal(false)
+            // setKeyWord('')
+            // setMinPrice('')
+            // setMaxPrice('')
+            // setOwnerId('')
+            // setCustomPrice('')
+            console.log('fsfa:', filterStringForApply)
+            filterstring = filterStringForApply
+            history.push(`/search?${filterStringForApply}`)
+            return range
+        })
             // })
     }
 
