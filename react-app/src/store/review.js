@@ -34,6 +34,8 @@ export const getReviewsThunk = id => async dispatch => {
     if (response.ok) {
         const reviews = await response.json();
         dispatch(getReviewsAction(reviews));
+        console.log('reviews is----=====???', reviews)
+        console.log('reviews details is----=====???', reviews.review_details)
         return reviews;
     } else {
         const data = await response.json();
@@ -110,10 +112,10 @@ export default function productsReducer(state = {}, action) {
     switch (action.type) {
         case GET_REVIEW: {
             const newState = {};
-            action.reviews.reviews.forEach(review => {
+            action.reviews.review_details.forEach(review => {
                 newState[review.id] = review
             });
-            newState.productsList = [...action.reviews.reviews]
+            newState.reviewsList = [...action.reviews.review_details]
             return newState;
         }
         case CREATE_REVIEW: {

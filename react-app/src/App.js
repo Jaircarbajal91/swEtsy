@@ -28,6 +28,7 @@ function App() {
   const [showSignup, setShowSignup] = useState(false)
   const products = useSelector(state => state.products.productsList);
   const cartItems = useSelector(state => state.cart.cartItemsList);
+  const reviews = useSelector(state => state.reviews.reviewsList);
   const sessionUser = useSelector(state => state.session.user);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -82,7 +83,7 @@ function App() {
             <Cart cartLoaded={cartLoaded} setCartLoaded={setCartLoaded} cartItems={cartItems} sessionUser={sessionUser} setShowLogin={setShowLogin} />
           </Route>
           <Route path='/reviews' exact={true} >
-            <Reviews />
+            <Reviews veviews={reviews}/>
           </Route>
           <Route path='/search'>
             <SearchResult />

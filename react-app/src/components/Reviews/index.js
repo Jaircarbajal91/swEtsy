@@ -6,39 +6,33 @@ import { getReviewsThunk, getMyReviewThunk, createReviewThunk, editReviewThunk, 
 import Stars from '../Reviews/Stars'
 
 const Reviews = ({ product, isLoaded }) => {
-  const history = useHistory();
   const dispatch = useDispatch();
+  const id = product.id;
   const [reviewLoaded, setReviewLoaded] = useState(false)
-  const productReviews = useSelector(state => state.reviews[product.id])
+  const productReviews = useSelector(state => state.reviews.reviewsList)
 
   useEffect(() => {
-    dispatch(getReviewsThunk()).then(() => setReviewLoaded(true))
+    dispatch(getReviewsThunk(id)).then(() => setReviewLoaded(true))
   }, [product.id])
 
-  // reviewCount = productReviews.count()
-  // totalStar = 0;
-  // // productReviews.reduce(sum, { stars })=> sum + stars, 0)
-  console.log('-----------', product)
-  // avgStar = totalStar / reviewCount;
-  // console.log('reviews are -----', productReviews)
-  // console.log('review counts are ----', productReviews.count())
-  // console.log('review avg stars is ----', productReviews.count())
+  let reviewLength = productReviews?.length;
+  console.log('length====', reviewLength)
 
-  return isLoaded && (
+  return reviewLoaded && (
     <div className='review-container'>
-      <p className='review title'>{ } shop reviews
-        <Stars rating={5} />
+      <p className='review title'>{reviewLength} shop reviews
       </p>
-      {
-        reviewLoaded && productReviews.map(review =>
-          <div className='product review'>
-            <div className='review star'>
-              <Stars rating={review.stars} />
-            </div>
-            <div className='review username'></div>
-            <div className='review reviewbody'></div>
+      <p>{product.avgScore}<Stars rating={5} /></p>
+      {productReviews?.length && productReviews.map(review => {
+        return <div className='product review' key={review.id}>
+          <div className='review username'>user: {review.user_id}</div>
+          <div className='review star'>
+            <Stars rating={review.stars} />
           </div>
-        )
+          <div className='review reviewbody'>{review.review_body}</div>
+          <br></br>
+        </div>
+      })
       }
 
     </div >
