@@ -91,7 +91,7 @@ export const deleteCartItemThunk = id => async dispatch => {
 };
 
 export const deleteCartThunk = () => async dispatch => {
-    const response = await fetch('/', {method: 'DELETE'});
+    const response = await fetch('/api/cart', {method: 'DELETE'});
     if (response.ok) {
         const data = await response.json();
         dispatch(deleteCartAction());

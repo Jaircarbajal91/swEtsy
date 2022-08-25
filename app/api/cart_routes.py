@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required,current_user
-from app.models import db, Product, User,Cart
+from app.models import db, Product, User, Cart
 from app.forms import ListForm, CartItemForm
 from datetime import datetime, date, timedelta
 from .auth_routes import validation_errors_to_error_messages

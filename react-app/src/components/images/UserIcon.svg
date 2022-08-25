@@ -1,0 +1,23 @@
+<svg
+	version="1.1"
+	xmlns="http://www.w3.org/2000/svg"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	width="600"
+	height="600"
+	fill="white">
+
+  <title>Abstract user icon</title>
+
+  <defs>
+    <clipPath id="circular-border">
+      <circle cx="300" cy="300" r="280" />
+    </clipPath>
+    <clipPath id="avoid-antialiasing-bugs">
+	  <rect width="100%" height="498" />
+    </clipPath>
+  </defs>
+
+  <circle cx="300" cy="300" r="280" fill="#D3D3D3" clip-path="url(#avoid-antialiasing-bugs)" />
+  <circle cx="300" cy="230" r="115" fill="#919191"/>
+  <circle cx="300" cy="550" r="205" fill="#919191" clip-path="url(#circular-border)" />
+</svg>
