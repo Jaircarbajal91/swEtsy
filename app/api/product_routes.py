@@ -113,7 +113,7 @@ def delete_product(id):
 @product_routes.route('/<int:id>/cart', methods=['POST'])
 @login_required
 def add_product_to_cart(id):
-    form['csrf_token'].data = request.cookies['csrf_token']
+    uid = int(current_user.get_id())
     product = Product.query.get(id)
     if product is None:
         return {'errors':['product not found']}, 404
