@@ -17,12 +17,12 @@ const SearchResult = ({searchWords, setSearchWords}) => {
     const dispatch = useDispatch();
     const history = useHistory();
     const [keyword, setKeyWord] = useState(query.get('keyword') || searchWords)
-    const [minPrice, setMinPrice] = useState(query.get('minPrice'))
-    const [maxPrice, setMaxPrice] = useState(query.get('maxPrice'))
-    const [ownerId, setOwnerId] = useState(query.get('ownerId'))
+    const [minPrice, setMinPrice] = useState(query.get('minPrice') || '')
+    const [maxPrice, setMaxPrice] = useState(query.get('maxPrice') || '')
+    const [ownerId, setOwnerId] = useState(query.get('ownerId') || '')
     const [customPrice, setCustomPrice] = useState(false)
     const [showFilterModal, setShowFilterModal] = useState(false)
-    const [order, setOrder] = useState(query.get('order'));
+    const [order, setOrder] = useState(query.get('order') || '');
     const [radioMin, setRadioMin] = useState(minPrice)
     const [radioMax, setRadioMax] = useState(maxPrice)
     const sessionUser = useSelector(state => state.session.user);
@@ -96,6 +96,14 @@ const SearchResult = ({searchWords, setSearchWords}) => {
         // dispatch(getSearchThunk(filterstring))
             // .then((res) => {
         let filterForApply = []
+        let priceFilter = [parseInt(radioMin), parseInt(radioMax)]
+        console.log(priceFilter)
+        if(priceFilter[1] || priceFilter[1]===0){
+            setMinPrice(Math.min(...priceFilter).toString())
+            setMaxPrice(Math.max(...priceFilter).toString())
+        }else{
+            setMinPrice(priceFilter[0].toString())
+        }
         for (let key in data) {
             if (data[key]) {
                 filterForApply.push(`${key}=${data[key]}`)
@@ -108,6 +116,8 @@ const SearchResult = ({searchWords, setSearchWords}) => {
         // setMaxPrice('')
         // setOwnerId('')
         // setCustomPrice('')
+        console.log(filterStringForApply)
+        filterstring = filterStringForApply
         history.push(`/search?${filterStringForApply}`)
             // })
     }
@@ -117,8 +127,8 @@ const SearchResult = ({searchWords, setSearchWords}) => {
         // setKeyWord('')
         setMinPrice('')
         setMaxPrice('')
-        setRadioMax('')
         setRadioMin('')
+        setRadioMax('')
         setOwnerId('')
         setCustomPrice('')
         setShowFilterModal(false)
@@ -167,11 +177,11 @@ const SearchResult = ({searchWords, setSearchWords}) => {
                                     type="radio"
                                     name='price'
                                     onClick={e => {
-                                        setMinPrice(range.min1)
-                                        setMaxPrice(range.min2)
+                                        setRadioMin(range.min1)
+                                        setRadioMax(range.min2)
                                         setCustomPrice(true)
                                     }}
-                                    checked={minPrice===range.min1 && customPrice}
+                                    checked={radioMin===range.min1 && customPrice}
                                 />{`$0 to $50`} <br></br>
                             </div>
                             <div>
@@ -179,11 +189,11 @@ const SearchResult = ({searchWords, setSearchWords}) => {
                                     type="radio"
                                     name='price'
                                     onClick={e => {
-                                        setMinPrice(range.min2)
-                                        setMaxPrice(range.min3)
+                                        setRadioMin(range.min2)
+                                        setRadioMax(range.min3)
                                         setCustomPrice(true)
                                     }}
-                                    checked={minPrice===range.min2 && customPrice}
+                                    checked={radioMin===range.min2 && customPrice}
                                 />{`$50 to $100`} <br></br>
                             </div>
                             <div>
@@ -192,11 +202,11 @@ const SearchResult = ({searchWords, setSearchWords}) => {
                                     name='price'
                                     value={{ 'minPrice': 100 }}
                                     onClick={e => {
-                                        setMinPrice(range.min3)
-                                        setMaxPrice('')
+                                        setRadioMin(range.min3)
+                                        setRadioMax('')
                                         setCustomPrice(true)
                                     }}
-                                    checked={minPrice===range.min3 && customPrice}
+                                    checked={radioMin===range.min3 && customPrice}
                                 />{`over $100`} <br></br>
                             </div>
                             <div>
@@ -218,8 +228,8 @@ const SearchResult = ({searchWords, setSearchWords}) => {
                                     placeholder='Low'
                                     step={1}
                                     min={0}
-                                    value={minPrice}
-                                    onChange={e => setMinPrice(e.target.value)}
+                                    value={radioMin}
+                                    onChange={e => setRadioMin(e.target.value)}
                                     disabled={customPrice}
                                 />
                                 to
@@ -229,8 +239,8 @@ const SearchResult = ({searchWords, setSearchWords}) => {
                                     placeholder='High'
                                     step={1}
                                     min={0}
-                                    value={maxPrice}
-                                    onChange={e => setMaxPrice(e.target.value)}
+                                    value={radioMax}
+                                    onChange={e => setRadioMax(e.target.value)}
                                     disabled={customPrice}
                                 /><br></br>
                             </div>
