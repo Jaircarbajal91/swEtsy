@@ -10,13 +10,15 @@ const SearchResult = ({searchWords, setSearchWords}) => {
     const { search } = useLocation()
     // useMemo(() => {
     let query = new URLSearchParams(search)
+    setSearchWords(prev => prev.replaceAll(/[^A-Za-z0-9 ]/g, ''))
     // }, [search])
     // console.log('what would it be??', query)
     // console.log('what would keyword be??', query.get('keyword'))
     // console.log('what would minPrice be??', query.get('minPrice'))
     const dispatch = useDispatch();
     const history = useHistory();
-    const [keyword, setKeyWord] = useState(query.get('keyword') || searchWords)
+    const sanitizedKey = query.get('keyword')?query.get('keyword').replaceAll(/[^A-Za-z0-9 +]/g, ''):''
+    const [keyword, setKeyWord] = useState(sanitizedKey || searchWords)
     const [minPrice, setMinPrice] = useState(query.get('minPrice') || '')
     const [maxPrice, setMaxPrice] = useState(query.get('maxPrice') || '')
     const [ownerId, setOwnerId] = useState(query.get('ownerId') || '')
@@ -27,6 +29,8 @@ const SearchResult = ({searchWords, setSearchWords}) => {
     const [radioMax, setRadioMax] = useState(maxPrice)
     const sessionUser = useSelector(state => state.session.user);
     const searchProducts = useSelector(state => state.search.products);
+
+
 
     useEffect(() => {
         setKeyWord(searchWords)
@@ -43,6 +47,8 @@ const SearchResult = ({searchWords, setSearchWords}) => {
 
     let filterstring = filtered.join("&")
     console.log('filterstring: ', filterstring)
+    console.log('search:', search)
+    console.log(('?'+filterstring) === search)
 
     // console.log('it is -=-------', data)
     // console.log('it is -=-------', filtered)
@@ -61,6 +67,7 @@ const SearchResult = ({searchWords, setSearchWords}) => {
         let filterStringInClick = filterInClick.join("&")
         // console.log('filterStringInClick:', filterStringInClick)
         dispatch(getSearchThunk(filterStringInClick))
+        // history.push(`/search?${filterstring}`)
     }, [dispatch, filterstring, query.get('keyword')])
 
     const sortSelected = e => {
@@ -95,22 +102,30 @@ const SearchResult = ({searchWords, setSearchWords}) => {
         e.preventDefault();
         // dispatch(getSearchThunk(filterstring))
             // .then((res) => {
+
         let filterForApply = []
+
         let priceFilter = [parseInt(radioMin), parseInt(radioMax)]
+
         console.log(priceFilter)
         if(priceFilter[1] || priceFilter[1]===0){
             setMinPrice(Math.min(...priceFilter).toString())
             setMaxPrice(Math.max(...priceFilter).toString())
+
         }else{
             setMinPrice(priceFilter[0].toString())
+            setMaxPrice('')
         }
         for (let key in data) {
             if (data[key]) {
                 filterForApply.push(`${key}=${data[key]}`)
             }
         }
+
         let filterStringForApply = filterForApply.join('&');
+
         setShowFilterModal(false)
+
         // setKeyWord('')
         // setMinPrice('')
         // setMaxPrice('')
