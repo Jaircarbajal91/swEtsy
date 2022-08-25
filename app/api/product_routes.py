@@ -66,6 +66,7 @@ def new_product():
         # "price":99
         # }
 
+@product_routes.route('/<int:id>/', methods=["PUT"])
 @product_routes.route('/<int:id>', methods=["PUT"])
 @login_required
 def edit_product(id):
@@ -79,7 +80,7 @@ def edit_product(id):
         for k in form.data:
             if not form.data[k]:
                 form[k].data = product_dict[k]
-        print(form.data)
+        # print(form.data)
         if form.validate_on_submit():
             for k in form.data:
                 if k != 'csrf_token':
@@ -112,8 +113,7 @@ def delete_product(id):
 @product_routes.route('/<int:id>/cart', methods=['POST'])
 @login_required
 def add_product_to_cart(id):
-    # get cart has a problem, length
-    uid = int(current_user.get_id())
+    form['csrf_token'].data = request.cookies['csrf_token']
     product = Product.query.get(id)
     if product is None:
         return {'errors':['product not found']}, 404
@@ -150,7 +150,6 @@ def add_product_to_cart(id):
 @product_routes.route('/<int:id>/reviews', methods=['GET'])
 @product_routes.route('/<int:id>/reviews/', methods=['GET'])
 def get_product_reviews(id):
-    product = Product.query.get(id)
     product_reviews = db.session.query(Review) \
                         .filter(Review.product_id == id) \
                         .all()
@@ -159,7 +158,54 @@ def get_product_reviews(id):
         for review in product_reviews:
             review = review.to_dict()
             review_details.append(review)
-    # prod_reviews_dict = product_reviews.to_dict()
-    print(review_details)
-    # return product_reviews.to_dict()
     return { "review_details": review_details }
+
+
+@product_routes.route('/<int:id>', methods=['POST'])
+@product_routes.route('/<int:id>/', methods=['POST'])
+@login_required
+def create_product_review(id):
+    product = Product.query.get(id)
+    if product.to_dict()["owner_id"] == int(current_user.get_id()):
+        return {'error': 'You cannot review your own product'}, 403
+    form = ReviewForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        data = form.data
+        review = Review(
+            stars = data['stars'],
+            review_body = data['review_body'],
+            product_id = id,
+            user_id = int(current_user.get_id())
+        )
+        db.session.add(review)
+        db.session.commit()
+        return review.to_dict()
+    return {'errors': validation_errors_to_error_messages(form.errors)}, 400
+
+@product_routes.route('/<int:prod_id>/reviews/<int:review_id>/', methods=['PUT'])
+@product_routes.route('/<int:prod_id>/reviews/<int:review_id>', methods=['PUT'])
+@login_required
+def function(prod_id, review_id):
+    review = Review.query.get(review_id)
+    if not review:
+        return {'error': 'This review does not exist'}
+    form = ReviewForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    # if form.validate_on_submit():
+    #     revised_review = Review(
+    #         stars = data['stars'],
+    #         review_body = data['review_body'],
+    #         product_id = prod_id,
+    #         user_id = int(current_user.get_id())
+    #     )
+    for k in form.data:
+        if not form.data[k]:
+            form[k].data = review.to_dict()[k]
+    if form.validate_on_submit():
+        for k in form.data:
+            if k != 'csrf_token':
+                setattr(review, k, form.data[k])
+        db.session.commit()
+        return review.to_dict()
+    return {'errors':validation_errors_to_error_messages(form.errors)}
