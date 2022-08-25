@@ -73,8 +73,6 @@ const SearchResult = ({searchWords, setSearchWords}) => {
     const sortSelected = e => {
         e.preventDefault();
         setOrder(prev => {
-            // console.log(prev);
-            // console.log(e.target.value)
             if(e.target.value){
                 data.order = e.target.value === 'none'?undefined:e.target.value
             }
@@ -88,11 +86,6 @@ const SearchResult = ({searchWords, setSearchWords}) => {
             }
             let filterStringWithOrder = filterInSort.join('&');
             setShowFilterModal(false)
-            // setKeyWord('')
-            // setMinPrice('')
-            // setMaxPrice('')
-            // setOwnerId('')
-            // setCustomPrice('')
             history.push(`/search?${filterStringWithOrder}`)
             return e.target.value
         });
@@ -100,18 +93,12 @@ const SearchResult = ({searchWords, setSearchWords}) => {
 
     const handleSearch = async e => {
         e.preventDefault();
-        // dispatch(getSearchThunk(filterstring))
-            // .then((res) => {
-
         let filterForApply = []
-
         let priceFilter = [parseInt(radioMin), parseInt(radioMax)]
-
         console.log(priceFilter)
         if(priceFilter[1] || priceFilter[1]===0){
             setMinPrice(Math.min(...priceFilter).toString())
             setMaxPrice(Math.max(...priceFilter).toString())
-
         }else{
             setMinPrice(priceFilter[0].toString())
             setMaxPrice('')
@@ -121,17 +108,14 @@ const SearchResult = ({searchWords, setSearchWords}) => {
                 filterForApply.push(`${key}=${data[key]}`)
             }
         }
-
         let filterStringForApply = filterForApply.join('&');
-
         setShowFilterModal(false)
-
         // setKeyWord('')
         // setMinPrice('')
         // setMaxPrice('')
         // setOwnerId('')
         // setCustomPrice('')
-        console.log(filterStringForApply)
+        console.log('fsfa:', filterStringForApply)
         filterstring = filterStringForApply
         history.push(`/search?${filterStringForApply}`)
             // })
