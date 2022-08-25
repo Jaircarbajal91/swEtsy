@@ -8,4 +8,4 @@ review_routes = Blueprint('reviews', __name__)
 @review_routes.route('/', methods=['GET'])
 @review_routes.route('', methods=['GET'])
 def function():
-    
+  pass
