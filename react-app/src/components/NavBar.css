@@ -37,6 +37,7 @@
 .right-nav-container {
   display: flex;
   align-items: center;
+  max-width: 20%;
 }
 
 .cart-icon {
@@ -60,4 +61,87 @@
 
 .cart-icon-container:hover {
   background-color: #EFEFEF;
+}
+
+div.user-icon-wrapper {
+  display: flex;
+  align-items: center;
+  min-width: 3em;
+  max-height: 3em;
+  padding: .6em;
+  border-radius: 3em;
+  transition: transform 200ms cubic-bezier(0.345, 0.115, 0.135, 1.42), background 200ms ease-out,box-shadow 200ms ease-out;
+}
+
+div.user-icon-wrapper:hover {
+  background-color: #EFEFEF;
+  cursor: pointer;
+}
+
+img.user-icon {
+  max-width: 1.5em;
+  max-height: 1.5em;
+}
+
+img.down-icon {
+  max-width: 1.5em;
+  max-height: 1.5em;
+}
+
+.drop-down-menu-container {
+  position: absolute;
+  right: 9vw;
+  top: 7vh;
+  min-width: 15em;
+  min-height: 4em;
+  background-color: #FFFFFF;
+  box-shadow: 0 0 7px rgb(195, 195, 195);
+  border-radius: .7em;
+  z-index: 2;
+}
+
+.drop-down-item:hover {
+  background-color: #dbdbdb;
+}
+
+.create-product.drop-down-item {
+  border-radius: .7em;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  cursor: pointer;
+}
+
+.dropdown.text {
+  margin-left: .7em;
+  font-weight: 300;
+  font-size: medium;
+}
+
+.new-product-icon {
+  max-width: 11%;
+  margin: .6em;
+  margin-left: .8em;
+  margin-bottom: .5em;
+}
+
+.create-product.drop-down-item:hover {
+  background-color: #dbdbdb;
+}
+
+.drop-down-item-container.user {
+  border-radius: .7em;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border-radius: .7em .7em 0px 0px;
+  border-bottom: 1px solid rgb(203, 202, 202);
+}
+
+.user-icon-drop-down{
+  max-width: 1.5em;
+  max-height: 1.5em;
+  margin-top: .5em;
+  margin-left: .7em;
+  margin-bottom: .5em;
 }
