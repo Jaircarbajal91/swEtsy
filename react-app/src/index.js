@@ -11,11 +11,11 @@ const store = configureStore();
 
 function Root() {
   return (
-    <Provider store={store}>
-      <ModalProvider>
-        <App />
-      </ModalProvider>
-    </Provider>
+      <Provider store={store}>
+          <ModalProvider>
+            <App />
+          </ModalProvider>
+      </Provider>
   );
 }
 
