@@ -91,7 +91,7 @@ export const editReviewThunk = review => async dispatch => {
 }
 
 
-export const deleteProductThunk = id => async dispatch => {
+export const deleteReviewThunk = id => async dispatch => {
     const response = await fetch(`/api/reviews/${id}`, {
         method: 'DELETE'
     });

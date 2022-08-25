@@ -21,7 +21,8 @@ const SearchResult = () => {
     const [ownerId, setOwnerId] = useState(query.get('ownerId'))
     const [customPrice, setCustomPrice] = useState(false)
     const [showFilterModal, setShowFilterModal] = useState(false)
-    const [sortBy, setSortBy] = useState()
+    const [sortBy, setSortBy] = useState('dddddd')
+    const [showSort, setShowSort] = useState(true)
     const sessionUser = useSelector(state => state.session.user);
     const products = useSelector(state => state.session.products);
 
@@ -33,9 +34,9 @@ const SearchResult = () => {
         }
     }
     let filterstring = filtered.join("&")
-    console.log('it is -=-------', data)
-    console.log('it is -=-------', filtered)
-    console.log('it is -=-------', filterstring)
+    // console.log('it is -=-------', data)
+    // console.log('it is -=-------', filtered)
+    // console.log('it is -=-------', filterstring)
 
     useEffect(() => {
         dispatch(getSearchThunk(filterstring))
@@ -165,14 +166,15 @@ const SearchResult = () => {
                         <button onClick={handleSearch}>Apply</button>
                     </div>
                 </Modal>}
-            <div type='menue' className='search sort' value={sortBy} onChange={handleSort}>
-                <select>
-                    <option value='' selected disabled>Default</option>
-                    <option value='ascPrice' >Lowest Price</option>
-                    <option value='descPrice' >Highest Price</option>
-                    {/* <option value='descReview'>Top Customer Reviews</option> */}
-                    <option value='descCreate' >Most Recent</option>
-                </select>
+            <div className='searchresult sort'>
+                <div role='menu'>
+                    <button className='search sort' onClick={() => setShowSort(false)}>Sort By</button>
+                    <button value='ascPrice' hidden={showSort} onClick={handleSort}>Lowest Price</button>
+                    <button value='descPrice' hidden={showSort} onClick={handleSort}>Highest Price</button>
+                    <button value='descCreate' hidden={showSort} onClick={handleSort}>Most Recent</button>
+                    {/* <button value='descReview'>Top Customer Reviews</button> */}
+                </div>
+
             </div>
         </>
     )
