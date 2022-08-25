@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { NavLink, useHistory, useLocation } from 'react-router-dom'
 import { Modal } from '../../context/Modal';
 import { getSearchThunk } from "../../store/search";
+import Product from '../Products/Product';
 
 
 const SearchResult = () => {
@@ -21,12 +22,12 @@ const SearchResult = () => {
     const [ownerId, setOwnerId] = useState(query.get('ownerId'))
     const [customPrice, setCustomPrice] = useState(false)
     const [showFilterModal, setShowFilterModal] = useState(false)
-    const [sortBy, setSortBy] = useState(query.get('order'))
+    const [order, setOrder] = useState(query.get('order'));
     const sessionUser = useSelector(state => state.session.user);
-    const products = useSelector(state => state.session.products);
+    const searchProducts = useSelector(state => state.search.products);
 
     let filtered = []
-    const data = { keyword, minPrice, maxPrice, ownerId }
+    const data = { keyword, minPrice, maxPrice, ownerId, order }
     for (let key in data) {
         if (data[key]) {
             filtered.push(`${key}=${data[key]}`)
@@ -37,9 +38,9 @@ const SearchResult = () => {
     let filterstring = filtered.join("&")
 
 
-    console.log('it is -=-------', data)
-    console.log('it is -=-------', filtered)
-    console.log('it is -=-------', filterstring)
+    // console.log('it is -=-------', data)
+    // console.log('it is -=-------', filtered)
+    // console.log('it is -=-------', filterstring)
 
     useEffect(() => {
         dispatch(getSearchThunk(filterstring))
@@ -47,37 +48,50 @@ const SearchResult = () => {
 
     const sortSelected = e => {
         e.preventDefault();
-        setSortBy(prev => {
-            console.log(prev);
-            console.log(e.target.value)
+        setOrder(prev => {
+            // console.log(prev);
+            // console.log(e.target.value)
+            if(e.target.value){
+                data.order = e.target.value === 'none'?undefined:e.target.value
+            }
+            let filterInSort = []
+            console.log('-'*30)
+            console.log(data)
+            for (let key in data) {
+                if (data[key]) {
+                    filterInSort.push(`${key}=${data[key]}`)
+                }
+            }
+            let filterStringWithOrder = filterInSort.join('&');
+            setShowFilterModal(false)
+            // setKeyWord('')
+            // setMinPrice('')
+            // setMaxPrice('')
+            // setOwnerId('')
+            // setCustomPrice('')
+            history.push(`/search?${filterStringWithOrder}`)
             return e.target.value
         });
-        if(sortBy){
-            filtered.push(`order=${sortBy}`);
-        }
-        let filterStringWithOrder = filtered.join('&');
-        setShowFilterModal(false)
-        setKeyWord('')
-        setMinPrice('')
-        setMaxPrice('')
-        setOwnerId('')
-        setCustomPrice('')
-        history.push(`/search?${filterStringWithOrder}`)
-
     }
 
     const handleSearch = async e => {
         e.preventDefault();
         // dispatch(getSearchThunk(filterstring))
             // .then((res) => {
-
-                history.push(`/search?${filtered.join("&")}`)
-                setShowFilterModal(false)
-                setKeyWord('')
-                setMinPrice('')
-                setMaxPrice('')
-                setOwnerId('')
-                setCustomPrice('')
+        let filterForApply = []
+        for (let key in data) {
+            if (data[key]) {
+                filterForApply.push(`${key}=${data[key]}`)
+            }
+        }
+        let filterStringForApply = filterForApply.join('&');
+        setShowFilterModal(false)
+        // setKeyWord('')
+        // setMinPrice('')
+        // setMaxPrice('')
+        // setOwnerId('')
+        // setCustomPrice('')
+        history.push(`/search?${filterStringForApply}`)
             // })
     }
 
@@ -92,6 +106,22 @@ const SearchResult = () => {
     }
 
     let range = { min1: '0', min2: '50', min3: '100' }
+
+    let productPage = (
+        <div className='search-container'>
+            {searchProducts && searchProducts.length ? (
+                <div className='products container search-products-container'>
+                    {searchProducts.map(product => (
+                        <Product key={product.id} product={product} />
+                    ))}
+                </div>
+            ):(
+                <div className='empty-search-container'>
+                    <h1>No Search Results!</h1>
+                </div>
+            )}
+        </div>
+    )
 
     return (
         <>
@@ -121,6 +151,7 @@ const SearchResult = () => {
                                         setMaxPrice(range.min2)
                                         setCustomPrice(true)
                                     }}
+                                    checked={minPrice===range.min1 && customPrice}
                                 />{`$0 to $50`} <br></br>
                             </div>
                             <div>
@@ -132,6 +163,7 @@ const SearchResult = () => {
                                         setMaxPrice(range.min3)
                                         setCustomPrice(true)
                                     }}
+                                    checked={minPrice===range.min2 && customPrice}
                                 />{`$50 to $100`} <br></br>
                             </div>
                             <div>
@@ -144,6 +176,7 @@ const SearchResult = () => {
                                         setMaxPrice('')
                                         setCustomPrice(true)
                                     }}
+                                    checked={minPrice===range.min3 && customPrice}
                                 />{`over $100`} <br></br>
                             </div>
                             <div>
@@ -152,7 +185,10 @@ const SearchResult = () => {
                                     name='price'
                                     onClick={() => {
                                         setCustomPrice(false)
+                                        // setMinPrice(0)
+                                        // setMaxPrice(0)
                                     }}
+                                    checked={!customPrice}
                                 />{`Custom Price Range`}<br></br>
                             </div>
                             <div>
@@ -180,17 +216,18 @@ const SearchResult = () => {
                             </div>
                         </fieldset>
                         <br></br>
-                        <button onClick={handleCancel}>Cancel</button>
+                        <button onClick={handleCancel}>Clear</button>
                         <button onClick={handleSearch}>Apply</button>
                     </div>
                 </Modal>}
-            <select className='search sort' onChange={sortSelected} value={sortBy}>
-                <option value='' selected>Default</option>
+            <select className='search sort' onChange={sortSelected} value={order}>
+                <option value='none' selected>Default</option>
                 <option value='ascPrice' >Lowest Price</option>
                 <option value='descPrice' >Highest Price</option>
                 {/* <option value='descReview'>Top Customer Reviews</option> */}
                 <option value='descCreate' >Most Recent</option>
             </select>
+            {productPage}
         </>
     )
 }
