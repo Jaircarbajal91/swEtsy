@@ -4,18 +4,34 @@ from app.models import db, Product, User, Cart, Review
 from app.forms import ListForm, CartItemForm, ReviewForm
 from datetime import datetime, date, timedelta
 from .auth_routes import validation_errors_to_error_messages
+import statistics
 
 product_routes = Blueprint('products', __name__)
 
 @product_routes.route('/',methods=['GET'])
 @product_routes.route('',methods=['GET'])
 def all_products():
-    products = Product.query.all()
-    return {'products': [product.to_dict() for product in products]}
+    # products = Product.query.all()
+    products = db.session.query(Product) \
+                .options(db.joinedload(Product.reviews)).all()
+    if products is not None and len(products)>0:
+        product_details = []
+        for item in products:
+            reviews = [r.to_dict() for r in item.reviews]
+            stars = [int(r.stars) for r in item.reviews]
+            avg = statistics.mean(stars)
+            item = item.to_dict()
+            item['reviews'] = reviews
+            item['avgScore'] = round(float(avg),2)
+            product_details.append(item)
+
+    return {'products': product_details}
 
 @product_routes.route('/<int:id>',methods=['GET'])
 def product_details(id):
-    product = Product.query.get(id)
+    product = Product.query.options(db.joinedload(Product.reviews)).get(id)
+    # product = db.session.query(Product).filter(Product.id == id) \
+    #             .options(db.joinedload(Product.reviews)).first()
     if product is not None:
         return product.to_dict()
     else:
