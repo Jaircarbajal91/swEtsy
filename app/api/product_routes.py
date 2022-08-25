@@ -166,7 +166,12 @@ def get_product_reviews(id):
 @login_required
 def create_product_review(id):
     uid = current_user.get_id()
-    reviews = Review.query.all()
+    # reviews = Review.query.filter(Review.user_id == uid).all()
+    product_reviews = Review.query.filter(Review.product_id == id).all()
+    for product_review in product_reviews:
+        print(product_review.to_dict())
+        if product_review.to_dict()['user_id'] == int(uid):
+            return {'error': 'You may not review this item again'}
     product = Product.query.get(id)
     if product.to_dict()["owner_id"] == int(current_user.get_id()):
         return {'error': 'You cannot review your own product'}, 403
@@ -189,7 +194,7 @@ def create_product_review(id):
 @product_routes.route('/<int:prod_id>/reviews/<int:review_id>/', methods=['PUT'])
 @product_routes.route('/<int:prod_id>/reviews/<int:review_id>', methods=['PUT'])
 @login_required
-def function(prod_id, review_id):
+def edit_product_review(prod_id, review_id):
     review = Review.query.get(review_id)
     if not review:
         return {'error': 'This review does not exist'}
