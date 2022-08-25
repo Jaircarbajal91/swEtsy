@@ -19,7 +19,7 @@ def all_products():
         for item in products:
             reviews = [r.to_dict() for r in item.reviews]
             stars = [int(r.stars) for r in item.reviews]
-            avg = statistics.mean(stars)
+            avg = statistics.mean(stars) if len(stars) else 0
             item = item.to_dict()
             item['reviews'] = reviews
             item['avgScore'] = round(float(avg),2)
