@@ -23,6 +23,8 @@ const SearchResult = ({searchWords, setSearchWords}) => {
     const [customPrice, setCustomPrice] = useState(false)
     const [showFilterModal, setShowFilterModal] = useState(false)
     const [order, setOrder] = useState(query.get('order'));
+    const [radioMin, setRadioMin] = useState(minPrice)
+    const [radioMax, setRadioMax] = useState(maxPrice)
     const sessionUser = useSelector(state => state.session.user);
     const searchProducts = useSelector(state => state.search.products);
 
@@ -57,7 +59,7 @@ const SearchResult = ({searchWords, setSearchWords}) => {
             }
         }
         let filterStringInClick = filterInClick.join("&")
-        console.log('filterStringInClick:', filterStringInClick)
+        // console.log('filterStringInClick:', filterStringInClick)
         dispatch(getSearchThunk(filterStringInClick))
     }, [dispatch, filterstring, query.get('keyword')])
 
@@ -115,6 +117,8 @@ const SearchResult = ({searchWords, setSearchWords}) => {
         // setKeyWord('')
         setMinPrice('')
         setMaxPrice('')
+        setRadioMax('')
+        setRadioMin('')
         setOwnerId('')
         setCustomPrice('')
         setShowFilterModal(false)
