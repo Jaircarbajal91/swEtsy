@@ -47,8 +47,11 @@ export default function CreateProductPage() {
     useEffect(() => {
         if (page === 3) {
             const newImageErrors = [];
-            if (!image.length) {
-                newImageErrors.push('Please enter an image URL');
+            const regex = /^http[^ \!@\$\^&\(\)\+\=]+(\.png|\.jpeg|\.gif|\.jpg)$/;
+
+            if (!image.match(regex)) {
+                newImageErrors.push('Please enter a valid image address')
+                newImageErrors.push('E.g. "https://example.com/image.jpg"')
             }
             setImageErrors(newImageErrors);
             if (!imageErrors.length) setIsDisabled(false);
