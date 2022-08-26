@@ -3,48 +3,159 @@ import { useDispatch, useSelector } from 'react-redux'
 import { NavLink, useHistory, useLocation } from 'react-router-dom'
 import { Modal } from '../../context/Modal';
 import { getSearchThunk } from "../../store/search";
+import Product from '../Products/Product';
 
 
-const SearchResult = () => {
+const SearchResult = ({searchWords, setSearchWords}) => {
     const { search } = useLocation()
     let query = new URLSearchParams(search)
     const dispatch = useDispatch();
     const history = useHistory();
-    const [keyword, setKeyWord] = useState(query.get('keyword'))
-    const [minPrice, setMinPrice] = useState(query.get('minPrice'))
-    const [maxPrice, setMaxPrice] = useState(query.get('maxPrice'))
-    const [ownerId, setOwnerId] = useState(query.get('ownerId'))
+    const sanitizedKey = query.get('keyword')?query.get('keyword').replaceAll(/[^A-Za-z0-9 +\-]/g, ''):''
+    const [keyword, setKeyWord] = useState(sanitizedKey || searchWords)
+    const [minPrice, setMinPrice] = useState(query.get('minPrice') || '')
+    const [maxPrice, setMaxPrice] = useState(query.get('maxPrice') || '')
+    const [ownerId, setOwnerId] = useState(query.get('ownerId') || '')
+    const [customPrice, setCustomPrice] = useState(false)
     const [showFilterModal, setShowFilterModal] = useState(false)
-    const [sortBy, setSortBy] = useState()
+    const [order, setOrder] = useState(query.get('order') || '');
+    const [radioMin, setRadioMin] = useState(minPrice)
+    const [radioMax, setRadioMax] = useState(maxPrice)
+    const [rangeArray, setRangeArray] = useState([minPrice, maxPrice])
     const sessionUser = useSelector(state => state.session.user);
-    const products = useSelector(state => state.session.products);
+    const searchProducts = useSelector(state => state.search.products);
+
+
+
+    useEffect(() => {
+        setKeyWord(searchWords)
+    },[searchWords])
 
     let filtered = []
-    const data = { keyword, minPrice, maxPrice, ownerId }
+    const data = { keyword, minPrice, maxPrice, ownerId, order }
+    console.log(data)
     for (let key in data) {
-        if (data[key] !== undefined) {
+        if (data[key]) {
             filtered.push(`${key}=${data[key]}`)
         }
     }
+
     let filterstring = filtered.join("&")
+    console.log('filterstring: ', filterstring)
+    console.log('search:', search)
+    console.log(('?'+filterstring) === search)
+
+    // console.log('it is -=-------', data)
+    // console.log('it is -=-------', filtered)
+    // console.log('it is -=-------', filterstring)
 
     useEffect(() => {
-        dispatch(getSearchThunk(filterstring))
-    }, [dispatch, filterstring])
+        let filterInClick = []
+        console.log(search)
+        let query = new URLSearchParams(search)
+        data.keyword = query.get('keyword')
+        for (let key in data) {
+            if (data[key]) {
+                filterInClick.push(`${key}=${data[key]}`)
+            }
+        }
+        let filterStringInClick = filterInClick.join("&")
+        // console.log('filterStringInClick:', filterStringInClick)
+        dispatch(getSearchThunk(filterStringInClick))
+        // history.push(`/search?${filterstring}`)
+    }, [dispatch, filterstring, query.get('keyword')])
 
-    const sortSelected = async e => {
+    const sortSelected = e => {
         e.preventDefault();
-        setSortBy(e.target.value);
+        setOrder(prev => {
+            if(e.target.value){
+                data.order = e.target.value === 'none'?undefined:e.target.value
+            }
+            let filterInSort = []
+            console.log('-'*30)
+            console.log(data)
+            for (let key in data) {
+                if (data[key]) {
+                    filterInSort.push(`${key}=${data[key]}`)
+                }
+            }
+            let filterStringWithOrder = filterInSort.join('&');
+            setShowFilterModal(false)
+            history.push(`/search?${filterStringWithOrder}`)
+            return e.target.value
+        });
     }
 
     const handleSearch = async e => {
         e.preventDefault();
-        dispatch(getSearchThunk(filterstring))
-            .then((res) => {
-                history.push(`/search?${filtered.join("&")}`)
-                // should we redirect??
-            })
+        setRangeArray(prev => {
+            let range = [];
+            let filterForApply = []
+            let priceFilter = [parseInt(radioMin), parseInt(radioMax)]
+            console.log(priceFilter)
+            if(priceFilter[1] || priceFilter[1]===0){
+                setMinPrice(Math.min(...priceFilter).toString())
+                setMaxPrice(Math.max(...priceFilter).toString())
+                range[0] = Math.min(...priceFilter).toString();
+                range[1] = Math.max(...priceFilter).toString();
+            }else{
+                setMinPrice(priceFilter[0].toString())
+                setMaxPrice('')
+                range[0] = (priceFilter[0].toString())
+                range[1] = '';
+            }
+            data.minPrice = range[0]
+            data.maxPrice = range[1]
+            for (let key in data) {
+                if (data[key]) {
+                    filterForApply.push(`${key}=${data[key]}`)
+                }
+            }
+            let filterStringForApply = filterForApply.join('&');
+            setShowFilterModal(false)
+            // setKeyWord('')
+            // setMinPrice('')
+            // setMaxPrice('')
+            // setOwnerId('')
+            // setCustomPrice('')
+            console.log('fsfa:', filterStringForApply)
+            filterstring = filterStringForApply
+            history.push(`/search?${filterStringForApply}`)
+            return range
+        })
+            // })
     }
+
+    const handleCancel = async e => {
+        e.preventDefault();
+        // setKeyWord('')
+        setMinPrice('')
+        setMaxPrice('')
+        setRadioMin('')
+        setRadioMax('')
+        setOwnerId('')
+        setCustomPrice('')
+        setShowFilterModal(false)
+        history.push(`/search?keyword=${keyword}`)
+    }
+
+    let range = { min1: '0', min2: '50', min3: '100' }
+
+    let productPage = (
+        <div className='search-container'>
+            {searchProducts && searchProducts.length ? (
+                <div className='products container search-products-container'>
+                    {searchProducts.map(product => (
+                        <Product key={product.id} product={product} />
+                    ))}
+                </div>
+            ):(
+                <div className='empty-search-container'>
+                    <h1>No Search Results!</h1>
+                </div>
+            )}
+        </div>
+    )
 
     return (
         <>
@@ -53,38 +164,40 @@ const SearchResult = () => {
                 <Modal onClose={() => setShowFilterModal(false)}>
                     <div>
                         <h1>Filters</h1>
-                        <fieldset> Keyword Search
+                        {/* <fieldset> Keyword Search
                             <br></br>
                             <input
                                 type='text'
                                 placeholder="search for anything"
                                 value={keyword}
-                                onChange={e => setKeyWord(e.target.valye)}
+                                onChange={e => setKeyWord(e.target.value)}
                             ></input>
                             <button onClick={e => setKeyWord('')}>clear</button>
-                        </fieldset>
+                        </fieldset> */}
                         <br></br>
                         <fieldset>Price
                             <div>
                                 <input
                                     type="radio"
                                     name='price'
-                                    value={{ 'minPrice': 0, 'maxPrice': 50 }}
                                     onClick={e => {
-                                        setMinPrice(e.target.value.minPrice)
-                                        setMaxPrice(e.target.value.minPrice)
+                                        setRadioMin(range.min1)
+                                        setRadioMax(range.min2)
+                                        setCustomPrice(true)
                                     }}
+                                    checked={radioMin===range.min1 && customPrice}
                                 />{`$0 to $50`} <br></br>
                             </div>
                             <div>
                                 <input
                                     type="radio"
                                     name='price'
-                                    value={{ 'minPrice': 50, 'maxPrice': 100 }}
                                     onClick={e => {
-                                        setMinPrice(e.target.value.minPrice)
-                                        setMaxPrice(e.target.value.minPrice)
+                                        setRadioMin(range.min2)
+                                        setRadioMax(range.min3)
+                                        setCustomPrice(true)
                                     }}
+                                    checked={radioMin===range.min2 && customPrice}
                                 />{`$50 to $100`} <br></br>
                             </div>
                             <div>
@@ -93,14 +206,23 @@ const SearchResult = () => {
                                     name='price'
                                     value={{ 'minPrice': 100 }}
                                     onClick={e => {
-                                        setMinPrice(e.target.value.minPrice)
+                                        setRadioMin(range.min3)
+                                        setRadioMax('')
+                                        setCustomPrice(true)
                                     }}
+                                    checked={radioMin===range.min3 && customPrice}
                                 />{`over $100`} <br></br>
                             </div>
                             <div>
                                 <input
                                     type="radio"
                                     name='price'
+                                    onClick={() => {
+                                        setCustomPrice(false)
+                                        // setMinPrice(0)
+                                        // setMaxPrice(0)
+                                    }}
+                                    checked={!customPrice}
                                 />{`Custom Price Range`}<br></br>
                             </div>
                             <div>
@@ -110,8 +232,9 @@ const SearchResult = () => {
                                     placeholder='Low'
                                     step={1}
                                     min={0}
-                                    value={minPrice}
-                                    onChange={e => setMinPrice(e.target.value)}
+                                    value={radioMin}
+                                    onChange={e => setRadioMin(e.target.value)}
+                                    disabled={customPrice}
                                 />
                                 to
                                 <input
@@ -120,23 +243,25 @@ const SearchResult = () => {
                                     placeholder='High'
                                     step={1}
                                     min={0}
-                                    value={maxPrice}
-                                    onChange={e => setMaxPrice(e.target.value)}
+                                    value={radioMax}
+                                    onChange={e => setRadioMax(e.target.value)}
+                                    disabled={customPrice}
                                 /><br></br>
                             </div>
                         </fieldset>
                         <br></br>
-                        <button onClick={() => setShowFilterModal(false)}>Cancel</button>
+                        <button onClick={handleCancel}>Clear</button>
                         <button onClick={handleSearch}>Apply</button>
                     </div>
                 </Modal>}
-            <select className='search sort' onChange={sortSelected} value={sortBy}>
-                <option value='' selected disabled> Sort by</option>
-                <option value='lowest'>Lowest Price</option>
-                <option value='highest'>Highest Price</option>
-                <option value='topreview'>Top Customer Reviews</option>
-                <option value='mostrecent'>Most Recent</option>
+            <select className='search sort' onChange={sortSelected} value={order}>
+                <option value='none' selected>Default</option>
+                <option value='ascPrice' >Lowest Price</option>
+                <option value='descPrice' >Highest Price</option>
+                {/* <option value='descReview'>Top Customer Reviews</option> */}
+                <option value='descCreate' >Most Recent</option>
             </select>
+            {productPage}
         </>
     )
 }
