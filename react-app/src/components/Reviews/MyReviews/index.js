@@ -12,7 +12,7 @@ const MyReviews = () => {
     const [reviewLoaded, setReviewLoaded] = useState(false)
     const [showStore, setShowStore] = useState('none')
     const [errors, setErrors] = useState([])
-    const [fold, setFold] = useState(false)
+    const [fold, setFold] = useState('none')
     const myReviews = useSelector(state => state.reviews.reviewsList)
     // const myReviews = useSelector(state => state.reviews)
     const sessionUser = useSelector(state => state.session.user);
@@ -29,14 +29,14 @@ const MyReviews = () => {
         // console.log('what is x ???', e.currentTarget.value)
         x.style.display == "none" ? x.style.display = "block" : x.style.display = "none"
         disableButton = true
-        setFold(true)
+        setFold(e.target.value)
     }
     const handleCancel = async (e) => {
         e.preventDefault();
         let x = document.getElementById(`${e.currentTarget.value}`)
         // console.log('what is x ???', e.currentTarget.value)
         x.style.display == "none" ? x.style.display = "block" : x.style.display = "none"
-        setFold(false)
+        setFold('none')
         disableButton = true
     }
 
@@ -59,8 +59,8 @@ const MyReviews = () => {
                     <div id={review.id} value={review.id} style={{ display: showStore }}>
                         <EditMyReview review={review} showStore={showStore} setShowStore={setShowStore} />
                     </div>
-                    {!fold && <button id={review.id} onClick={handleEdit} value={review.id} disabled={disableButton}>Edit Your Review</button>}
-                    {fold && (<button id={review.id} onClick={handleCancel} value={review.id} disabled={disableButton}>Cancel Edit</button>)}
+                    {fold!==review.id.toString() && <button id={review.id} onClick={handleEdit} value={review.id} disabled={disableButton}>Edit Your Review</button>}
+                    {fold===review.id.toString() && (<button id={review.id} onClick={handleCancel} value={review.id} disabled={disableButton}>Cancel Edit</button>)}
                     {/* <button id={review.id} onClick={handleEdit} value={review.id} disabled={disableButton}>Edit Your Review</button>
                     <button id={review.id} onClick={handleCancel} value={review.id} display={showStore} disabled={disableButton}>Cancel Edit</button> */}
                 </div>

@@ -14,7 +14,7 @@ search_routes = Blueprint('search', __name__)
 
 def get_filter(key, value):
     if key == 'keyword':
-        value = re.sub(r'[^A-Za-z0-9 ]+', '',value)
+        value = re.sub(r'[^A-Za-z0-9\- ]+', '',value)
         li = value.split(' ')
         keys = [ [Product.name.like(f'%{e}%'), Product.description.like(f'%{e}%')] for e in li if e != '' ]
         flatten = [e for l in keys for e in l]
