@@ -10,9 +10,9 @@ const MyReviews = () => {
     const dispatch = useDispatch();
     const history = useHistory();
     const [reviewLoaded, setReviewLoaded] = useState(false)
-    const [showModal, setShowModal] = useState(false)
+    const [showStore, setShowStore] = useState('none')
     const [errors, setErrors] = useState([])
-    const [review, setReview] = useState()
+    const [fold, setFold] = useState(false)
     const myReviews = useSelector(state => state.reviews.reviewsList)
     // const myReviews = useSelector(state => state.reviews)
     const sessionUser = useSelector(state => state.session.user);
@@ -20,14 +20,21 @@ const MyReviews = () => {
 
     useEffect(() => {
         dispatch(getMyReviewThunk()).then(() => setReviewLoaded(true))
-    }, [dispatch, showModal])
+    }, [dispatch, showStore])
 
     const handleEdit = async (e) => {
         e.preventDefault();
-        setReview(e.currentTarget.value)
-        // console.log('---', e.currentTarget.value)
-        setShowModal(true)
-        console.log(showModal)
+        let x = document.getElementById(`${e.currentTarget.value}`)
+        // console.log('what is x ???', e.currentTarget.value)
+        x.style.display == "none" ? x.style.display = "block" : x.style.display = "none"
+        setFold(true)
+    }
+    const handleCancel = async (e) => {
+        e.preventDefault();
+        let x = document.getElementById(`${e.currentTarget.value}`)
+        // console.log('what is x ???', e.currentTarget.value)
+        x.style.display == "none" ? x.style.display = "block" : x.style.display = "none"
+        setFold(false)
     }
 
     const handleDelete = async e => {
@@ -44,7 +51,7 @@ const MyReviews = () => {
                 return <div className='product review' key={review.id}>
 
                     <div>
-                        <div className='review product'>Review on  
+                        <div className='review product'>Review on
                             <div className='review product'>
                                 <NavLink to={`/products/${review.id}`}>{review.product.name}</NavLink>
                             </div>
@@ -54,12 +61,14 @@ const MyReviews = () => {
                         </div>
                         <div className='review reviewbody'>{review.review_body}</div>
                     </div>
-                    <button onClick={handleEdit} value={[review.id, review.product.id]}>Edit Your Review</button>
-                    <button onClick={handleDelete} value={review.id}>Delete</button>
+                    <div id={review.id} value={review.id} style={{ display: showStore }}>
+                        <EditMyReview review={review} showStore={showStore} setShowStore={setShowStore} />
+                    </div>
+                    {!fold && <button onClick={handleEdit} value={review.id}>Edit Your Review</button>}
+                    {fold && (<button onClick={handleCancel} value={review.id}>Cancel Edit</button>)}
                 </div>
             })
             }
-            <EditMyReview review={review} showModalprop={showModal} />
         </div >
 
     )
