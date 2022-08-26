@@ -11,7 +11,6 @@ const MyReviews = () => {
     const history = useHistory();
     const [reviewLoaded, setReviewLoaded] = useState(false)
     const [showModal, setShowModal] = useState(false)
-    const [editClick, setEditClick] = useState(false)
     const [errors, setErrors] = useState([])
     const [review, setReview] = useState()
     const myReviews = useSelector(state => state.reviews.reviewsList)
@@ -25,22 +24,15 @@ const MyReviews = () => {
     const handleEdit = async (e) => {
         e.preventDefault();
         setReview(e.currentTarget.value)
-        console.log('0000000---', e.currentTarget.value)
-        // setShowModal(true)
-        setEditClick(true)
+        // console.log('---', e.currentTarget.value)
+        setShowModal(true)
+        console.log(showModal)
     }
-    console.log('what to pass in -->>>>>', { review })
 
     const handleDelete = async e => {
         e.preventDefault()
         let id = Number(e.currentTarget.value)
-        console.log('delete---', id)
-        const payload = {
-            id
-        }
-        await dispatch(deleteReviewThunk(payload))
-        // history.push('/myreviews')
-        // setShowModal(false)
+        await dispatch(deleteReviewThunk(id))
     }
 
     return reviewLoaded && (
@@ -68,5 +60,4 @@ const MyReviews = () => {
 
     )
 }
-
 export default MyReviews

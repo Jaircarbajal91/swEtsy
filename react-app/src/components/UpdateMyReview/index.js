@@ -14,29 +14,26 @@ export default function EditMyReview(review, showModalprop) {
     const sessionUser = useSelector(state => state.session.user);
     let reviewId = review?.review?.split(",")[0]
     let productId = review?.review?.split(",")[1]
-    // console.log("in modal -- review id", reviewId)
-    // console.log("in modal -- product id", productId)
-    // console.log("in modal --  session user id", sessionUser.id)
 
     useEffect(() => {
         dispatch(getMyReviewThunk()).then(() => setReviewLoaded(true))
-    }, [])
+        console.log('in handle - previewId', reviewId)
+        console.log('in handle - productId', productId)
+    }, [dispatch])
 
     const myReviews = useSelector(state => state.reviews.reviewsList)
     let theReview = myReviews.filter(each => each.id.id)
-
 
     const handleSubmit = async e => {
         e.preventDefault();
         setErrors([]);
         const payload = {
-            id: reviewId,
             stars: reviewStars,
             review_body: reviewBody,
-            product_id: productId,
-            user_id: sessionUser.id
         }
-        dispatch(editReviewThunk(payload.product_id, payload)).then((res) => {
+        console.log('in handle - previewId', reviewId)
+        console.log('in handle - productId', productId)
+        dispatch(editReviewThunk(productId, reviewId, payload)).then((res) => {
             setReviewStars()
             setReviewBody('')
         })
@@ -62,17 +59,13 @@ export default function EditMyReview(review, showModalprop) {
     return showModal && (
         <Modal onClose={() => setShowModal(false)}>
             <form>My Review
-                {/* <div>{review.product.name}1111</div>
-            <div>{review.product.description}</div>
-            <div><img src={review.product.image} alt={'product image'}></img></div>
-             */}
-                <section class="star rrating-container">
+                < section class="star rrating-container" >
                     <input type="radio" name="ratingStar" class="rating" value="1" onClick={e => setReviewStars(e.target.value)} />
                     <input type="radio" name="ratingStar" class="rating" value="2" onClick={e => setReviewStars(e.target.value)} />
                     <input type="radio" name="ratingStar" class="rating" value="3" onClick={e => setReviewStars(e.target.value)} />
                     <input type="radio" name="ratingStar" class="rating" value="4" onClick={e => setReviewStars(e.target.value)} />
                     <input type="radio" name="ratingStar" class="rating" value="5" onClick={e => setReviewStars(e.target.value)} />
-                </section>
+                </section >
                 <input
                     type='text'
                     placeholder='write a review for this item'

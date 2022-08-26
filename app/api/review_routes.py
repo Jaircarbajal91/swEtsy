@@ -4,4 +4,3 @@ from app.models import db, Product, User, Cart, Review
 from app.forms import ReviewForm
 
 review_routes = Blueprint('reviews', __name__)
-

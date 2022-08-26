@@ -76,17 +76,19 @@ export const createReviewThunk = (id, review) => async dispatch => {
     };
 };
 
-export const editReviewThunk = (productId, review) => async dispatch => {
-    const response = await fetch(`/api/products/${productId}/reviews/${review.id}`, {
+export const editReviewThunk = (productId, reviewId, review) => async dispatch => {
+    const response = await fetch(`/api/products/${productId}/reviews/${reviewId}`, {
         method: 'PUT',
         body: JSON.stringify(review),
         headers: { 'Content-Type': 'application/json' },
     });
     if (response.ok) {
+        console.log("in thunk good--> ", reviewId)
         const review = await response.json();
         dispatch(editReviewAction(review));
         return review;
     } else {
+        console.log("in thunk bad--> ", reviewId)
         const data = await response.json();
         return data.errors;
     }
@@ -94,7 +96,7 @@ export const editReviewThunk = (productId, review) => async dispatch => {
 
 
 export const deleteReviewThunk = id => async dispatch => {
-    const response = await fetch(`/api/reviews/${id.id}`, {
+    const response = await fetch(`/api/reviews/${id}/`, {
         method: 'DELETE'
     });
 
