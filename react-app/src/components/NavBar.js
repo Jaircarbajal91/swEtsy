@@ -29,22 +29,12 @@ const NavBar = ({ setShowLogin, setShowSignup, sessionUser, searchWords, setSear
   }, [showDropDown]);
 
   return (
-<<<<<<< HEAD
     <nav className='nav-container'>
       <NavLink to='/' className='navlink logo' exact={true} activeClassName='active'>
         <img src={logo} alt='logo' />
       </NavLink>
       <SearchBar searchWords={searchWords} setSearchWords={setSearchWords} />
       {/* <NavLink to='/sign-up' onClick={() => setShowSignup(true)} exact={true} activeClassName='active'>
-=======
-    <div className='nav-wrapper'>
-      <nav className='nav-container'>
-        <NavLink to='/' className='navlink logo' exact={true} activeClassName='active'>
-          <img src={logo} alt='logo' />
-        </NavLink>
-        <SearchBar />
-        {/* <NavLink to='/sign-up' onClick={() => setShowSignup(true)} exact={true} activeClassName='active'>
->>>>>>> main
         Sign Up
       </NavLink> */}
         <div className='right-nav-container'>

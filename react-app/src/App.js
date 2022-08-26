@@ -50,7 +50,7 @@ function App() {
   return (
     <BrowserRouter>
       <div className='content container'>
-      <NavBar setShowLogin={setShowLogin} setShowSignup={setShowSignup} sessionUser={sessionUser}
+        <NavBar setShowLogin={setShowLogin} setShowSignup={setShowSignup} sessionUser={sessionUser}
                 searchWords={searchWords} setSearchWords={setSearchWords}/>
         <div className='main-header'>
           <Header sessionUser={sessionUser} />
