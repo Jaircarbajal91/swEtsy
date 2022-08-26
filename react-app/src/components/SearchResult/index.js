@@ -35,7 +35,7 @@ const SearchResult = ({ searchWords, setSearchWords }) => {
 
     let filtered = []
     const data = { keyword, minPrice, maxPrice, ownerId, order }
-    console.log(data)
+    // console.log(data)
     for (let key in data) {
         if (data[key]) {
             filtered.push(`${key}=${data[key]}`)
@@ -43,9 +43,9 @@ const SearchResult = ({ searchWords, setSearchWords }) => {
     }
 
     let filterstring = filtered.join("&")
-    console.log('filterstring: ', filterstring)
-    console.log('search:', search)
-    console.log(('?'+filterstring) === search)
+    // console.log('filterstring: ', filterstring)
+    // console.log('search:', search)
+    // console.log(('?'+filterstring) === search)
 
     // console.log('it is -=-------', data)
     // console.log('it is -=-------', filtered)
@@ -54,7 +54,7 @@ const SearchResult = ({ searchWords, setSearchWords }) => {
 
     useEffect(() => {
         let filterInClick = []
-        console.log(search)
+        // console.log(search)
         let query = new URLSearchParams(search)
         data.keyword = query.get('keyword')
         for (let key in data) {
@@ -72,12 +72,12 @@ const SearchResult = ({ searchWords, setSearchWords }) => {
         e.preventDefault();
         setOrder(prev => {
 
-            if(e.target.value){
-                data.order = e.target.value === 'none'?undefined:e.target.value
+            if (e.target.value) {
+                data.order = e.target.value === 'none' ? undefined : e.target.value
             }
             let filterInSort = []
-            console.log('-' * 30)
-            console.log(data)
+            // console.log('-' * 30)
+            // console.log(data)
             for (let key in data) {
                 if (data[key]) {
                     filterInSort.push(`${key}=${data[key]}`)
@@ -97,13 +97,13 @@ const SearchResult = ({ searchWords, setSearchWords }) => {
             let range = [];
             let filterForApply = []
             let priceFilter = [parseInt(radioMin), parseInt(radioMax)]
-            console.log(priceFilter)
-            if(priceFilter[1] || priceFilter[1]===0){
+            // console.log(priceFilter)
+            if (priceFilter[1] || priceFilter[1] === 0) {
                 setMinPrice(Math.min(...priceFilter).toString())
                 setMaxPrice(Math.max(...priceFilter).toString())
                 range[0] = Math.min(...priceFilter).toString();
                 range[1] = Math.max(...priceFilter).toString();
-            }else{
+            } else {
                 setMinPrice(priceFilter[0].toString())
                 setMaxPrice('')
                 range[0] = (priceFilter[0].toString())
@@ -123,12 +123,12 @@ const SearchResult = ({ searchWords, setSearchWords }) => {
             // setMaxPrice('')
             // setOwnerId('')
             // setCustomPrice('')
-            console.log('fsfa:', filterStringForApply)
+            // console.log('fsfa:', filterStringForApply)
             filterstring = filterStringForApply
             history.push(`/search?${filterStringForApply}`)
             return range
         })
-            // })
+        // })
     }
 
     const handleCancel = async e => {
@@ -159,7 +159,7 @@ const SearchResult = ({ searchWords, setSearchWords }) => {
                     <h1>No Search Results!</h1>
                 </div>
             )}
-            <p className='search-products-count'>Showing {searchResultCount?searchResultCount:0} results</p>
+            <p className='search-products-count'>Showing {searchResultCount ? searchResultCount : 0} results</p>
         </div>
     )
 
@@ -192,7 +192,7 @@ const SearchResult = ({ searchWords, setSearchWords }) => {
                                         setCustomPrice(true)
                                     }}
 
-                                    checked={radioMin===range.min1 && customPrice}
+                                    checked={radioMin === range.min1 && customPrice}
                                 />{`$0 to $50`} <br></br>
                             </div>
                             <div>
