@@ -23,7 +23,6 @@ def get_cart():
             item = item.to_dict()
             item['product_detail'] = prod
             cart_details.append(item)
-        # print(cart_details)
         return {'cart_details':cart_details, 'message':'Cart detail read done!'}
     else:
         return {'message':'Cart is Empty!', 'cart_details':[]}

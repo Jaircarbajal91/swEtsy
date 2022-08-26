@@ -14,6 +14,7 @@ class Review(db.Model, UserMixin):
     user = db.relationship('User', back_populates='user_reviews', foreign_keys=[user_id])
     product = db.relationship('Product', back_populates='reviews', foreign_keys=[product_id])
 
+    
     @property
     def review_details(self):
         return self.to_dict()
