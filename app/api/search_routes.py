@@ -50,7 +50,7 @@ def search():
     except ValueError:
         isize = 0
         ipage = 0
-    size = isize if isize and isize > 0 and isize <= 20 else 20
+    size = isize if isize and isize > 0 and isize <= 60 else 60
     page = ipage if ipage and ipage > 0 and ipage < 100000000 else 1
     for k,v in args_dict.items():
         f = get_filter(k,v[-1]) # Using the last filter if duplicated
