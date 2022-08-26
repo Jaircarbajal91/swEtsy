@@ -72,6 +72,8 @@ const SearchBar = ({searchWords, setSearchWords}) => {
               type="text"
               placeholder='Search for anything'
               value={searchWords}
+              pattern="[^A-Za-z0-9 ]"
+              title="Only numbers, alphabates and spaces are permitted!"
               onChange={e => setSearchWords(e.target.value)}
               onKeyDown={handleSearchPress}
               />
