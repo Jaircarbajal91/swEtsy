@@ -4,6 +4,7 @@ import { NavLink, useHistory, useLocation } from 'react-router-dom'
 import { Modal } from '../../../context/Modal';
 import { getMyReviewThunk, createReviewThunk, editReviewThunk, deleteReviewThunk } from "../../../store/review";
 import Stars from '../../Reviews/Stars'
+import EditMyReview from '../../UpdateMyReview'
 
 const MyReviews = () => {
     const dispatch = useDispatch();
@@ -51,10 +52,10 @@ const MyReviews = () => {
                         </div>
                         <div className='review reviewbody'>{review.review_body}</div>
                     </div>
-                    <button value={review.id} onClick={() => setShowModal(true)}>Edit Your Review</button>
+                    <button onClick={() => setShowModal(true)}>Edit Your Review</button>
                     <button>Delete</button>
                     {showModal && (
-                        <EditMyReview />
+                        <EditMyReview review={review} />
                     )}
                     <br></br>
                 </div>
