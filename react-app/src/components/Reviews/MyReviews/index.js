@@ -8,7 +8,7 @@ import EditMyReview from '../../UpdateMyReview'
 
 const MyReviews = () => {
     const dispatch = useDispatch();
-    // const id = product.id;
+    const history = useHistory();
     const [reviewLoaded, setReviewLoaded] = useState(false)
     const [showModal, setShowModal] = useState(false)
     const [errors, setErrors] = useState([])
@@ -16,51 +16,53 @@ const MyReviews = () => {
     const myReviews = useSelector(state => state.reviews.reviewsList)
     const sessionUser = useSelector(state => state.session.user);
 
-    console.log('-->>>>>', myReviews)
-    // console.log('-->>>>>', myReviews[0].review_body)
+    console.log('-->>>>>', showModal)
 
     useEffect(() => {
         dispatch(getMyReviewThunk()).then(() => setReviewLoaded(true))
     }, [])
 
-    const handleEdit = async e => {
+    const handleEdit = async (e) => {
         e.preventDefault();
-        setReviewId(e.target.value)
+        setReviewId(e.currentTarget.value)
+        console.log('0000000---', e.currentTarget.value)
+        setShowModal(true)
     }
 
-    // const handleCancel = async e => {
-    //     e.preventDefault()
-    //     setReviewStars()
-    //     setReviewBody('')
-    //     setShowModal(false)
-    // }
+    const handleDelete = async e => {
+        e.preventDefault()
+        let id = Number(e.currentTarget.value)
+        console.log('delete---', id)
+        const payload = {
+            id
+        }
+        await dispatch(deleteReviewThunk(payload))
+        // history.push('/myreviews')
+        // setShowModal(false)
+    }
 
     return reviewLoaded && (
         <div className='review-container'>
-            <p className='myreview title'> Posted Reviews</p>
+            <p className='myreview title'> Your Reviews</p>
             {myReviews?.length && myReviews.map(review => {
                 return <div className='product review' key={review.id}>
                     <div className='review product'>
                         <NavLink to={`/products/${review.id}`}>{review.name}</NavLink>
                     </div>
-                    <div>Your Review
-                        <div className='review image'>
-                            <img src={review.product.image} />
-                        </div>
+                    <div>
+                        <div className='review product'>Review on {review.product.name}</div>
                         <div className='review star'>
                             <Stars rating={review.stars} />
                         </div>
                         <div className='review reviewbody'>{review.review_body}</div>
                     </div>
-                    <button onClick={() => setShowModal(true)}>Edit Your Review</button>
-                    <button>Delete</button>
-                    {showModal && (
-                        <EditMyReview review={review} />
-                    )}
-                    <br></br>
+                    <button onClick={handleEdit} value={review}>Edit Your Review</button>
+                    <button onClick={handleDelete} value={review.id}>Delete</button>
                 </div>
             })
             }
+            <EditMyReview reviewId={reviewId} showModalprop={showModal} />
+            {/* {showModal && (<EditMyReview reviewId={reviewId} />)} */}
         </div >
 
     )

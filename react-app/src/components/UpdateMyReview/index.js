@@ -4,9 +4,9 @@ import { useHistory } from 'react-router-dom';
 import { Modal } from '../../context/Modal';
 import { getReviewsThunk, editReviewThunk, deleteReviewThunk } from "../../store/review";
 
-export default function EditMyReview(review) {
+export default function EditMyReview(reviewId, showModalprop) {
     const dispatch = useDispatch();
-    const [showModal, setShowModal] = useState(false)
+    const [showModal, setShowModal] = useState(showModalprop)
     const [reviewStars, setReviewStars] = useState()
     const [reviewBody, setReviewBody] = useState('')
     const [errors, setErrors] = useState([])
@@ -23,8 +23,8 @@ export default function EditMyReview(review) {
         dispatch(editReviewThunk(reviewBody, payload)).then((res) => {
             setReviewStars()
             setReviewBody('')
-            setShowModal(false)
         })
+        setShowModal(false)
         // .catch(
         //     async (res) => {
         //         const data = await res.json();
@@ -35,6 +35,7 @@ export default function EditMyReview(review) {
         // )
     }
 
+    console.log('what is modal', showModal)
     const handleCancel = async e => {
         e.preventDefault()
         setReviewStars()
@@ -42,13 +43,13 @@ export default function EditMyReview(review) {
         setShowModal(false)
     }
 
-    return showModal &&
-        (<Modal onClose={() => setShowModal(false)} review={review} >
-            <form>
-                My Review
-                <div>{review.product.name}</div>
-                <div>{review.product.description}</div>
-                <div><img src={review.product.image} alt={'product image'}></img></div>
+    return showModal && (
+        <Modal reviewId={reviewId} onClose={() => setShowModal(false)}>
+            <form>My Review
+                {/* <div>{review.product.name}1111</div>
+            <div>{review.product.description}</div>
+            <div><img src={review.product.image} alt={'product image'}></img></div>
+             */}
                 <section class="star rrating-container">
                     <input type="radio" name="ratingStar" class="rating" value="1" onClick={e => setReviewStars(e.target.value)} />
                     <input type="radio" name="ratingStar" class="rating" value="2" onClick={e => setReviewStars(e.target.value)} />
@@ -63,8 +64,9 @@ export default function EditMyReview(review) {
                     value={reviewBody}
                 ></input>
                 <br></br>
-                <button onClick={handleCancel} value={review.product.id}>Cancel</button>
+                <button onClick={handleCancel}>Cancel</button>
                 <button onClick={handleSubmit}>Edit Review</button>
             </form>
-        </Modal>)
+        </Modal >
+    )
 }
