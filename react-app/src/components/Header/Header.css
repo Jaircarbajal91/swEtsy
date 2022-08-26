@@ -2,6 +2,8 @@ h1.header.text {
   text-align: center;
   font-weight: 100;
   font-family: Georgia,serif;
+  letter-spacing: 0.5px;
+  line-height: 28px;
 }
 
 span.name.header {

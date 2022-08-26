@@ -8,12 +8,8 @@ import Product from '../Products/Product';
 
 const SearchResult = () => {
     const { search } = useLocation()
-    // useMemo(() => {
     let query = new URLSearchParams(search)
-    // }, [search])
-    // console.log('what would it be??', query)
-    // console.log('what would keyword be??', query.get('keyword'))
-    // console.log('what would minPrice be??', query.get('minPrice'))
+
     const dispatch = useDispatch();
     const history = useHistory();
     const [keyword, setKeyWord] = useState(query.get('keyword'))
@@ -37,11 +33,6 @@ const SearchResult = () => {
 
     let filterstring = filtered.join("&")
 
-
-    // console.log('it is -=-------', data)
-    // console.log('it is -=-------', filtered)
-    // console.log('it is -=-------', filterstring)
-
     useEffect(() => {
         dispatch(getSearchThunk(filterstring))
     }, [dispatch, filterstring])
@@ -51,11 +42,11 @@ const SearchResult = () => {
         setOrder(prev => {
             // console.log(prev);
             // console.log(e.target.value)
-            if(e.target.value){
-                data.order = e.target.value === 'none'?undefined:e.target.value
+            if (e.target.value) {
+                data.order = e.target.value === 'none' ? undefined : e.target.value
             }
             let filterInSort = []
-            console.log('-'*30)
+            console.log('-' * 30)
             console.log(data)
             for (let key in data) {
                 if (data[key]) {
@@ -77,7 +68,7 @@ const SearchResult = () => {
     const handleSearch = async e => {
         e.preventDefault();
         // dispatch(getSearchThunk(filterstring))
-            // .then((res) => {
+        // .then((res) => {
         let filterForApply = []
         for (let key in data) {
             if (data[key]) {
@@ -92,7 +83,7 @@ const SearchResult = () => {
         // setOwnerId('')
         // setCustomPrice('')
         history.push(`/search?${filterStringForApply}`)
-            // })
+        // })
     }
 
     const handleCancel = async e => {
@@ -115,7 +106,7 @@ const SearchResult = () => {
                         <Product key={product.id} product={product} />
                     ))}
                 </div>
-            ):(
+            ) : (
                 <div className='empty-search-container'>
                     <h1>No Search Results!</h1>
                 </div>
@@ -151,7 +142,7 @@ const SearchResult = () => {
                                         setMaxPrice(range.min2)
                                         setCustomPrice(true)
                                     }}
-                                    checked={minPrice===range.min1 && customPrice}
+                                    checked={minPrice === range.min1 && customPrice}
                                 />{`$0 to $50`} <br></br>
                             </div>
                             <div>
@@ -163,7 +154,7 @@ const SearchResult = () => {
                                         setMaxPrice(range.min3)
                                         setCustomPrice(true)
                                     }}
-                                    checked={minPrice===range.min2 && customPrice}
+                                    checked={minPrice === range.min2 && customPrice}
                                 />{`$50 to $100`} <br></br>
                             </div>
                             <div>
@@ -176,7 +167,7 @@ const SearchResult = () => {
                                         setMaxPrice('')
                                         setCustomPrice(true)
                                     }}
-                                    checked={minPrice===range.min3 && customPrice}
+                                    checked={minPrice === range.min3 && customPrice}
                                 />{`over $100`} <br></br>
                             </div>
                             <div>

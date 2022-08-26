@@ -33,23 +33,23 @@ export default function CartItem({ item }) {
     }
 
     return (
-        <div>
-            <div>
+        <div className="outmost-div">
+            <div className="image-container">
                 <img src={product.image} alt='product' />
             </div>
-            <div>
+            <div className="product-name-remove">
                 <h4>{product.name}</h4>
                 <button onClick={() => deleteCartItem()}>Remove</button>
             </div>
-            <div>
-                <div>
+            <div className="quantity-price-box">
+                <div className="quantity-select-container">
                     <select value={quantity} onChange={e => setQuantity(e.target.value)}>
                         {options.map(option => (
                             <option key={option} value={option}>{option}</option>
                         ))}
                     </select>
                 </div>
-                <div>
+                <div className="item-total-container">
                     <p>{revenue}</p>
                     x{quantity}
                     <p>({formatter.format(product.price)} each)</p>
