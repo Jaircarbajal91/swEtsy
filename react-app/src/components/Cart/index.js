@@ -21,13 +21,15 @@ const Cart = ({ cartItems, sessionUser, setShowLogin, cartLoaded, setCartLoaded 
   const [total, setTotal] = useState(initialSubtotal - discount);
 
   useEffect(() => {
-    dispatch(getCartItemsThunk()).then(() => setCartLoaded(true))
+    if (sessionUser) {
+      dispatch(getCartItemsThunk()).then(() => setCartLoaded(true))
+    }
   }, [cartItems?.length])
 
-  if (!sessionUser) {
-    setShowLogin(true);
-    history.push('/login')
-  };
+  // if (!sessionUser) {
+  //   history.push('/')
+  //   setShowLogin(true);
+  // };
 
   return cartLoaded && (
     <div>
