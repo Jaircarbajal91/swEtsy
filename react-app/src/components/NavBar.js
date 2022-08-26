@@ -29,6 +29,7 @@ const NavBar = ({ setShowLogin, setShowSignup, sessionUser, searchWords, setSear
   }, [showDropDown]);
 
   return (
+  <div className='nav-wrapper'>
     <nav className='nav-container'>
       <NavLink to='/' className='navlink logo' exact={true} activeClassName='active'>
         <img src={logo} alt='logo' />
