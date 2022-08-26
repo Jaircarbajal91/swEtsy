@@ -15,10 +15,14 @@ export default function AddAReviewModal(product) {
     const sessionUser = useSelector(state => state.session.user);
 
     const id = product.product.id
-
+    console.log('owner is ', product.product.owner_id)
     useEffect(() => {
         dispatch(getReviewsThunk(id))
     }, [id, showModal])
+
+    // useEffect(() => {
+    //     if ()
+    // }, [id, showModal])
 
     const handleSubmit = async e => {
         e.preventDefault();
@@ -32,16 +36,11 @@ export default function AddAReviewModal(product) {
         dispatch(createReviewThunk(id, payload)).then((res) => {
             setReviewStars()
             setReviewBody('')
-            setShowModal(false)
+            // setShowModal(false)
+            if (res.review.error) {
+                setErrors(res.review.error)
+            }
         })
-        // .catch(
-        //     async (res) => {
-        //         const data = await res.json();
-        //         if (data && data.errors) {
-        //             setErrors(data.errors)
-        //         }
-        //     }
-        // )
     }
 
     const handleCancel = async e => {
@@ -62,7 +61,12 @@ export default function AddAReviewModal(product) {
                         My Review
                         <div>{product.product.name}</div>
                         <div>{product.product.description}</div>
-                        <div><img src={product.product.image} alt={'product image'}></img></div>
+                        <div><img src={product.product.image} alt={'product image'} maxheight={'300px'}></img></div>
+                        <div>
+                            {errors.map((error, ind) => (
+                                <div key={ind}>{error}</div>
+                            ))}
+                        </div>
                         <section class="star rrating-container">
                             <input type="radio" name="ratingStar" class="rating" value="1" onClick={e => setReviewStars(e.target.value)} />
                             <input type="radio" name="ratingStar" class="rating" value="2" onClick={e => setReviewStars(e.target.value)} />

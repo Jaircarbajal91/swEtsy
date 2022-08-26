@@ -42,6 +42,8 @@ export default function EditMyReview(review, showStore, setShowStore) {
         //         }
         //     }
         // )
+        let x = document.getElementById(`${e.target.value}`)
+        x.style.display == "none" ? x.style.display = "block" : x.style.display = "none"
     }
     const handleDelete = async e => {
         e.preventDefault()
@@ -51,7 +53,7 @@ export default function EditMyReview(review, showStore, setShowStore) {
     }
 
     return (
-        <div value={review.review.id} style={{ display: showStore }}>
+        <div id={reviewId} style={{ display: showStore }}>
             <form>My Review
                 < section class="star rrating-container" >
                     <input type="radio" name="ratingStar" class="rating" value="1" onClick={e => setReviewStars(e.target.value)} />
@@ -68,8 +70,8 @@ export default function EditMyReview(review, showStore, setShowStore) {
                     value={reviewBody}
                 ></input>
                 <br></br>
-                <button value={review.review.id} onClick={handleSubmit}>Edit Review</button>
-                <button value={review.review.id} onClick={handleDelete}>Delete</button>
+                <button value={reviewId} onClick={handleSubmit}>Update My Review</button>
+                <button value={reviewId} onClick={handleDelete}>Delete</button>
             </form>
         </div >
     )

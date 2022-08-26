@@ -17,6 +17,7 @@ const MyReviews = () => {
     // const myReviews = useSelector(state => state.reviews)
     const sessionUser = useSelector(state => state.session.user);
 
+    let disableButton
 
     useEffect(() => {
         dispatch(getMyReviewThunk()).then(() => setReviewLoaded(true))
@@ -27,6 +28,7 @@ const MyReviews = () => {
         let x = document.getElementById(`${e.currentTarget.value}`)
         // console.log('what is x ???', e.currentTarget.value)
         x.style.display == "none" ? x.style.display = "block" : x.style.display = "none"
+        disableButton = true
         setFold(true)
     }
     const handleCancel = async (e) => {
@@ -35,6 +37,7 @@ const MyReviews = () => {
         // console.log('what is x ???', e.currentTarget.value)
         x.style.display == "none" ? x.style.display = "block" : x.style.display = "none"
         setFold(false)
+        disableButton = true
     }
 
     return reviewLoaded && (
@@ -42,7 +45,6 @@ const MyReviews = () => {
             <p className='myreview title'> Your Reviews</p>
             {myReviews?.length && myReviews.map(review => {
                 return <div className='product review' key={review.id}>
-
                     <div>
                         <div className='review product'>Review on
                             <div className='review product'>
@@ -57,8 +59,10 @@ const MyReviews = () => {
                     <div id={review.id} value={review.id} style={{ display: showStore }}>
                         <EditMyReview review={review} showStore={showStore} setShowStore={setShowStore} />
                     </div>
-                    {!fold && <button onClick={handleEdit} value={review.id}>Edit Your Review</button>}
-                    {fold && (<button onClick={handleCancel} value={review.id}>Cancel Edit</button>)}
+                    {/* {!fold && <button id={review.id} onClick={handleEdit} value={review.id} disabled={disableButton}>Edit Your Review</button>}
+                    {fold && (<button id={review.id} onClick={handleCancel} value={review.id} disabled={disableButton}>Cancel Edit</button>)} */}
+                    <button id={review.id} onClick={handleEdit} value={review.id} disabled={disableButton}>Edit Your Review</button>
+                    <button id={review.id} onClick={handleCancel} value={review.id} disabled={disableButton}>Cancel Edit</button>
                 </div>
             })
             }
