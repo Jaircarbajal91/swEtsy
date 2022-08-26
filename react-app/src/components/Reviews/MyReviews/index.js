@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { NavLink, useHistory, useLocation } from 'react-router-dom'
 import { Modal } from '../../../context/Modal';
-import { getMyReviewThunk, createReviewThunk, editReviewThunk, deleteReviewThunk } from "../../../store/review";
+import { getMyReviewThunk, deleteReviewThunk } from "../../../store/review";
 import Stars from '../../Reviews/Stars'
 import EditMyReview from '../../UpdateMyReview'
 
@@ -14,12 +14,13 @@ const MyReviews = () => {
     const [errors, setErrors] = useState([])
     const [review, setReview] = useState()
     const myReviews = useSelector(state => state.reviews.reviewsList)
+    // const myReviews = useSelector(state => state.reviews)
     const sessionUser = useSelector(state => state.session.user);
 
 
     useEffect(() => {
         dispatch(getMyReviewThunk()).then(() => setReviewLoaded(true))
-    }, [])
+    }, [dispatch, myReviews.length])
 
     const handleEdit = async (e) => {
         e.preventDefault();
@@ -32,7 +33,8 @@ const MyReviews = () => {
     const handleDelete = async e => {
         e.preventDefault()
         let id = Number(e.currentTarget.value)
-        await dispatch(deleteReviewThunk(id))
+        await dispatch(deleteReviewThunk(id)).then(() => console.log('deleted!!'))
+        await dispatch(getMyReviewThunk())
     }
 
     return reviewLoaded && (
