@@ -26,7 +26,6 @@ const MyReviews = () => {
     const handleEdit = async (e) => {
         e.preventDefault();
         let x = document.getElementById(`${e.currentTarget.value}`)
-        // console.log('what is x ???', e.currentTarget.value)
         x.style.display == "none" ? x.style.display = "block" : x.style.display = "none"
         disableButton = true
         setFold(e.target.value)
@@ -34,7 +33,6 @@ const MyReviews = () => {
     const handleCancel = async (e) => {
         e.preventDefault();
         let x = document.getElementById(`${e.currentTarget.value}`)
-        // console.log('what is x ???', e.currentTarget.value)
         x.style.display == "none" ? x.style.display = "block" : x.style.display = "none"
         setFold('none')
         disableButton = true
