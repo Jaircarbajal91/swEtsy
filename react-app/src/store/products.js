@@ -51,12 +51,10 @@ export const createProductThunk = payload => async dispatch => {
   if (response.ok) {
     const newProduct = await response.json();
     dispatch(createProductAction(newProduct));
-    return null;
-  } else if (response.status < 500){
+    return newProduct;
+  } else {
     const data = await response.json();
     return data.errors;
-  } else {
-    return ['An error occurred. Please contact the administrator.']
   };
 };
 

@@ -47,8 +47,11 @@ export default function CreateProductPage() {
     useEffect(() => {
         if (page === 3) {
             const newImageErrors = [];
-            if (!image.length) {
-                newImageErrors.push('Please enter an image URL');
+            const regex = /^http[^ \!@\$\^&\(\)\+\=]+(\.png|\.jpeg|\.gif|\.jpg)$/;
+
+            if (!image.match(regex)) {
+                newImageErrors.push('Please enter a valid image address')
+                newImageErrors.push('E.g. "https://example.com/image.jpg"')
             }
             setImageErrors(newImageErrors);
             if (!imageErrors.length) setIsDisabled(false);
@@ -84,19 +87,8 @@ export default function CreateProductPage() {
             price: Number(price),
         };
 
-        const newProduct = await dispatch(createProductThunk(payload))
-        if(newProduct){
-            console.log(newProduct)
-            newProduct.forEach(e => {
-                if(e.startsWith('image')) {
-                    setImageErrors([e])
-                    setPage(3)
-                }
-                if(e.startsWith('price')) setPriceErrors([e])
-            })
-        }else{
-            history.push(`/products/${newProduct.id}`);
-        }
+        const newProduct = await dispatch(createProductThunk(payload));
+        history.push(`/products/${newProduct.id}`);
     }
 
     // If user not logged in, then return user to homepage
