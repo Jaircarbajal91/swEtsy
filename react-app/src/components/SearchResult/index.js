@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import { NavLink, useHistory, useLocation } from 'react-router-dom'
+import { NavLink, StaticRouter, useHistory, useLocation } from 'react-router-dom'
 import { Modal } from '../../context/Modal';
 import { getSearchThunk } from "../../store/search";
 import Product from '../Products/Product';
@@ -25,6 +25,7 @@ const SearchResult = ({ searchWords, setSearchWords }) => {
     const [rangeArray, setRangeArray] = useState([minPrice, maxPrice])
     const sessionUser = useSelector(state => state.session.user);
     const searchProducts = useSelector(state => state.search.products);
+    const searchResultCount = useSelector(state => state.search.size)
 
 
 
@@ -158,6 +159,7 @@ const SearchResult = ({ searchWords, setSearchWords }) => {
                     <h1>No Search Results!</h1>
                 </div>
             )}
+            <p className='search-products-count'>Showing {searchResultCount?searchResultCount:0} results</p>
         </div>
     )
 
