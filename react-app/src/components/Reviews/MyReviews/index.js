@@ -59,10 +59,10 @@ const MyReviews = () => {
                     <div id={review.id} value={review.id} style={{ display: showStore }}>
                         <EditMyReview review={review} showStore={showStore} setShowStore={setShowStore} />
                     </div>
-                    {/* {!fold && <button id={review.id} onClick={handleEdit} value={review.id} disabled={disableButton}>Edit Your Review</button>}
-                    {fold && (<button id={review.id} onClick={handleCancel} value={review.id} disabled={disableButton}>Cancel Edit</button>)} */}
-                    <button id={review.id} onClick={handleEdit} value={review.id} disabled={disableButton}>Edit Your Review</button>
-                    <button id={review.id} onClick={handleCancel} value={review.id} disabled={disableButton}>Cancel Edit</button>
+                    {!fold && <button id={review.id} onClick={handleEdit} value={review.id} disabled={disableButton}>Edit Your Review</button>}
+                    {fold && (<button id={review.id} onClick={handleCancel} value={review.id} disabled={disableButton}>Cancel Edit</button>)}
+                    {/* <button id={review.id} onClick={handleEdit} value={review.id} disabled={disableButton}>Edit Your Review</button>
+                    <button id={review.id} onClick={handleCancel} value={review.id} display={showStore} disabled={disableButton}>Cancel Edit</button> */}
                 </div>
             })
             }

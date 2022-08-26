@@ -36,10 +36,10 @@ export default function AddAReviewModal(product) {
         dispatch(createReviewThunk(id, payload)).then((res) => {
             setReviewStars()
             setReviewBody('')
-            // setShowModal(false)
-            if (res.review.error) {
-                setErrors(res.review.error)
-            }
+            setShowModal(false)
+            // if (res.review.error) {
+            //     setErrors(res.review.error)
+            // }
         })
     }
 
