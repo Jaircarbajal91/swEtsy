@@ -13,12 +13,11 @@ def delete_product_review(review_id):
     uid = int(current_user.get_id())
     review = Review.query.get(review_id)
     if not review:
-        return {'error': 'This review does not exist'}
+        return {'errors': ['This review does not exist']},404
     review_dict  = review.to_dict()
     if review_dict['user_id'] != uid:
-        return {'error': 'This review is not yours to delete'}
+        return {'errors': ['This review is not yours to delete']},403
     else:
         db.session.delete(review)
         db.session.commit()
         return {"message": f'review {review_dict["id"]} successfully deleted'}
-

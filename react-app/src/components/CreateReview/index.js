@@ -21,7 +21,12 @@ export default function AddAReviewModal(product) {
     }, [id, showModal])
 
     // useEffect(() => {
-    //     if ()
+    // const newNameError = [];
+    // if  (reviewBody.length> 1000){
+    // newNamwErrors.push('You may only enter review with 1000 characters.') 
+    // } 
+    // set
+    //if ()
     // }, [id, showModal])
 
     const handleSubmit = async e => {

@@ -45,7 +45,7 @@ def edit_cart(id):
         db.session.commit()
         return item.to_dict()
     else:
-        return {'errors':validation_errors_to_error_messages(form.errors)}
+        return {'errors':validation_errors_to_error_messages(form.errors)},400
 
 @cart_routes.route('/<int:id>',methods=['DELETE'])
 @login_required

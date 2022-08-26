@@ -169,10 +169,10 @@ def create_product_review(id):
     product_reviews = Review.query.filter(Review.product_id == id).all()
     for product_review in product_reviews:
         if product_review.to_dict()['user_id'] == int(uid):
-            return {'error': 'You may not review this item again'}
+            return {'errors': ['You may not review this item again']},403
     product = Product.query.get(id)
     if product.to_dict()["owner_id"] == int(current_user.get_id()):
-        return {'error': 'You cannot review your own product'}, 403
+        return {'errors': ['You cannot review your own product']}, 403
     form = ReviewForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
@@ -195,7 +195,7 @@ def create_product_review(id):
 def edit_product_review(prod_id, review_id):
     review = Review.query.get(review_id)
     if not review:
-        return {'error': 'This review does not exist'}
+        return {'errors':['This review does not exist']},404
     form = ReviewForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     # if form.validate_on_submit():
@@ -214,4 +214,4 @@ def edit_product_review(prod_id, review_id):
                 setattr(review, k, form.data[k])
         db.session.commit()
         return review.to_dict()
-    return {'errors':validation_errors_to_error_messages(form.errors)}
+    return {'errors':validation_errors_to_error_messages(form.errors)},400
