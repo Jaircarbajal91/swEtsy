@@ -10,14 +10,14 @@ const SearchResult = ({searchWords, setSearchWords}) => {
     const { search } = useLocation()
     // useMemo(() => {
     let query = new URLSearchParams(search)
-    setSearchWords(prev => prev.replaceAll(/[^A-Za-z0-9 ]/g, ''))
+    //setSearchWords(prev => prev.replaceAll(/[^A-Za-z0-9 ]/g, ''))
     // }, [search])
     // console.log('what would it be??', query)
     // console.log('what would keyword be??', query.get('keyword'))
     // console.log('what would minPrice be??', query.get('minPrice'))
     const dispatch = useDispatch();
     const history = useHistory();
-    const sanitizedKey = query.get('keyword')?query.get('keyword').replaceAll(/[^A-Za-z0-9 +]/g, ''):''
+    const sanitizedKey = query.get('keyword')?query.get('keyword').replaceAll(/[^A-Za-z0-9 +\-]/g, ''):''
     const [keyword, setKeyWord] = useState(sanitizedKey || searchWords)
     const [minPrice, setMinPrice] = useState(query.get('minPrice') || '')
     const [maxPrice, setMaxPrice] = useState(query.get('maxPrice') || '')
