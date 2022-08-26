@@ -37,6 +37,7 @@ orders = {
 }
 
 @search_routes.route('/',methods=['GET'])
+@search_routes.route('',methods=['GET'])
 def search():
     filters = []
     filter_obj = {}
