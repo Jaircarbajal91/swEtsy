@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { getMyReviewThunk, editReviewThunk, deleteReviewThunk } from "../../store/review";
 
-export default function EditMyReview(review, showStore, setShowStore) {
+export default function EditMyReview(review, showStore, setShowStore, setFold) {
     const dispatch = useDispatch();
     // const [showModal, setShowModal] = useState(showModalprop)
     const [reviewStars, setReviewStars] = useState()
@@ -27,21 +27,15 @@ export default function EditMyReview(review, showStore, setShowStore) {
             stars: reviewStars,
             review_body: reviewBody,
         }
-        console.log('in handleSubmit - previewId', reviewId)
-        console.log('in handleSubmit - productId', productId)
+        // console.log('in handleSubmit - previewId', reviewId)
+        // console.log('in handleSubmit - productId', productId)
         await dispatch(editReviewThunk(productId, reviewId, payload)).then((res) => {
             dispatch(getMyReviewThunk())
             setReviewStars()
             setReviewBody('')
+            setFold('none')
         })
-        // .catch(
-        //     async (res) => {
-        //         const data = await res.json();
-        //         if (data && data.errors) {
-        //             setErrors(data.errors)
-        //         }
-        //     }
-        // )
+
         let x = document.getElementById(`${e.target.value}`)
         x.style.display == "none" ? x.style.display = "block" : x.style.display = "none"
     }

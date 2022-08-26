@@ -57,10 +57,10 @@ const MyReviews = () => {
                         <div className='review reviewbody'>{review.review_body}</div>
                     </div>
                     <div id={review.id} value={review.id} style={{ display: showStore }}>
-                        <EditMyReview review={review} showStore={showStore} setShowStore={setShowStore} />
+                        <EditMyReview review={review} showStore={showStore} setShowStore={setShowStore} setFold={setFold} />
                     </div>
-                    {fold!==review.id.toString() && <button id={review.id} onClick={handleEdit} value={review.id} disabled={disableButton}>Edit Your Review</button>}
-                    {fold===review.id.toString() && (<button id={review.id} onClick={handleCancel} value={review.id} disabled={disableButton}>Cancel Edit</button>)}
+                    {fold !== review.id.toString() && <button id={review.id} onClick={handleEdit} value={review.id} disabled={disableButton}>Edit Your Review</button>}
+                    {fold === review.id.toString() && (<button id={review.id} onClick={handleCancel} value={review.id} disabled={disableButton}>Cancel Edit</button>)}
                     {/* <button id={review.id} onClick={handleEdit} value={review.id} disabled={disableButton}>Edit Your Review</button>
                     <button id={review.id} onClick={handleCancel} value={review.id} display={showStore} disabled={disableButton}>Cancel Edit</button> */}
                 </div>
