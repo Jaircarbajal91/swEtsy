@@ -7,12 +7,7 @@ import { getSearchThunk } from "../../store/search";
 
 const SearchResult = () => {
     const { search } = useLocation()
-    // useMemo(() => {
     let query = new URLSearchParams(search)
-    // }, [search])
-    console.log('what would it be??', query)
-    console.log('what would keyword be??', query.get('keyword'))
-    console.log('what would minPrice be??', query.get('minPrice'))
     const dispatch = useDispatch();
     const history = useHistory();
     const [keyword, setKeyWord] = useState(query.get('keyword'))

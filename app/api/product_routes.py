@@ -80,7 +80,6 @@ def edit_product(id):
         for k in form.data:
             if not form.data[k]:
                 form[k].data = product_dict[k]
-        # print(form.data)
         if form.validate_on_submit():
             for k in form.data:
                 if k != 'csrf_token':
@@ -169,7 +168,6 @@ def create_product_review(id):
     # reviews = Review.query.filter(Review.user_id == uid).all()
     product_reviews = Review.query.filter(Review.product_id == id).all()
     for product_review in product_reviews:
-        print(product_review.to_dict())
         if product_review.to_dict()['user_id'] == int(uid):
             return {'error': 'You may not review this item again'}
     product = Product.query.get(id)

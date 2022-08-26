@@ -6,7 +6,6 @@ from wtforms.validators import DataRequired, StopValidation, NumberRange
 # from datetime import datetime, date, timedelta
 
 def validate_int(form, field):
-    print(field.data)
     if field.data is None or field.data != int(field.data):
         raise StopValidation('This input must be a integer')
 

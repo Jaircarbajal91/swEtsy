@@ -6,8 +6,6 @@ export default function CartTotalCard({ cartItems, initialSubtotal}) {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    console.log(initialSubtotal)
-
     const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',
