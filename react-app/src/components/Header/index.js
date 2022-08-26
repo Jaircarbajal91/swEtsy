@@ -8,7 +8,7 @@ const Header = ({ sessionUser }) => {
     )
   } else {
     text = (
-      <h1 className='header text'>Welcome back, <span className='name header'>{sessionUser.first_name}</span></h1>
+      <h1 className='header text'>Welcome back, <span className='name header'>{sessionUser.first_name}!</span></h1>
     )
   }
   return (

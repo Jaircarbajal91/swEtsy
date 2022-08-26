@@ -145,3 +145,10 @@ img.down-icon {
   margin-left: .7em;
   margin-bottom: .5em;
 }
+
+.nav-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100vw;
+  border-bottom: 1px solid #E2E2E2;
+}
