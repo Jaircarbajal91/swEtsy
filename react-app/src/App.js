@@ -52,9 +52,6 @@ function App() {
       <div className='content container'>
         <NavBar setShowLogin={setShowLogin} setShowSignup={setShowSignup} sessionUser={sessionUser}
                 searchWords={searchWords} setSearchWords={setSearchWords}/>
-        <div className='main-header'>
-          <Header sessionUser={sessionUser} />
-        </div>
         <Switch>
           <Route path='/login' exact={true}>
             {showLogin && <Modal onClose={() => { setShowLogin(false) }}>
