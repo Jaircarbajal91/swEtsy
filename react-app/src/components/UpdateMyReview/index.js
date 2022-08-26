@@ -31,8 +31,8 @@ export default function EditMyReview(review, showModalprop) {
             stars: reviewStars,
             review_body: reviewBody,
         }
-        console.log('in handle - previewId', reviewId)
-        console.log('in handle - productId', productId)
+        console.log('in handleSubmit - previewId', reviewId)
+        console.log('in handleSubmit - productId', productId)
         dispatch(editReviewThunk(productId, reviewId, payload)).then((res) => {
             setReviewStars()
             setReviewBody('')

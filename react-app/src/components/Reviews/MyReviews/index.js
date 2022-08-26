@@ -20,7 +20,7 @@ const MyReviews = () => {
 
     useEffect(() => {
         dispatch(getMyReviewThunk()).then(() => setReviewLoaded(true))
-    }, [dispatch, myReviews.length])
+    }, [dispatch, showModal])
 
     const handleEdit = async (e) => {
         e.preventDefault();
@@ -42,11 +42,13 @@ const MyReviews = () => {
             <p className='myreview title'> Your Reviews</p>
             {myReviews?.length && myReviews.map(review => {
                 return <div className='product review' key={review.id}>
-                    <div className='review product'>
-                        <NavLink to={`/products/${review.id}`}>{review.name}</NavLink>
-                    </div>
+
                     <div>
-                        <div className='review product'>Review on {review.product.name}</div>
+                        <div className='review product'>Review on  
+                            <div className='review product'>
+                                <NavLink to={`/products/${review.id}`}>{review.product.name}</NavLink>
+                            </div>
+                        </div>
                         <div className='review star'>
                             <Stars rating={review.stars} />
                         </div>
