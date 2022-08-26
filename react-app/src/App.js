@@ -49,9 +49,6 @@ function App() {
     <BrowserRouter>
       <div className='content container'>
         <NavBar setShowLogin={setShowLogin} setShowSignup={setShowSignup} sessionUser={sessionUser} />
-        <div className='main-header'>
-          <Header sessionUser={sessionUser} />
-        </div>
         <Switch>
           <Route path='/login' exact={true}>
             {showLogin && <Modal onClose={() => { setShowLogin(false) }}>
@@ -70,7 +67,7 @@ function App() {
             <User />
           </ProtectedRoute>
           <Route path='/' exact={true} >
-            <Products products={products} />
+          <Products sessionUser={sessionUser} products={products} />
           </Route>
           <Route path='/products/new' exact={true}>
             <CreateProductPage />
