@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Redirect } from 'react-router-dom';
 import { signUp } from '../../store/session';
 
-const SignUpForm = ({setShowSignup}) => {
+const SignUpForm = ({setShowSignup, setShowLogin}) => {
   const [errors, setErrors] = useState([]);
   const [username, setUsername] = useState('');
   const [firstname, setFirstname] = useState('');
@@ -46,8 +46,14 @@ const SignUpForm = ({setShowSignup}) => {
     return <Redirect to='/' />;
   }
 
+  const backToLogin = () => {
+    setShowSignup(false)
+    setShowLogin(true)
+  }
+
   return (
     <form onSubmit={onSignUp}>
+      <div><span> Already registered?</span><span onClick={backToLogin}>Log in</span></div>
       <div>
         {errors.map((error, ind) => (
           <div key={ind}>{error}</div>
