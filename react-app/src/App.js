@@ -25,8 +25,8 @@ function App() {
 
   const [loaded, setLoaded] = useState(false);
   const [cartLoaded, setCartLoaded] = useState(false);
-  const [showLogin, setShowLogin] = useState(false)
-  const [showSignup, setShowSignup] = useState(false)
+  const [showLogin, setShowLogin] = useState(true);
+  const [showSignup, setShowSignup] = useState(true);
   const [searchWords, setSearchWords] = useState('');
   const products = useSelector(state => state.products.productsList);
   const cartItems = useSelector(state => state.cart.cartItemsList);
