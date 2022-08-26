@@ -2,25 +2,41 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Modal } from '../../context/Modal';
-import { getReviewsThunk, editReviewThunk, deleteReviewThunk } from "../../store/review";
+import { getMyReviewThunk, editReviewThunk, deleteReviewThunk } from "../../store/review";
 
-export default function EditMyReview(reviewId, showModalprop) {
+export default function EditMyReview(review, showModalprop) {
     const dispatch = useDispatch();
     const [showModal, setShowModal] = useState(showModalprop)
     const [reviewStars, setReviewStars] = useState()
     const [reviewBody, setReviewBody] = useState('')
+    const [reviewLoaded, setReviewLoaded] = useState(false)
     const [errors, setErrors] = useState([])
+    const sessionUser = useSelector(state => state.session.user);
+    let reviewId = review?.review?.split(",")[0]
+    let productId = review?.review?.split(",")[1]
+    // console.log("in modal -- review id", reviewId)
+    // console.log("in modal -- product id", productId)
+    // console.log("in modal --  session user id", sessionUser.id)
+
+    useEffect(() => {
+        dispatch(getMyReviewThunk()).then(() => setReviewLoaded(true))
+    }, [])
+
+    const myReviews = useSelector(state => state.reviews.reviewsList)
+    let theReview = myReviews.filter(each => each.id.id)
+
 
     const handleSubmit = async e => {
         e.preventDefault();
         setErrors([]);
         const payload = {
+            id: reviewId,
             stars: reviewStars,
             review_body: reviewBody,
-            product_id: reviewBody,
-            user_id: reviewBody
+            product_id: productId,
+            user_id: sessionUser.id
         }
-        dispatch(editReviewThunk(reviewBody, payload)).then((res) => {
+        dispatch(editReviewThunk(payload.product_id, payload)).then((res) => {
             setReviewStars()
             setReviewBody('')
         })
@@ -44,7 +60,7 @@ export default function EditMyReview(reviewId, showModalprop) {
     }
 
     return showModal && (
-        <Modal reviewId={reviewId} onClose={() => setShowModal(false)}>
+        <Modal onClose={() => setShowModal(false)}>
             <form>My Review
                 {/* <div>{review.product.name}1111</div>
             <div>{review.product.description}</div>
@@ -60,6 +76,7 @@ export default function EditMyReview(reviewId, showModalprop) {
                 <input
                     type='text'
                     placeholder='write a review for this item'
+                    // placeholder={review?.review?.slice(2)}
                     onChange={e => setReviewBody(e.target.value)}
                     value={reviewBody}
                 ></input>

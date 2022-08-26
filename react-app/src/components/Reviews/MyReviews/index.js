@@ -11,12 +11,12 @@ const MyReviews = () => {
     const history = useHistory();
     const [reviewLoaded, setReviewLoaded] = useState(false)
     const [showModal, setShowModal] = useState(false)
+    const [editClick, setEditClick] = useState(false)
     const [errors, setErrors] = useState([])
-    const [reviewId, setReviewId] = useState()
+    const [review, setReview] = useState()
     const myReviews = useSelector(state => state.reviews.reviewsList)
     const sessionUser = useSelector(state => state.session.user);
 
-    console.log('-->>>>>', showModal)
 
     useEffect(() => {
         dispatch(getMyReviewThunk()).then(() => setReviewLoaded(true))
@@ -24,10 +24,12 @@ const MyReviews = () => {
 
     const handleEdit = async (e) => {
         e.preventDefault();
-        setReviewId(e.currentTarget.value)
+        setReview(e.currentTarget.value)
         console.log('0000000---', e.currentTarget.value)
-        setShowModal(true)
+        // setShowModal(true)
+        setEditClick(true)
     }
+    console.log('what to pass in -->>>>>', { review })
 
     const handleDelete = async e => {
         e.preventDefault()
@@ -56,13 +58,12 @@ const MyReviews = () => {
                         </div>
                         <div className='review reviewbody'>{review.review_body}</div>
                     </div>
-                    <button onClick={handleEdit} value={review}>Edit Your Review</button>
+                    <button onClick={handleEdit} value={[review.id, review.product.id]}>Edit Your Review</button>
                     <button onClick={handleDelete} value={review.id}>Delete</button>
                 </div>
             })
             }
-            <EditMyReview reviewId={reviewId} showModalprop={showModal} />
-            {/* {showModal && (<EditMyReview reviewId={reviewId} />)} */}
+            <EditMyReview review={review} showModalprop={showModal} />
         </div >
 
     )
