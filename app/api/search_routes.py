@@ -14,7 +14,7 @@ search_routes = Blueprint('search', __name__)
 
 def get_filter(key, value):
     if key == 'keyword':
-        value = re.sub(r'[^A-Za-z0-9 ]+', '',value)
+        value = re.sub(r'[^A-Za-z0-9\- ]+', '',value)
         li = value.split(' ')
         keys = [ [Product.name.like(f'%{e}%'), Product.description.like(f'%{e}%')] for e in li if e != '' ]
         flatten = [e for l in keys for e in l]
@@ -43,6 +43,7 @@ def search():
     filter_obj = {}
     args = request.args
     args_dict = args.to_dict(flat=False) # query params are lists
+
     query_order = (args_dict.get('order') and args_dict.get('order')[-1]) or 'id'
     order = orders.get(query_order) if orders.get(query_order) is not None else Product.id
     try: #sanitize value errors that the query premeter is something strange

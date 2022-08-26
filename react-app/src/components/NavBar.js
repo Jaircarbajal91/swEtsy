@@ -62,7 +62,7 @@ const NavBar = ({ setShowLogin, setShowSignup, sessionUser, searchWords, setSear
                   <span className='dropdown text'>List A New Product</span>
                 </div>
               </NavLink>
-              <NavLink to='/reviews' className='navlink' activeClassName='active'>
+              <NavLink to='/myreviews' className='navlink' activeClassName='active'>
                 <div className='create-product drop-down-item'>
                   <img className='new-product-icon' src={ReviewsIcon} alt="reviews-icon" />
                   <span className='dropdown text'>See Your Reviews</span>

@@ -8,6 +8,8 @@ import { getProductsThunk } from "../../store/products";
 import { deleteProductThunk } from "../../store/products";
 import { addCartItemThunk, getCartItemsThunk } from "../../store/cart";
 import Stars from "../Reviews/Stars";
+import Reviews from '../Reviews'
+import AddAReviewModal from '../CreateReview'
 
 const ProductDetail = () => {
   const { id } = useParams()
@@ -66,9 +68,9 @@ const ProductDetail = () => {
       <div className="product detail price">
         <p>{formatter.format(product.price)}</p>
       </div>
-      <div className="product detail stars">
+      {/* <div className="product detail stars">
         <Stars rating={2.4} />
-      </div>
+      </div> */}
       {product.owner_id === sessionUser?.id && (
         <div>
           <button
@@ -97,8 +99,11 @@ const ProductDetail = () => {
           <div className="button add-to-cart">
             <button onClick={() => addToCart()}>Add to Cart</button>
           </div>
+          
+          <Reviews product={product} isLoaded={isLoaded} />
         </div>
       )}
+      <AddAReviewModal product={product} />
     </div>
   )
 }
