@@ -19,4 +19,5 @@
 
 .search-bar-container {
   width: 966px;
+  display: flex;
 }

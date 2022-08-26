@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Route, Switch, useLocation } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import LoginForm from './components/auth/LoginForm';
 import { Modal } from './context/Modal';
@@ -25,8 +25,8 @@ function App() {
 
   const [loaded, setLoaded] = useState(false);
   const [cartLoaded, setCartLoaded] = useState(false);
-  const [showLogin, setShowLogin] = useState(true);
-  const [showSignup, setShowSignup] = useState(true);
+  const [showLogin, setShowLogin] = useState(false);
+  const [showSignup, setShowSignup] = useState(false);
   const [searchWords, setSearchWords] = useState('');
   const products = useSelector(state => state.products.productsList);
   const cartItems = useSelector(state => state.cart.cartItemsList);
@@ -47,31 +47,33 @@ function App() {
   if (!loaded) {
     return null;
   }
+
   return (
     <BrowserRouter>
       <div className='content container'>
         <NavBar setShowLogin={setShowLogin} setShowSignup={setShowSignup} sessionUser={sessionUser}
-                searchWords={searchWords} setSearchWords={setSearchWords}/>
+          searchWords={searchWords} setSearchWords={setSearchWords} />
         <Switch>
-          <Route path='/login' exact={true}>
-            {showLogin && <Modal onClose={() => { setShowLogin(false) }}>
+          <Route path='/' exact={true}>
+            <Products sessionUser={sessionUser} products={products} />
+            {showLogin && <Modal onClose={() => setShowLogin(false)}>
               <LoginForm setShowLogin={setShowLogin} setShowSignup={setShowSignup} />
             </Modal>}
-          </Route>
-          <Route path='/sign-up' exact={true}>
             {showSignup && <Modal onClose={() => setShowSignup(false)}>
-              <SignUpForm setShowSignup={setShowSignup} />
+              <SignUpForm setShowLogin={setShowLogin} setShowSignup={setShowSignup} />
             </Modal>}
           </Route>
+          {/* <Route path='/sign-up' exact={true}>
+          </Route> */}
           <ProtectedRoute path='/users' exact={true} >
             <UsersList />
           </ProtectedRoute>
           <ProtectedRoute path='/users/:userId' exact={true} >
             <User />
           </ProtectedRoute>
-          <Route path='/' exact={true} >
-          <Products sessionUser={sessionUser} products={products} />
-          </Route>
+          {/* <Route path='/' exact={true} >
+            <Products sessionUser={sessionUser} products={products} />
+          </Route> */}
           <Route path='/products/new' exact={true}>
             <CreateProductPage />
           </Route>

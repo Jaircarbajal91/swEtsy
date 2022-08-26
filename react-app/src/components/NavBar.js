@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, useHistory } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import SearchBar from './SearchBar/SearchBar';
 import LogoutButton from './auth/LogoutButton';
@@ -15,6 +15,7 @@ import logo from './images/logo.svg'
 const NavBar = ({ setShowLogin, setShowSignup, sessionUser, searchWords, setSearchWords }) => {
 
   const [showDropDown, setShowDropDown] = useState(false)
+  const history = useHistory()
 
   useEffect(() => {
     if (!showDropDown) return;
@@ -28,6 +29,14 @@ const NavBar = ({ setShowLogin, setShowSignup, sessionUser, searchWords, setSear
     return () => document.removeEventListener("click", closeMenu);
   }, [showDropDown]);
 
+  const checkSession = () => {
+    if (!sessionUser) {
+      setShowLogin(true);
+    } else {
+      history.push('/cart')
+    }
+  }
+
   return (
   <div className='nav-wrapper'>
     <nav className='nav-container'>
@@ -40,7 +49,7 @@ const NavBar = ({ setShowLogin, setShowSignup, sessionUser, searchWords, setSear
       </NavLink> */}
         <div className='right-nav-container'>
           {!sessionUser ? (
-            <NavLink to='/login' className='navlink sign-in' onClick={() => setShowLogin(true)} exact={true} activeClassName='active'>
+            <NavLink to='/' className='navlink sign-in' onClick={() => setShowLogin(true)} exact={true} activeClassName='active'>
               Sign in
             </NavLink>
           ) : (
@@ -72,9 +81,9 @@ const NavBar = ({ setShowLogin, setShowSignup, sessionUser, searchWords, setSear
             </div>
           )}
           <div className='cart-icon-container'>
-            <NavLink to='/cart' className='navlink' activeClassName='active'>
+            <div to='/cart' className='navlink' onClick={checkSession}>
               <img className='cart-icon' src={CartIcon} alt="cart-icon" />
-            </NavLink>
+            </div>
           </div>
         </div>
         {/* <ul>
