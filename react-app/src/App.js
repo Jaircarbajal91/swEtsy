@@ -8,6 +8,7 @@ import NavBar from './components/NavBar';
 import Products from './components/Products';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import Reviews from './components/Reviews';
+import MyReviews from './components/Reviews/MyReviews';
 import UsersList from './components/UsersList';
 import User from './components/User';
 import { authenticate } from './store/session';
@@ -82,8 +83,11 @@ function App() {
           <Route path='/cart' exact={true} >
             <Cart cartLoaded={cartLoaded} setCartLoaded={setCartLoaded} cartItems={cartItems} sessionUser={sessionUser} setShowLogin={setShowLogin} />
           </Route>
-          <Route path='/reviews' exact={true} >
-            <Reviews veviews={reviews}/>
+          {/* <Route path='/reviews' exact={true} >
+            <Reviews veviews={reviews} />
+          </Route> */}
+          <Route path='/myreviews' exact={true} >
+            <MyReviews veviews={reviews} />
           </Route>
           <Route path='/search'>
             <SearchResult />

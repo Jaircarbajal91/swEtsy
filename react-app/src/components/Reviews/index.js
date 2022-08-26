@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { NavLink, useHistory, useLocation } from 'react-router-dom'
 import { Modal } from '../../context/Modal';
-import { getReviewsThunk, getMyReviewThunk, createReviewThunk, editReviewThunk, deleteReviewThunk } from "../../store/review";
+import { getReviewsThunk, createReviewThunk, editReviewThunk, deleteReviewThunk } from "../../store/review";
 import Stars from '../Reviews/Stars'
 
 const Reviews = ({ product, isLoaded }) => {

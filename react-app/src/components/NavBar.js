@@ -51,16 +51,16 @@ const NavBar = ({ setShowLogin, setShowSignup, sessionUser }) => {
         {showDropDown && (
           <div className='drop-down-menu-container'>
             <div className='drop-down-item-container user'>
-                <img className='user-icon-drop-down' src={UserIcon} alt="reviews-icon" />
-                <span className='dropdown text'>Welcome back, {sessionUser.first_name}</span>
-              </div>
+              <img className='user-icon-drop-down' src={UserIcon} alt="reviews-icon" />
+              <span className='dropdown text'>Welcome back, {sessionUser.first_name}</span>
+            </div>
             <NavLink to='/products/new' className='navlink' activeClassName='active'>
               <div className='create-product drop-down-item'>
                 <img className='new-product-icon' src={ShopIcon} alt="new-product-icon" />
                 <span className='dropdown text'>List A New Product</span>
               </div>
             </NavLink>
-            <NavLink to='/reviews' className='navlink' activeClassName='active'>
+            <NavLink to='/myreviews' className='navlink' activeClassName='active'>
               <div className='create-product drop-down-item'>
                 <img className='new-product-icon' src={ReviewsIcon} alt="reviews-icon" />
                 <span className='dropdown text'>See Your Reviews</span>
