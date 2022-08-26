@@ -20,7 +20,7 @@ const MyReviews = () => {
 
     useEffect(() => {
         dispatch(getMyReviewThunk()).then(() => setReviewLoaded(true))
-    }, [dispatch, showStore])
+    }, [dispatch, showStore, fold])
 
     const handleEdit = async (e) => {
         e.preventDefault();
@@ -35,13 +35,6 @@ const MyReviews = () => {
         // console.log('what is x ???', e.currentTarget.value)
         x.style.display == "none" ? x.style.display = "block" : x.style.display = "none"
         setFold(false)
-    }
-
-    const handleDelete = async e => {
-        e.preventDefault()
-        let id = Number(e.currentTarget.value)
-        await dispatch(deleteReviewThunk(id)).then(() => console.log('deleted!!'))
-        await dispatch(getMyReviewThunk())
     }
 
     return reviewLoaded && (

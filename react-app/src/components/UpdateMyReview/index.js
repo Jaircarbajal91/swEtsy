@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { Modal } from '../../context/Modal';
 import { getMyReviewThunk, editReviewThunk, deleteReviewThunk } from "../../store/review";
 
 export default function EditMyReview(review, showStore, setShowStore) {
@@ -13,14 +12,13 @@ export default function EditMyReview(review, showStore, setShowStore) {
     const [errors, setErrors] = useState([])
     const sessionUser = useSelector(state => state.session.user);
     let reviewId = review.review.id
+    let productId = review.review.product.id
 
     useEffect(() => {
         dispatch(getMyReviewThunk()).then(() => setReviewLoaded(true))
-        console.log('in handle - previewId', reviewId)
     }, [dispatch])
 
     const myReviews = useSelector(state => state.reviews.reviewsList)
-    let theReview = myReviews.filter(each => each.id.id)
 
     const handleSubmit = async e => {
         e.preventDefault();
@@ -30,12 +28,12 @@ export default function EditMyReview(review, showStore, setShowStore) {
             review_body: reviewBody,
         }
         console.log('in handleSubmit - previewId', reviewId)
-        // console.log('in handleSubmit - productId', productId)
-        // dispatch(editReviewThunk(productId, reviewId, payload)).then((res) => {
-        //     setReviewStars()
-        //     setReviewBody('')
-        // })
-        // setShowModal(false)
+        console.log('in handleSubmit - productId', productId)
+        await dispatch(editReviewThunk(productId, reviewId, payload)).then((res) => {
+            dispatch(getMyReviewThunk())
+            setReviewStars()
+            setReviewBody('')
+        })
         // .catch(
         //     async (res) => {
         //         const data = await res.json();
@@ -48,27 +46,12 @@ export default function EditMyReview(review, showStore, setShowStore) {
     const handleDelete = async e => {
         e.preventDefault()
         let id = Number(e.currentTarget.value)
-        await dispatch(deleteReviewThunk(id)).then(() => console.log('deleted!!'))
+        await dispatch(deleteReviewThunk(id)).then(() => console.log('deleted! id is ', id))
         await dispatch(getMyReviewThunk())
-    }
-    // console.log('what is modal', showModal)
-    const handleCancel = async e => {
-        e.preventDefault()
-        setReviewStars()
-        setReviewBody('')
-        // setShowModal(false)
-    }
-
-    const handleEdit = async (e) => {
-        e.preventDefault();
-        // setReview(e.currentTarget.value)
-        showStore == "none" ? setShowStore("block") : setShowStore("none")
     }
 
     return (
-        // return showModal && (
-        //     <Modal onClose={() => setShowModal(false)}>
-        <div id={review.id} value={review.id} style={{ display: showStore }}>
+        <div value={review.review.id} style={{ display: showStore }}>
             <form>My Review
                 < section class="star rrating-container" >
                     <input type="radio" name="ratingStar" class="rating" value="1" onClick={e => setReviewStars(e.target.value)} />
@@ -80,15 +63,14 @@ export default function EditMyReview(review, showStore, setShowStore) {
                 <input
                     type='text'
                     placeholder='write a review for this item'
-                    // placeholder={review?.review?.slice(2)}
+                    // placeholder={review.review.id}
                     onChange={e => setReviewBody(e.target.value)}
                     value={reviewBody}
                 ></input>
                 <br></br>
-                <button onClick={handleSubmit}>Edit Review</button>
-                <button onClick={handleCancel}>Delete</button>
+                <button value={review.review.id} onClick={handleSubmit}>Edit Review</button>
+                <button value={review.review.id} onClick={handleDelete}>Delete</button>
             </form>
         </div >
-        // </Modal >
     )
 }
