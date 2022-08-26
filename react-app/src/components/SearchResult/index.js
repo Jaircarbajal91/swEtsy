@@ -1,17 +1,18 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import { NavLink, useHistory, useLocation } from 'react-router-dom'
+import { NavLink, StaticRouter, useHistory, useLocation } from 'react-router-dom'
 import { Modal } from '../../context/Modal';
 import { getSearchThunk } from "../../store/search";
 import Product from '../Products/Product';
 
 
-const SearchResult = ({searchWords, setSearchWords}) => {
+const SearchResult = ({ searchWords, setSearchWords }) => {
     const { search } = useLocation()
     let query = new URLSearchParams(search)
+
     const dispatch = useDispatch();
     const history = useHistory();
-    const sanitizedKey = query.get('keyword')?query.get('keyword').replaceAll(/[^A-Za-z0-9 +\-]/g, ''):''
+    const sanitizedKey = query.get('keyword') ? query.get('keyword').replaceAll(/[^A-Za-z0-9 +\-]/g, '') : ''
     const [keyword, setKeyWord] = useState(sanitizedKey || searchWords)
     const [minPrice, setMinPrice] = useState(query.get('minPrice') || '')
     const [maxPrice, setMaxPrice] = useState(query.get('maxPrice') || '')
@@ -24,16 +25,17 @@ const SearchResult = ({searchWords, setSearchWords}) => {
     const [rangeArray, setRangeArray] = useState([minPrice, maxPrice])
     const sessionUser = useSelector(state => state.session.user);
     const searchProducts = useSelector(state => state.search.products);
+    const searchResultCount = useSelector(state => state.search.size)
 
 
 
     useEffect(() => {
         setKeyWord(searchWords)
-    },[searchWords])
+    }, [searchWords])
 
     let filtered = []
     const data = { keyword, minPrice, maxPrice, ownerId, order }
-    console.log(data)
+    // console.log(data)
     for (let key in data) {
         if (data[key]) {
             filtered.push(`${key}=${data[key]}`)
@@ -41,17 +43,18 @@ const SearchResult = ({searchWords, setSearchWords}) => {
     }
 
     let filterstring = filtered.join("&")
-    console.log('filterstring: ', filterstring)
-    console.log('search:', search)
-    console.log(('?'+filterstring) === search)
+    // console.log('filterstring: ', filterstring)
+    // console.log('search:', search)
+    // console.log(('?'+filterstring) === search)
 
     // console.log('it is -=-------', data)
     // console.log('it is -=-------', filtered)
     // console.log('it is -=-------', filterstring)
 
+
     useEffect(() => {
         let filterInClick = []
-        console.log(search)
+        // console.log(search)
         let query = new URLSearchParams(search)
         data.keyword = query.get('keyword')
         for (let key in data) {
@@ -68,12 +71,13 @@ const SearchResult = ({searchWords, setSearchWords}) => {
     const sortSelected = e => {
         e.preventDefault();
         setOrder(prev => {
-            if(e.target.value){
-                data.order = e.target.value === 'none'?undefined:e.target.value
+
+            if (e.target.value) {
+                data.order = e.target.value === 'none' ? undefined : e.target.value
             }
             let filterInSort = []
-            console.log('-'*30)
-            console.log(data)
+            // console.log('-' * 30)
+            // console.log(data)
             for (let key in data) {
                 if (data[key]) {
                     filterInSort.push(`${key}=${data[key]}`)
@@ -88,17 +92,18 @@ const SearchResult = ({searchWords, setSearchWords}) => {
 
     const handleSearch = async e => {
         e.preventDefault();
+
         setRangeArray(prev => {
             let range = [];
             let filterForApply = []
             let priceFilter = [parseInt(radioMin), parseInt(radioMax)]
-            console.log(priceFilter)
-            if(priceFilter[1] || priceFilter[1]===0){
+            // console.log(priceFilter)
+            if (priceFilter[1] || priceFilter[1] === 0) {
                 setMinPrice(Math.min(...priceFilter).toString())
                 setMaxPrice(Math.max(...priceFilter).toString())
                 range[0] = Math.min(...priceFilter).toString();
                 range[1] = Math.max(...priceFilter).toString();
-            }else{
+            } else {
                 setMinPrice(priceFilter[0].toString())
                 setMaxPrice('')
                 range[0] = (priceFilter[0].toString())
@@ -118,12 +123,12 @@ const SearchResult = ({searchWords, setSearchWords}) => {
             // setMaxPrice('')
             // setOwnerId('')
             // setCustomPrice('')
-            console.log('fsfa:', filterStringForApply)
+            // console.log('fsfa:', filterStringForApply)
             filterstring = filterStringForApply
             history.push(`/search?${filterStringForApply}`)
             return range
         })
-            // })
+        // })
     }
 
     const handleCancel = async e => {
@@ -149,11 +154,12 @@ const SearchResult = ({searchWords, setSearchWords}) => {
                         <Product key={product.id} product={product} />
                     ))}
                 </div>
-            ):(
+            ) : (
                 <div className='empty-search-container'>
                     <h1>No Search Results!</h1>
                 </div>
             )}
+            <p className='search-products-count'>Showing {searchResultCount ? searchResultCount : 0} results</p>
         </div>
     )
 
@@ -185,7 +191,8 @@ const SearchResult = ({searchWords, setSearchWords}) => {
                                         setRadioMax(range.min2)
                                         setCustomPrice(true)
                                     }}
-                                    checked={radioMin===range.min1 && customPrice}
+
+                                    checked={radioMin === range.min1 && customPrice}
                                 />{`$0 to $50`} <br></br>
                             </div>
                             <div>
@@ -197,7 +204,9 @@ const SearchResult = ({searchWords, setSearchWords}) => {
                                         setRadioMax(range.min3)
                                         setCustomPrice(true)
                                     }}
-                                    checked={radioMin===range.min2 && customPrice}
+
+                                    checked={radioMin === range.min2 && customPrice}
+
                                 />{`$50 to $100`} <br></br>
                             </div>
                             <div>
@@ -210,7 +219,9 @@ const SearchResult = ({searchWords, setSearchWords}) => {
                                         setRadioMax('')
                                         setCustomPrice(true)
                                     }}
-                                    checked={radioMin===range.min3 && customPrice}
+
+                                    checked={radioMin === range.min3 && customPrice}
+
                                 />{`over $100`} <br></br>
                             </div>
                             <div>
