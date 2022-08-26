@@ -1,0 +1,5 @@
+.form-fields,
+.inner-form {
+    display: flex;
+    flex-flow: column;
+}

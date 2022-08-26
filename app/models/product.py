@@ -21,9 +21,9 @@ class Product(db.Model, UserMixin):
     # category = db.Column(db.String, nullable=False)
 
     user = db.relationship("User",back_populates="products",foreign_keys=[owner_id])
-    carts = db.relationship("Cart", back_populates="product")
+    carts = db.relationship("Cart", back_populates="product", cascade="all, delete")
     # images = db.relationship('Image',back_populates='products')
-    # reviews = db.relationship('Review', back_populates='product',cascade='all,delete')
+    reviews = db.relationship('Review', back_populates='product',cascade='all,delete')
 
     @property
     def product_details(self):

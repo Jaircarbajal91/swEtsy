@@ -6,13 +6,14 @@ import UpdateProduct from "../UpdateProduct";
 import { Modal } from "../../context/Modal";
 import { getProductsThunk } from "../../store/products";
 import { deleteProductThunk } from "../../store/products";
-import { Redirect } from "react-router-dom";
+import { addCartItemThunk, getCartItemsThunk } from "../../store/cart";
 import Stars from "../Reviews/Stars";
 
 const ProductDetail = () => {
   const { id } = useParams()
   const [showUpdate, setShowUpdate] = useState(false)
   const [showDelete, setShowDelete] = useState(false)
+  const [quantity, setQuantity] = useState(1);
   const [deleted, setDeleted] = useState(false)
   const [isLoaded, setIsLoaded] = useState(false)
   const product = useSelector(state => state.products[id])
@@ -36,6 +37,18 @@ const ProductDetail = () => {
     currency: 'USD',
   });
 
+  const addToCart = async () => {
+
+    await dispatch(addCartItemThunk(id, { quantity }))
+    await dispatch(getCartItemsThunk())
+    history.push('/cart')
+  }
+
+  const options = [];
+  for (let i = 1; i <= 100; i++) {
+    options.push(i);
+  }
+
   return isLoaded && (
     <div className="product detail container">
       <div className="product detail image">
@@ -56,7 +69,7 @@ const ProductDetail = () => {
       <div className="product detail stars">
         <Stars rating={2.4} />
       </div>
-      {product.owner_id === sessionUser.id && (
+      {product.owner_id === sessionUser?.id && (
         <div>
           <button
             onClick={() => setShowUpdate(true)}>Edit</button>
@@ -64,7 +77,7 @@ const ProductDetail = () => {
             onClick={() => setShowDelete(true)}>Delete</button>
           {showUpdate && (
             <Modal onClose={() => setShowUpdate(false)}>
-              <UpdateProduct setShowUpdate={setShowUpdate} />
+              <UpdateProduct product={product} setShowUpdate={setShowUpdate} />
             </Modal>
           )}
           {showDelete && (
@@ -72,6 +85,18 @@ const ProductDetail = () => {
               <DeleteProduct setDeleted={setDeleted} setShowDelete={setShowDelete} />
             </Modal>
           )}
+        </div>
+      )}
+      {sessionUser && (
+        <div>
+          <select value={quantity} onChange={e => setQuantity(e.target.value)}>
+            {options.map(option => (
+              <option key={option} value={option}>{option}</option>
+            ))}
+          </select>
+          <div className="button add-to-cart">
+            <button onClick={() => addToCart()}>Add to Cart</button>
+          </div>
         </div>
       )}
     </div>

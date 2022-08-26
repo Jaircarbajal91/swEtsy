@@ -7,29 +7,40 @@ import SignUpForm from './components/auth/SignUpForm';
 import NavBar from './components/NavBar';
 import Products from './components/Products';
 import ProtectedRoute from './components/auth/ProtectedRoute';
+import Reviews from './components/Reviews';
 import UsersList from './components/UsersList';
 import User from './components/User';
 import { authenticate } from './store/session';
 import { getProductsThunk } from './store/products';
 import ProductDetail from './components/ProductDetail';
+import Cart from './components/Cart';
 import CreateProductPage from './components/CreateProductPage';
 import Header from './components/Header';
+import { getCartItemsThunk } from './store/cart';
+import SearchResult from './components/SearchResult';
 
 
 function App() {
+  // const history = useHistory();
   const [loaded, setLoaded] = useState(false);
+  const [cartLoaded, setCartLoaded] = useState(false);
   const [showLogin, setShowLogin] = useState(false)
   const [showSignup, setShowSignup] = useState(false)
-  const products = useSelector(state => state.products.productsList)
-  const sessionUser = useSelector(state => state.session.user)
+  const products = useSelector(state => state.products.productsList);
+  const cartItems = useSelector(state => state.cart.cartItemsList);
+  const sessionUser = useSelector(state => state.session.user);
   const dispatch = useDispatch();
   useEffect(() => {
     (async () => {
       await dispatch(authenticate());
       await dispatch(getProductsThunk());
+      if (sessionUser) {
+        await dispatch(getCartItemsThunk());
+        setCartLoaded(true)
+      }
       setLoaded(true);
     })();
-  }, [dispatch]);
+  }, [dispatch, cartItems?.length]);
 
   if (!loaded) {
     return null;
@@ -39,12 +50,12 @@ function App() {
       <div className='content container'>
         <NavBar setShowLogin={setShowLogin} setShowSignup={setShowSignup} sessionUser={sessionUser} />
         <div className='main-header'>
-          <Header sessionUser={sessionUser}/>
+          <Header sessionUser={sessionUser} />
         </div>
         <Switch>
           <Route path='/login' exact={true}>
-            {showLogin && <Modal onClose={() => setShowLogin(false)}>
-              <LoginForm setShowLogin={setShowLogin} />
+            {showLogin && <Modal onClose={() => { setShowLogin(false) }}>
+              <LoginForm setShowLogin={setShowLogin} setShowSignup={setShowSignup} />
             </Modal>}
           </Route>
           <Route path='/sign-up' exact={true}>
@@ -66,6 +77,18 @@ function App() {
           </Route>
           <Route path='/products/:id' exact={true} >
             <ProductDetail />
+          </Route>
+          <Route path='/cart' exact={true} >
+            <Cart cartLoaded={cartLoaded} setCartLoaded={setCartLoaded} cartItems={cartItems} sessionUser={sessionUser} setShowLogin={setShowLogin} />
+          </Route>
+          <Route path='/reviews' exact={true} >
+            <Reviews />
+          </Route>
+          <Route path='*' >
+            <h1>Page not found</h1>
+          </Route>
+          <Route path='/search'>
+            <SearchResult />
           </Route>
         </Switch>
       </div>
