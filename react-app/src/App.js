@@ -55,7 +55,7 @@ function App() {
         <Switch>
           <Route path='/login' exact={true}>
             {showLogin && <Modal onClose={() => { setShowLogin(false) }}>
-              <LoginForm setShowLogin={setShowLogin} />
+              <LoginForm setShowLogin={setShowLogin} setShowSignup={setShowSignup} />
             </Modal>}
           </Route>
           <Route path='/sign-up' exact={true}>
