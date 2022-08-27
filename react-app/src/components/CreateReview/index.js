@@ -23,22 +23,26 @@ export default function AddAReviewModal({ product }) {
         dispatch(getReviewsThunk(id))
     }, [id, showModal])
 
+    const newErrors = [];
+
     useEffect(() => {
-        const newErrors = [];
-        if (!reviewStars) {
-            newErrors.push('Please rate this product.')
-        }
-        if (reviewBody.length > 500) {
-            newErrors.push('You may only enter review in 500 characters.')
-        }
         if (product.reviews.some(e => e.user_id === sessionUser.id)) {
-            newErrors.push('You have already reviewed this product.')
+            newErrors.push(`You have already reviewed this product.`,`Please visit`, <a href='https://swetsy-app.herokuapp.com/myreviews'>My Reviews</a>, ` to edit/delete.`)
+        }
+        else {
+            if (!reviewStars) {
+                newErrors.push('Please rate this product.')
+            }
+            if (reviewBody.length > 500) {
+                newErrors.push('You may only enter review in 500 characters.')
+            }
         }
         setErrors(newErrors)
         if (!errors.length) setIsDisabled(false);
         else setIsDisabled(true)
     }, [reviewBody.length, errors.length, reviewStars])
 
+    console.log(errors)
     const handleSubmit = async e => {
         e.preventDefault();
         setErrors([]);
@@ -54,6 +58,10 @@ export default function AddAReviewModal({ product }) {
             setReviewBody('')
             setShowModal(false)
         })
+            .catch(async (res) => {
+                const data = await res.json();
+                if (data && data.errors) newErrors.push(data.errors)
+            })
     }
 
     const handleCancel = async e => {
