@@ -51,7 +51,7 @@ const MyReviews = ({ reviews, setShowLogin }) => {
                     return <div className='product-myreview' key={review.id}>
                         <div>
                             <div className='myreview-left-img'>
-                                <img src={review.product.image} alt={'product image'} />
+                                <img className='myreview-img' src={review.product.image} alt={'product image'} />
                             </div>
                             <div className='myreview-right-box'>
                                 <div className='myreview-product'>Review on

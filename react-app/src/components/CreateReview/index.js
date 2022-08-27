@@ -29,7 +29,7 @@ export default function AddAReview({ product }) {
             newErrors.push(`You have already reviewed this product.`, `Please visit`, <a href='https://swetsy-app.herokuapp.com/myreviews'>My Reviews</a>, ` to edit/delete.`)
         }
         else {
-            if (!reviewStars) {
+            if (reviewStars == undefined) {
                 newErrors.push('Please rate this product.')
             }
             if (reviewBody.length > 500) {
@@ -39,7 +39,9 @@ export default function AddAReview({ product }) {
         setErrors(newErrors)
         if (!errors.length) setIsDisabled(false);
         else setIsDisabled(true)
-    }, [reviewBody.length, reviewStars, id])
+    }, [reviewStars, reviewBody.length, errors.length, showModal])
+
+    console.log('starr--', reviewStars)
 
     console.log(errors)
     const handleSubmit = async e => {

@@ -1,6 +1,5 @@
 #root>div.content.container>div.myreview-container>p,
-.myreview-container 
-{
+.myreview-container {
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
@@ -12,16 +11,14 @@
     padding-left: 50px;
     margin: 0;
 }
-div.myreview.title
-{
+
+div.myreview.title {
     background-color: #EBEAE5;
     display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
     font-family: "Guardian-EgypTT", Georgia, serif;
     font-size: 26px;
     width: 100%;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
     padding-left: 50px;
     border-bottom: #AFAFAF 2px solid;
@@ -40,6 +37,10 @@ div.myreview-container {
     align-items: center;
 }
 
+div.product-myreview {
+    max-height: fit-content;
+}
+
 div.myreview-container>div>div {
     display: flex;
     text-align: center;
@@ -51,51 +52,47 @@ div.myreview-container>div>div {
 }
 
 div.myreview-container>div>div {
-    width: 800px;
-    display: flex;
+    width: 900px;
+    display: grid;
+    grid-template-columns: 2fr 5fr;
     text-align: left;
     flex-direction: row;
     padding: 20px;
-    border-radius: 20px;
+    border-radius: 15px;
     border: solid #E2E2E2 1px;
     margin: 10px;
 }
 
 
 div.myreview-left-img {
-    padding: 20px;
-    height: 300px;
-    width: 300px;
-    object-fit: scale-down;
+    max-height: 300px;
     max-width: 300px;
-    max-width: 300px;
-
     text-align: center;
     overflow: hidden;
-    display: inline-block;
-    vertical-align: middle;
-
+    display: block;
+    background-color: aqua;
 }
 
-div.myreview-container>div>div>img {
-    display: inline-block;
+div.myreview-right-box {
+    width: 70%;
+    padding: 8%;
+}
+
+div.myreview-img {
+    display: block;
     max-width: 100%;
     max-height: 100%;
-    vertical-align: middle;
-    object-fit: contain;
+    width: 40px;
+    object-fit: fill;
 }
 
 div.myreview-product,
 div.myreview-star,
 div.myreview-reviewbody {
-    font-size: 30px;
+    font-size: 20px;
     text-decoration: none;
 }
 
 div.myreview-reviewbody {
-    font-size: 25px;
-}
-
-div.myreview.rightbox {
-    padding: 30px;
+    font-size: 20px;
 }
