@@ -10,6 +10,7 @@ import { addCartItemThunk, getCartItemsThunk } from "../../store/cart";
 import Stars from "../Reviews/Stars";
 import Reviews from '../Reviews'
 import AddAReviewModal from '../CreateReview'
+import './ProductDetail.css'
 
 const ProductDetail = () => {
   const { id } = useParams()
@@ -53,20 +54,21 @@ const ProductDetail = () => {
   }
 
   return isLoaded && (
-    <div className="product detail container">
-      <div className="product detail image">
+    <div className="product-detail-container">
+      <div className="product-detail-left">
         <img src={product.image} alt="" />
+        <Reviews product={product} isLoaded={isLoaded} />
       </div>
-      <div className="product detail name">
+      <div className="product-detail-name">
         <p>{product.name}</p>
       </div>
-      <div className="product detail stars">
+      <div className="product-detail-stars">
         <Stars rating={rating} />
       </div>
-      <div className="product detail description">
+      <div className="product-detail-description">
         <p>{product.description}</p>
       </div>
-      <div className="product detail price">
+      <div className="product-detail-price">
         <p>{formatter.format(product.price)}</p>
       </div>
       {/* <div className="product detail stars">
@@ -100,8 +102,6 @@ const ProductDetail = () => {
           <div className="button add-to-cart">
             <button onClick={() => addToCart()}>Add to Cart</button>
           </div>
-
-          <Reviews product={product} isLoaded={isLoaded} />
         </div>
       )}
       <AddAReviewModal product={product} />

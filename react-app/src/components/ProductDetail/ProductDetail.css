@@ -1,0 +1,25 @@
+.product-detail-container {
+    display: flex;
+    font-family: "Guardian-EgypTT",Charter,"Charter Bitstream",Cambria,"Noto Serif Light","Droid Serif",Georgia,serif;
+    flex-flow: row;
+    width:68vw;
+    /* border: 1px solid black; */
+}
+
+.product-detail-left {
+    display: flex;
+    flex-flow: column;
+    margin: 2em;
+    width: 33.0729167vw;
+    border: 1px solid black;
+    height:58.7962963vh;
+}
+
+.product-detail-image img {
+    max-width: 635px;
+    max-height: 635px;
+    /* border: 1px solid black; */
+    object-fit: contain;
+    border-radius: 1em;
+    /* overflow: hidden; */
+}
