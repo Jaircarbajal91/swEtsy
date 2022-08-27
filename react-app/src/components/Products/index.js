@@ -29,12 +29,15 @@ const Products = ({ products, sessionUser }) => {
                     <Product key={product.id} product={product} />
                 ))}
             </div>
-
-            {/* <div className='products container'>
-                {products.map((product) => (
-                    <Product key={product.id} product={product} />
-                ))}
-            </div> */}
+            <div className='middle-products-display-container products'>
+                <div className='col-1'>
+                    <Product key={eightProductsMiddleDisplay[0].id} product={eightProductsMiddleDisplay[0]} />
+                    <Product key={eightProductsMiddleDisplay[1].id} product={eightProductsMiddleDisplay[1]} />
+                </div>
+                <div className='col-2'></div>
+                <div className='col-3'></div>
+                <div className='col-4'></div>
+            </div>
         </div>
     );
 }

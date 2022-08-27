@@ -1,17 +1,18 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import Stars from '../../Reviews/Stars'
 
 const Product = ({ product }) => {
-
+    const history = useHistory()
     const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',
     });
     return (
-        <NavLink to={`/products/${product.id}`} style={{
+        <div onClick={() => history.push(`/products/${product.id}`)}  style={{
             textDecoration: 'none',
-            color: 'black'
+            color: 'black',
+            cursor: 'pointer'
         }}>
             <div className='card-container'>
                 <div className='product image-container'>
@@ -25,7 +26,7 @@ const Product = ({ product }) => {
                     {formatter.format(product.price)}
                 </div>
             </div>
-        </NavLink>
+        </div>
     );
 }
 

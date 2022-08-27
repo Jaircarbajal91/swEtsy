@@ -19,7 +19,7 @@ div.circle-display-container.products {
   justify-content: center;
 }
 
-div.circle-display-container.products > a > div > div.product.image-container > img {
+div.circle-display-container.products > div > div > div.product.image-container > img {
   width: 7em;
   max-width: 7em;
   height: 7em;
@@ -30,21 +30,42 @@ div.circle-display-container.products > a > div > div.product.image-container > 
   transition: all .2s ease-in-out;
 }
 
-div.circle-display-container.products > a > div > div.product.image-container > img:hover {
+div.circle-display-container.products > div > div > div.product.image-container > img:hover {
   transform: scale(1.1);
 }
 
-div.circle-display-container.products > a > div {
+div.circle-display-container.products > div > div {
   margin: 1.5em;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-div.circle-display-container.products > a > div > div.price {
+div.circle-display-container.products > div > div > div.price {
   display: none;
 }
 
-#root > div.content.container > div.products-page-container > div.circle-display-container.products > a > div > div.star-container {
-  display: none;
+
+
+
+
+
+
+
+
+.middle-products-display-container.products {
+  display: flex;
+  border: 1px solid red;
+  justify-content: center;
+  height: 548px;
+  z-index: 1;
 }
+
+div.middle-products-display-container.products > div {
+  height: 100%;
+  max-height: 100%;
+  width: 318px;
+  max-width: 318px;
+}
+
+
