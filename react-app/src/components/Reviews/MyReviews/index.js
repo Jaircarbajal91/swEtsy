@@ -23,14 +23,14 @@ const MyReviews = () => {
     const handleEdit = async (e) => {
         e.preventDefault();
         let x = document.getElementById(`${e.currentTarget.value}`)
-        x.style.display == "none" ? x.style.display = "block" : x.style.display = "none"
+        x.style.display === "none" ? x.style.display = "block" : x.style.display = "none"
         disableButton = true
         setFold(e.target.value)
     }
     const handleCancel = async (e) => {
         e.preventDefault();
         let x = document.getElementById(`${e.currentTarget.value}`)
-        x.style.display == "none" ? x.style.display = "block" : x.style.display = "none"
+        x.style.display === "none" ? x.style.display = "block" : x.style.display = "none"
         setFold('none')
         disableButton = true
     }
@@ -47,7 +47,7 @@ const MyReviews = () => {
                             </div>
                         </div>
                         <div className='review img'>
-                            <img src={review.product.image} Height={'150px'} />
+                            <img src={review.product.image} alt={'product image'} />
                         </div>
                         <div className='review star'>
                             <Stars rating={review.stars} />

@@ -39,7 +39,7 @@ export default function AddAReview({ product }) {
         setErrors(newErrors)
         if (!errors.length) setIsDisabled(false);
         else setIsDisabled(true)
-    }, [reviewBody.length, errors.length, newErrors, reviewStars])
+    }, [reviewBody.length, errors, newErrors, reviewStars, product.reviews, sessionUser])
 
     console.log(errors)
     const handleSubmit = async e => {

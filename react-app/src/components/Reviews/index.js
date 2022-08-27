@@ -11,7 +11,7 @@ const Reviews = ({ product }) => {
 
   useEffect(() => {
     dispatch(getReviewsThunk(id)).then(() => setReviewLoaded(true))
-  }, [product.id, dispatch])
+  }, [id, dispatch])
 
   let reviewLength = productReviews?.length;
   console.log('length====', reviewLength)
