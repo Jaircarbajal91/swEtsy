@@ -1,0 +1,35 @@
+div.content.container>div.review-container>p {
+    background-color: #EBEAE5;
+    font-family: "Guardian-EgypTT", Georgia, serif;
+    font-size: 26px;
+}
+
+div.content.container>div.review-container>div {
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    padding: 10%;
+
+}
+
+div.content.container>div.review-container>div>div {
+    display: flex;
+    text-align: center;
+    flex-direction: row;
+}
+
+div.content.container>div.review-container>div>div {
+    width: 80%;
+    background-color: #E3FCD3;
+    display: flex;
+    text-align: left;
+    flex-direction: row;
+    padding: 30px;
+}
+
+div.content.container>div.review-container>div>div>img {
+    border-width: 30px;
+    max-width: 30px;
+    position: static;
+    float: left;
+}

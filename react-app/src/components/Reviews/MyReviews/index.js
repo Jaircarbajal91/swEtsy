@@ -4,6 +4,7 @@ import { NavLink, useHistory } from 'react-router-dom'
 import { getMyReviewThunk } from "../../../store/review";
 import Stars from '../../Reviews/Stars'
 import EditMyReview from '../../UpdateMyReview'
+import './myReviews.css'
 
 const MyReviews = ({ reviews, setShowLogin }) => {
     const dispatch = useDispatch();
@@ -49,26 +50,30 @@ const MyReviews = ({ reviews, setShowLogin }) => {
             {myReviews?.length && myReviews.map(review => {
                 return <div className='product review' key={review.id}>
                     <div>
-                        <div className='review product'>Review on
-                            <div className='review product'>
-                                <NavLink to={`/products/${review.product.id}`}>{review.product.name}</NavLink>
-                            </div>
-                        </div>
-                        <div className='review img'>
+                        <div className='review leftimg'>
                             <img src={review.product.image} alt={'product image'} />
                         </div>
-                        <div className='review star'>
-                            <Stars rating={review.stars} />
+                        <div className='review rightbox'>
+                            <div className='review product'>Review on
+                                <div className='review product'>
+                                    <NavLink to={`/products/${review.product.id}`}>{review.product.name}</NavLink>
+                                </div>
+                            </div>
+                            <div className='review star'>
+                                <Stars rating={review.stars} />
+                            </div>
+                            <div className='review reviewbody'>{review.review_body}</div>
                         </div>
-                        <div className='review reviewbody'>{review.review_body}</div>
                     </div>
                     <div id={review.id} value={review.id} style={{ display: showStore }}>
                         <EditMyReview review={review} showStore={showStore} setShowStore={setShowStore} setFold={setFold} />
                     </div>
-                    {fold !== review.id.toString() && <button id={review.id} onClick={handleEdit} value={review.id} disabled={disableButton}>Edit Your Review</button>}
-                    {fold === review.id.toString() && (<button id={review.id} onClick={handleCancel} value={review.id} disabled={disableButton}>Cancel Edit</button>)}
-                    {/* <button id={review.id} onClick={handleEdit} value={review.id} disabled={disableButton}>Edit Your Review</button>
+                    <div>
+                        {fold !== review.id.toString() && (<button id={review.id} onClick={handleEdit} value={review.id} disabled={disableButton}>Edit Your Review</button>)}
+                        {fold === review.id.toString() && (<button id={review.id} onClick={handleCancel} value={review.id} disabled={disableButton}>Cancel Edit</button>)}
+                        {/* <button id={review.id} onClick={handleEdit} value={review.id} disabled={disableButton}>Edit Your Review</button>
                     <button id={review.id} onClick={handleCancel} value={review.id} display={showStore} disabled={disableButton}>Cancel Edit</button> */}
+                    </div>
                 </div>
             })
             }
