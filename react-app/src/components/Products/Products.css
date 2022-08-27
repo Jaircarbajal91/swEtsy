@@ -55,10 +55,10 @@ div.circle-display-container.products > div > div > div.price {
 
 .middle-products-display-container.products {
   display: flex;
-  border: 1px solid red;
   justify-content: center;
   height: 548px;
   z-index: 1;
+  gap: 1em;
 }
 
 div.middle-products-display-container.products > div {
@@ -69,3 +69,75 @@ div.middle-products-display-container.products > div {
 }
 
 
+div.middle-products-display-container.products > div.col-1 > div:nth-child(1) {
+  height: 40%;
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 10px;
+}
+
+div.middle-products-display-container.products > div.col-1 > div:nth-child(2) {
+  height: 60%;
+  width: 100%;
+  max-width: 100%;
+}
+
+div.middle-products-display-container.products > div.col-1 > div:nth-child(1) > div {
+  height: 100%;
+  max-width: 100%;
+  border: 1px solid #c5c5c5;
+  border-radius: .5em;
+}
+
+div.middle-products-display-container.products > div.col-1 > div:nth-child(2) > div {
+  height: 100%;
+  max-width: 100%;
+  border: 1px solid #c5c5c5;
+  border-radius: .5em;
+}
+
+
+div.middle-products-display-container.products > div.col-1 > div:nth-child(1) > div > div.product.image-container {
+  height: 100%;
+  max-width: 100%;
+}
+
+div.middle-products-display-container.products > div.col-1 > div:nth-child(2) > div > div.product.image-container {
+  height: 100%;
+  max-width: 100%;
+}
+
+
+div.middle-products-display-container.products > div.col-1 > div:nth-child(1) > div > div.product.image-container > img {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: cover;
+  border-radius: .5em;
+}
+
+div.middle-products-display-container.products > div.col-1 > div:nth-child(2) > div > div.product.image-container > img {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: cover;
+  border-radius: .5em;
+}
+
+
+div.middle-products-display-container.products > div > div > div > div.product.name {
+  display: none;
+}
+
+
+div.middle-products-display-container.products > div > div > div > div.star-container > * {
+  display: none;
+}
+
+div.middle-products-display-container.products > div > div > div > div.price {
+  position: relative;
+  bottom: 3.3em;
+  left: 1em;
+  background-color: #E4E4E4;
+  border-radius: 3em;
+  width: fit-content;
+  padding: .5em 1em;
+}
