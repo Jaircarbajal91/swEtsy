@@ -19,6 +19,7 @@ const ProductDetail = () => {
   const [deleted, setDeleted] = useState(false)
   const [isLoaded, setIsLoaded] = useState(false)
   const product = useSelector(state => state.products[id])
+  const rating = product.avgScore;
   const sessionUser = useSelector(state => state.session.user)
   const dispatch = useDispatch()
   const history = useHistory()
@@ -60,7 +61,7 @@ const ProductDetail = () => {
         <p>{product.name}</p>
       </div>
       <div className="product detail stars">
-        <Stars rating={2.4} />
+        <Stars rating={rating} />
       </div>
       <div className="product detail description">
         <p>{product.description}</p>
@@ -99,7 +100,7 @@ const ProductDetail = () => {
           <div className="button add-to-cart">
             <button onClick={() => addToCart()}>Add to Cart</button>
           </div>
-          
+
           <Reviews product={product} isLoaded={isLoaded} />
         </div>
       )}
