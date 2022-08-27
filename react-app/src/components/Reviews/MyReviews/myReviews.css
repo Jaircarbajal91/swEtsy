@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Aboreto&family=Bitter:wght@100;200;400&family=Comfortaa:wght@300&display=swap');
+
 #root>div.content.container>div.myreview-container>p,
 .myreview-container {
     display: flex;
@@ -15,7 +17,8 @@
 div.myreview.title {
     background-color: #EBEAE5;
     display: flex;
-    font-family: "Guardian-EgypTT", Georgia, serif;
+    /* font-family: "Guardian-EgypTT", Georgia, serif; */
+    font-family: 'Bitter', serif;
     font-size: 26px;
     width: 100%;
     justify-content: center;
@@ -25,6 +28,7 @@ div.myreview.title {
     border-top: #AFAFAF 2px solid;
     margin: 0;
     height: 110px;
+    font-weight: 900px;
 }
 
 div.myreview-container {
@@ -59,18 +63,24 @@ div.myreview-container>div>div {
     flex-direction: row;
     padding: 20px;
     border-radius: 15px;
-    border: solid #E2E2E2 1px;
+    border: solid #E2E2E2 2px;
     margin: 10px;
 }
 
+/* div.product-myreview :hover {
+    box-shadow: 2px 2px #ADADAD, -.5em 0 .4em #ADADAD;
+} */
 
 div.myreview-left-img {
     max-height: 300px;
     max-width: 300px;
-    text-align: center;
+    align-items: center;
     overflow: hidden;
     display: block;
-    background-color: aqua;
+    background-color: #EBEAE5;
+    border-radius: 10px;
+    border-width: 2px;
+    padding: 2px;
 }
 
 div.myreview-right-box {
@@ -78,18 +88,23 @@ div.myreview-right-box {
     padding: 8%;
 }
 
-div.myreview-img {
+div.myreview-left-img>img {
     display: block;
-    max-width: 100%;
+    width: 100%;
     max-height: 100%;
-    width: 40px;
-    object-fit: fill;
+    border-radius: 10px;
 }
 
 div.myreview-product,
 div.myreview-star,
 div.myreview-reviewbody {
     font-size: 20px;
+    text-decoration: none;
+    font-family: 'Bitter', serif;
+}
+
+div.myreview-product {
+    color: black;
     text-decoration: none;
 }
 

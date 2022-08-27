@@ -26,7 +26,7 @@ export default function AddAReview({ product }) {
 
     useEffect(() => {
         if (sessionUser && product.reviews.some(e => e.user_id === sessionUser.id)) {
-            newErrors.push(`You have already reviewed this product.`, `Please visit`, <a href='https://swetsy-app.herokuapp.com/myreviews'>My Reviews</a>, ` to edit/delete.`)
+            newErrors.push(`You have already reviewed this product.`, `Please edit/delete under My Reviews.`, <a className='review-redirect' href='https://swetsy-app.herokuapp.com/myreviews' style={{ color: '#472600', textDecoration: 'none' }}>Take me to My Reviews ...</a>)
         }
         else {
             if (reviewStars == undefined) {
@@ -41,9 +41,9 @@ export default function AddAReview({ product }) {
         else setIsDisabled(true)
     }, [reviewStars, reviewBody.length, errors.length, showModal])
 
-    console.log('starr--', reviewStars)
+    // console.log('starr--', reviewStars)
+    // console.log(errors)
 
-    console.log(errors)
     const handleSubmit = async e => {
         e.preventDefault();
         setErrors([]);
