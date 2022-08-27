@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getMyReviewThunk, editReviewThunk, deleteReviewThunk } from "../../store/review";
+import { Modal } from "../../context/Modal";
+import DeleteReview from '../DeleteReview';
 
 export default function EditMyReview({ review, showStore, setFold }) {
     const dispatch = useDispatch();
     const [reviewStars, setReviewStars] = useState()
     const [reviewBody, setReviewBody] = useState('')
     const [reviewLoaded, setReviewLoaded] = useState(false)
+    const [deleteReview, setDeleteReview] = useState(false)
+    const [showDelete, setShowDelete] = useState(false)
     const [errors, setErrors] = useState([])
     const [isDisabled, setIsDisabled] = useState(true);
     const sessionUser = useSelector(state => state.session.user);
@@ -49,11 +53,16 @@ export default function EditMyReview({ review, showStore, setFold }) {
         x.style.display === "none" ? x.style.display = "block" : x.style.display = "none"
     }
 
-    const handleDelete = async e => {
+    const handleDeleteModal = async e => {
         e.preventDefault()
-        let id = Number(e.currentTarget.value)
-        await dispatch(deleteReviewThunk(id)).then(() => console.log('deleted! id is ', id))
-        await dispatch(getMyReviewThunk())
+        setShowDelete(true)
+        // let id = Number(e.currentTarget.value)
+        // if (deleteReview) {
+        //     await dispatch(deleteReviewThunk(id)).then(() => console.log('deleted! id is ', id))
+        //     await dispatch(getMyReviewThunk())
+        // } else {
+        //     setShowDelete(false)
+        // }
     }
 
     const handleClear = async e => {
@@ -86,7 +95,12 @@ export default function EditMyReview({ review, showStore, setFold }) {
                 <br></br>
                 <button value={reviewId} onClick={handleSubmit} disabled={isDisabled}>Update My Review</button>
                 <button value={reviewId} onClick={handleClear}>Clear</button>
-                <button value={reviewId} onClick={handleDelete}>Delete</button>
+                <button value={reviewId} onClick={handleDeleteModal}>Delete</button>
+                {showDelete && (
+                    <Modal >
+                        <DeleteReview setDeleteReview={setDeleteReview} setShowDelete={setShowDelete} reviewId={reviewId} />
+                    </Modal>
+                )}
             </form>
         </div >
     )

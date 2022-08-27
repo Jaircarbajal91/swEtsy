@@ -20,7 +20,7 @@ export default function AddAReview({ product }) {
 
     useEffect(() => {
         dispatch(getReviewsThunk(id))
-    }, [id, showModal, dispatch])
+    }, [id, showModal])
 
     const newErrors = [];
 
@@ -39,7 +39,7 @@ export default function AddAReview({ product }) {
         setErrors(newErrors)
         if (!errors.length) setIsDisabled(false);
         else setIsDisabled(true)
-    }, [reviewBody.length, errors, newErrors, reviewStars, product.reviews, sessionUser])
+    }, [reviewBody.length, reviewStars, id])
 
     console.log(errors)
     const handleSubmit = async e => {
