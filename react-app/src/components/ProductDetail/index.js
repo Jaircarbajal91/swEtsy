@@ -9,7 +9,7 @@ import { deleteProductThunk } from "../../store/products";
 import { addCartItemThunk, getCartItemsThunk } from "../../store/cart";
 import Stars from "../Reviews/Stars";
 import Reviews from '../Reviews'
-import AddAReviewModal from '../CreateReview'
+import AddAReview from '../CreateReview'
 
 const ProductDetail = () => {
   const { id } = useParams()
@@ -100,10 +100,10 @@ const ProductDetail = () => {
             <button onClick={() => addToCart()}>Add to Cart</button>
           </div>
 
-          <Reviews product={product} isLoaded={isLoaded} />
         </div>
       )}
-      <AddAReviewModal product={product} />
+      <Reviews product={product} />
+      <AddAReview product={product} />
     </div>
   )
 }

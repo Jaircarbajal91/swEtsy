@@ -1,20 +1,16 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import { NavLink, useHistory, useLocation } from 'react-router-dom'
-import { Modal } from '../../../context/Modal';
-import { getMyReviewThunk, deleteReviewThunk } from "../../../store/review";
+import { NavLink } from 'react-router-dom'
+import { getMyReviewThunk } from "../../../store/review";
 import Stars from '../../Reviews/Stars'
 import EditMyReview from '../../UpdateMyReview'
 
 const MyReviews = () => {
     const dispatch = useDispatch();
-    const history = useHistory();
     const [reviewLoaded, setReviewLoaded] = useState(false)
     const [showStore, setShowStore] = useState('none')
-    const [errors, setErrors] = useState([])
     const [fold, setFold] = useState('none')
     const myReviews = useSelector(state => state.reviews.reviewsList)
-    // const myReviews = useSelector(state => state.reviews)
     const sessionUser = useSelector(state => state.session.user);
 
     let disableButton
@@ -22,6 +18,7 @@ const MyReviews = () => {
     useEffect(() => {
         dispatch(getMyReviewThunk()).then(() => setReviewLoaded(true))
     }, [dispatch, showStore, fold])
+
     console.log("product id ---", typeof myReviews)
     const handleEdit = async (e) => {
         e.preventDefault();
@@ -48,6 +45,9 @@ const MyReviews = () => {
                             <div className='review product'>
                                 <NavLink to={`/products/${review.product.id}`}>{review.product.name}</NavLink>
                             </div>
+                        </div>
+                        <div className='review img'>
+                            <img src={review.product.image} Height={'150px'} />
                         </div>
                         <div className='review star'>
                             <Stars rating={review.stars} />

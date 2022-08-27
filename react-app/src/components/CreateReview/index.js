@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import { Modal } from '../../context/Modal';
-import { getReviewsThunk, createReviewThunk, editReviewThunk, deleteReviewThunk } from "../../store/review";
+import { getReviewsThunk, createReviewThunk } from "../../store/review";
 
 
-export default function AddAReviewModal({ product }) {
+export default function AddAReview({ product }) {
     const dispatch = useDispatch();
     const [showModal, setShowModal] = useState(false)
     const [reviewStars, setReviewStars] = useState()
@@ -14,20 +13,20 @@ export default function AddAReviewModal({ product }) {
     const [isDisabled, setIsDisabled] = useState(true);
 
     const sessionUser = useSelector(state => state.session.user);
-    const productReviews = useSelector(state => state.products.reviews);
+    // const productReviews = useSelector(state => state.products.reviews);
     const id = product.id
     // console.log('owner is ', product.owner_id)
     // console.log('reviewBody.length is ', reviewBody.length)
 
     useEffect(() => {
         dispatch(getReviewsThunk(id))
-    }, [id, showModal])
+    }, [id, showModal, dispatch])
 
     const newErrors = [];
 
     useEffect(() => {
-        if (product.reviews.some(e => e.user_id === sessionUser.id)) {
-            newErrors.push(`You have already reviewed this product.`,`Please visit`, <a href='https://swetsy-app.herokuapp.com/myreviews'>My Reviews</a>, ` to edit/delete.`)
+        if (sessionUser && product.reviews.some(e => e.user_id === sessionUser.id)) {
+            newErrors.push(`You have already reviewed this product.`, `Please visit`, <a href='https://swetsy-app.herokuapp.com/myreviews'>My Reviews</a>, ` to edit/delete.`)
         }
         else {
             if (!reviewStars) {
@@ -40,7 +39,7 @@ export default function AddAReviewModal({ product }) {
         setErrors(newErrors)
         if (!errors.length) setIsDisabled(false);
         else setIsDisabled(true)
-    }, [reviewBody.length, errors.length, reviewStars])
+    }, [reviewBody.length, errors.length, newErrors, reviewStars])
 
     console.log(errors)
     const handleSubmit = async e => {
@@ -74,7 +73,7 @@ export default function AddAReviewModal({ product }) {
     return sessionUser && (
         <>
             <div className="button add-a-review">
-                <button onClick={() => setShowModal(true)} hidden={product.owner_id == sessionUser.id}>Add a Review</button>
+                <button onClick={() => setShowModal(true)} hidden={product.owner_id === sessionUser.id}>Add a Review</button>
             </div>
             {showModal &&
                 <Modal onClose={() => setShowModal(false)} >
