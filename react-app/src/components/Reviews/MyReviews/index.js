@@ -45,38 +45,36 @@ const MyReviews = ({ reviews, setShowLogin }) => {
     }
 
     return reviewLoaded && (
-        <div className='review-container'>
-            <p className='myreview title'> Your Reviews</p>
-            {myReviews?.length && myReviews.map(review => {
-                return <div className='product review' key={review.id}>
-                    <div>
-                        <div className='review leftimg'>
-                            <img src={review.product.image} alt={'product image'} />
-                        </div>
-                        <div className='review rightbox'>
-                            <div className='review product'>Review on
-                                <div className='review product'>
-                                    <NavLink to={`/products/${review.product.id}`}>{review.product.name}</NavLink>
+        <div className='myreview-container'>
+            <div className='myreview title'> Purchases and Reviews</div>
+                {myReviews?.length && myReviews.map(review => {
+                    return <div className='product-myreview' key={review.id}>
+                        <div>
+                            <div className='myreview-left-img'>
+                                <img src={review.product.image} alt={'product image'} />
+                            </div>
+                            <div className='myreview-right-box'>
+                                <div className='myreview-product'>Review on
+                                    <div className='myreview-reviewbody'>
+                                        <NavLink to={`/products/${review.product.id}`}>{review.product.name}</NavLink>
+                                    </div>
                                 </div>
+                                <div className='myreview-star'>
+                                    <Stars rating={review.stars} />
+                                </div>
+                                <div className='myreview-reviewbody'>{review.review_body}</div>
+                                <div id={review.id} value={review.id} style={{ display: showStore }}>
+                                    <EditMyReview review={review} showStore={showStore} setShowStore={setShowStore} setFold={setFold} />
+                                </div>
+                                {fold !== review.id.toString() && (<button id={review.id} onClick={handleEdit} value={review.id} disabled={disableButton}>Edit Your Review</button>)}
+                                {fold === review.id.toString() && (<button id={review.id} onClick={handleCancel} value={review.id} disabled={disableButton}>Cancel Edit</button>)}
+                                {/* <button id={review.id} onClick={handleEdit} value={review.id} disabled={disableButton}>Edit Your Review</button>
+                    <button id={review.id} onClick={handleCancel} value={review.id} display={showStore} disabled={disableButton}>Cancel Edit</button> */}
                             </div>
-                            <div className='review star'>
-                                <Stars rating={review.stars} />
-                            </div>
-                            <div className='review reviewbody'>{review.review_body}</div>
                         </div>
                     </div>
-                    <div id={review.id} value={review.id} style={{ display: showStore }}>
-                        <EditMyReview review={review} showStore={showStore} setShowStore={setShowStore} setFold={setFold} />
-                    </div>
-                    <div>
-                        {fold !== review.id.toString() && (<button id={review.id} onClick={handleEdit} value={review.id} disabled={disableButton}>Edit Your Review</button>)}
-                        {fold === review.id.toString() && (<button id={review.id} onClick={handleCancel} value={review.id} disabled={disableButton}>Cancel Edit</button>)}
-                        {/* <button id={review.id} onClick={handleEdit} value={review.id} disabled={disableButton}>Edit Your Review</button>
-                    <button id={review.id} onClick={handleCancel} value={review.id} display={showStore} disabled={disableButton}>Cancel Edit</button> */}
-                    </div>
-                </div>
-            })
-            }
+                })
+                }
         </div >
 
     )

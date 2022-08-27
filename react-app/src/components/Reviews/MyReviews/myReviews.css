@@ -1,35 +1,101 @@
-div.content.container>div.review-container>p {
-    background-color: #EBEAE5;
+#root>div.content.container>div.myreview-container>p,
+.myreview-container 
+{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
     font-family: "Guardian-EgypTT", Georgia, serif;
     font-size: 26px;
+    width: 100%;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 50px;
+    margin: 0;
 }
-
-div.content.container>div.review-container>div {
+div.myreview.title
+{
+    background-color: #EBEAE5;
     display: flex;
-    text-align: center;
     flex-direction: column;
-    padding: 10%;
-
+    flex-wrap: nowrap;
+    font-family: "Guardian-EgypTT", Georgia, serif;
+    font-size: 26px;
+    width: 100%;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 50px;
+    border-bottom: #AFAFAF 2px solid;
+    border-top: #AFAFAF 2px solid;
+    margin: 0;
+    height: 110px;
 }
 
-div.content.container>div.review-container>div>div {
+div.myreview-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-family: "Guardian-EgypTT", Georgia, serif;
+    padding: 5px;
+    margin: auto;
+    align-items: center;
+}
+
+div.myreview-container>div>div {
     display: flex;
     text-align: center;
     flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+    margin-top: 20px;
 }
 
-div.content.container>div.review-container>div>div {
-    width: 80%;
-    background-color: #E3FCD3;
+div.myreview-container>div>div {
+    width: 800px;
     display: flex;
     text-align: left;
     flex-direction: row;
-    padding: 30px;
+    padding: 20px;
+    border-radius: 20px;
+    border: solid #E2E2E2 1px;
+    margin: 10px;
 }
 
-div.content.container>div.review-container>div>div>img {
-    border-width: 30px;
-    max-width: 30px;
-    position: static;
-    float: left;
+
+div.myreview-left-img {
+    padding: 20px;
+    height: 300px;
+    width: 300px;
+    object-fit: scale-down;
+    max-width: 300px;
+    max-width: 300px;
+
+    text-align: center;
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
+
+}
+
+div.myreview-container>div>div>img {
+    display: inline-block;
+    max-width: 100%;
+    max-height: 100%;
+    vertical-align: middle;
+    object-fit: contain;
+}
+
+div.myreview-product,
+div.myreview-star,
+div.myreview-reviewbody {
+    font-size: 30px;
+    text-decoration: none;
+}
+
+div.myreview-reviewbody {
+    font-size: 25px;
+}
+
+div.myreview.rightbox {
+    padding: 30px;
 }
