@@ -12,21 +12,22 @@
     flex-flow: column;
     margin: 2em;
     border: 1px solid black;
+    width: 60%;
 }
 
 .product-image-container {
-    display: flex;
-    flex-flow: column;
+    /* display: flex; */
+    /* flex-flow: column; */
     border: 1px solid black;
     border-radius: 5px;
-    /* width: 33.0729167vw;
-    height:33.0729167vw; */
+    width: auto;
+    height:33.0729167vw;
 }
 
 .product-image {
     object-fit: cover;
-    border: 1px black solid;
-    width: 33.0729167vw;
+    border-radius: 6px;
+    width: 100%;
     height:33.0729167vw;
 }
 

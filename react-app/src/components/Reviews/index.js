@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { getReviewsThunk } from "../../store/review";
 import Stars from '../Reviews/Stars';
+import './Reviews.css';
 
 const Reviews = ({ product }) => {
 const dispatch = useDispatch();
@@ -19,23 +20,21 @@ let reviewLength = productReviews?.length;
 return reviewLoaded && (
     <div className='review-container'>
     {/* <p className='review title'>{reviewLength} shop reviews</p> */}
-    <div className='reviews-header'>
-        <h4 className='reviews-number'>
+        <div className='reviews-header'>
             {reviewLength} reviews
             <Stars rating={product.avgScore} />
-        </h4>
-    </div>
-    {productReviews?.length && productReviews.map(review => {
-        return <div className='product review' key={review.id}>
-        <div className='review username'>user: {review.user_id}</div>
-        <div className='review star'>
-            <Stars rating={review.stars} />
         </div>
-        <div className='review reviewbody'>{review.review_body}</div>
-        <br></br>
-        </div>
-    })
-    }
+        {productReviews?.length && productReviews.map(review => {
+            return <div className='product review' key={review.id}>
+            <div className='review username'>user: {review.user_id}</div>
+            <div className='review star'>
+                <Stars rating={review.stars} />
+            </div>
+            <div className='review reviewbody'>{review.review_body}</div>
+            <br></br>
+            </div>
+        })
+        }
 
     </div >
 )
