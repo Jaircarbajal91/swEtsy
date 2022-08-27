@@ -34,9 +34,18 @@ const Products = ({ products, sessionUser }) => {
                     <Product key={eightProductsMiddleDisplay[0].id} product={eightProductsMiddleDisplay[0]} />
                     <Product key={eightProductsMiddleDisplay[1].id} product={eightProductsMiddleDisplay[1]} />
                 </div>
-                <div className='col-2'></div>
-                <div className='col-3'></div>
-                <div className='col-4'></div>
+                <div className='col-2'>
+                    <Product key={eightProductsMiddleDisplay[2].id} product={eightProductsMiddleDisplay[2]} />
+                    <Product key={eightProductsMiddleDisplay[3].id} product={eightProductsMiddleDisplay[3]} />
+                </div>
+                <div className='col-3'>
+                    <Product key={eightProductsMiddleDisplay[4].id} product={eightProductsMiddleDisplay[4]} />
+                    <Product key={eightProductsMiddleDisplay[5].id} product={eightProductsMiddleDisplay[5]} />
+                </div>
+                <div className='col-4'>
+                    <Product key={eightProductsMiddleDisplay[6].id} product={eightProductsMiddleDisplay[6]} />
+                    <Product key={eightProductsMiddleDisplay[7].id} product={eightProductsMiddleDisplay[7]} />
+                </div>
             </div>
         </div>
     );
