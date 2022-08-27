@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useHistory } from 'react-router-dom'
 import { getMyReviewThunk } from "../../../store/review";
 import Stars from '../../Reviews/Stars'
 import EditMyReview from '../../UpdateMyReview'
 
-const MyReviews = () => {
+const MyReviews = ({ reviews, setShowLogin }) => {
     const dispatch = useDispatch();
+    const history = useHistory();
     const [reviewLoaded, setReviewLoaded] = useState(false)
     const [showStore, setShowStore] = useState('none')
     const [fold, setFold] = useState('none')
@@ -33,6 +34,13 @@ const MyReviews = () => {
         x.style.display === "none" ? x.style.display = "block" : x.style.display = "none"
         setFold('none')
         disableButton = true
+    }
+
+    if (!sessionUser) {
+        history.push('/')
+        return (
+            window.location.reload(false)
+        )
     }
 
     return reviewLoaded && (
