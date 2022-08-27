@@ -13,3 +13,34 @@
   display: flex;
   justify-content: center;
 }
+
+div.circle-display-container.products {
+  display: flex;
+  justify-content: center;
+}
+
+div.circle-display-container.products > a > div > div.product.image-container > img {
+  width: 7em;
+  max-width: 7em;
+  height: 7em;
+  max-height: 7em;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 1px solid rgb(200, 200, 200);
+  transition: all .2s ease-in-out;
+}
+
+div.circle-display-container.products > a > div > div.product.image-container > img:hover {
+  transform: scale(1.1);
+}
+
+div.circle-display-container.products > a > div {
+  margin: 1.5em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+div.circle-display-container.products > a > div > div.price {
+  display: none;
+}
