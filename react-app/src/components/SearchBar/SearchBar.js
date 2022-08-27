@@ -93,6 +93,17 @@ const SearchBar = ({ searchWords, setSearchWords }) => {
     }
   }
 
+  let cursorStlyes;
+  if (symbolErrors) {
+    cursorStlyes = {
+      cursor:'not-allowed'
+    }
+  } else {
+    cursorStlyes  = {
+      cursor:'pointer'
+    }
+  }
+
   return (
     <div className="search-bar-container">
       <div className='searchbar-container'>
@@ -105,13 +116,13 @@ const SearchBar = ({ searchWords, setSearchWords }) => {
           onChange={searchChangeHandler}
           onKeyDown={handleSearchPress}
         />
-        <div className='magnifying-container' onClick={searchClickHandler}>
+        <div className='magnifying-container' style={cursorStlyes} onClick={symbolErrors ? null : searchClickHandler}>
           <img src={Magnifying} disabled={disableSearch} className='input search-submit' ></img>
         </div>
       </div>
-        {symbolErrors && (
-          <span className='search-errors-text'>{symbolErrors}</span>
-        )}
+      {symbolErrors && (
+        <span className='search-errors-text'>{symbolErrors}</span>
+      )}
     </div>
   )
 }

@@ -16,10 +16,10 @@ const Products = ({ products, sessionUser }) => {
         return array;
     }
 
-    const shuffledProducts = shuffle(products)
-    const sixCircleDisplayProducts = shuffledProducts.slice(0, 6);
-    const eightProductsMiddleDisplay = shuffledProducts.slice(6, 14);
-    const remainingProducts = shuffledProducts.slice(14, shuffledProducts.length)
+    // const shuffledProducts = shuffle(products)
+    const sixCircleDisplayProducts = products.slice(0, 6);
+    const eightProductsMiddleDisplay = products.slice(6, 14);
+    const remainingProducts = products.slice(14, products.length)
     return (
         <div className='products-page-container'>
             <div className='back-splash'></div>

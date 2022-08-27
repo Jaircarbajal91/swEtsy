@@ -44,3 +44,7 @@ div.circle-display-container.products > a > div {
 div.circle-display-container.products > a > div > div.price {
   display: none;
 }
+
+#root > div.content.container > div.products-page-container > div.circle-display-container.products > a > div > div.star-container {
+  display: none;
+}

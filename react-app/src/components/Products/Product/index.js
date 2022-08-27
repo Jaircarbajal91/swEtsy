@@ -8,9 +8,11 @@ const Product = ({ product }) => {
         style: 'currency',
         currency: 'USD',
     });
-    console.log(product)
     return (
-        <NavLink to={`/products/${product.id}`}>
+        <NavLink to={`/products/${product.id}`} style={{
+            textDecoration: 'none',
+            color: 'black'
+        }}>
             <div className='card-container'>
                 <div className='product image-container'>
                     <img className='product image' src={product.image} alt='product' />
