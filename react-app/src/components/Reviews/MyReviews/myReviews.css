@@ -56,7 +56,7 @@ div.myreview-container>div>div {
 }
 
 div.myreview-container>div>div {
-    width: 900px;
+    width: 800px;
     display: grid;
     grid-template-columns: 2fr 5fr;
     text-align: left;
@@ -78,13 +78,17 @@ div.myreview-left-img {
     overflow: hidden;
     display: block;
     background-color: #EBEAE5;
+    /* background-color: white; */
+    border-style: solid gray 500px;
     border-radius: 10px;
-    border-width: 2px;
-    padding: 2px;
+    padding-right: .5%;
+    padding-top: .5%;
+    padding-left: 4%;
+    padding-bottom: 4%;
 }
 
 div.myreview-right-box {
-    width: 70%;
+    width: 90%;
     padding: 8%;
 }
 
@@ -110,4 +114,18 @@ div.myreview-product {
 
 div.myreview-reviewbody {
     font-size: 20px;
+}
+
+.myreview-redirect {
+    color: #663600;
+    text-Decoration: none;
+    font-weight: 900;
+    font-size: 26px;
+}
+
+.myreview-redirect:hover {
+    color: #663600;
+    text-Decoration: none;
+    font-size: 30px;
+    transition-duration: 500ms;
 }

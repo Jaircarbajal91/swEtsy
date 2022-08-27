@@ -56,7 +56,10 @@ const MyReviews = ({ reviews, setShowLogin }) => {
                         <div className='myreview-right-box'>
                             <div className='myreview-product'>Review on
                                 <div className='myreview-reviewbody'>
-                                    <NavLink to={`/products/${review.product.id}`} style={{ color: '#663600', textDecoration: 'none' }}> {review.product.name}</NavLink>
+                                    <NavLink to={`/products/${review.product.id}`}
+                                        // style={{ color: '#663600', textDecoration: 'none' }}
+                                        className={'myreview-redirect'}
+                                    > {review.product.name}</NavLink>
                                 </div>
                             </div>
                             <div className='myreview-star'>
