@@ -16,7 +16,6 @@ export default function AddAReviewModal({ product }) {
     const productReviews = useSelector(state => state.products.reviews);
 
     const id = product.id
-    console.log('owner is ', product.owner_id)
     useEffect(() => {
         dispatch(getReviewsThunk(id))
     }, [id, showModal])
@@ -42,7 +41,7 @@ export default function AddAReviewModal({ product }) {
         }
 
         // if (product.reviews.some(e => e.user_id === sessionUser.id)) {
-            
+
         // }
         dispatch(createReviewThunk(id, payload)).then((res) => {
             setReviewStars()

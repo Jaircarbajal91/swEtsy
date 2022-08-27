@@ -57,7 +57,7 @@ const ProductDetail = () => {
         <div className="product-detail-container">
         <div className="product-detail-left">
             <div className="product-image-container">
-                <img src={product.image} alt="" />
+                <img className="product-image" src={product.image} alt="" />
             </div>
             <div className="reviews">
                 <Reviews product={product} isLoaded={isLoaded} />
@@ -65,16 +65,16 @@ const ProductDetail = () => {
         </div>
         <div className="product-detail-right">
             <div className="product-detail-name">
-            <p>{product.name}</p>
+                <p>{product.name}</p>
             </div>
             <div className="product-detail-stars">
-            <Stars rating={rating} />
+                <Stars rating={rating} />
             </div>
             <div className="product-detail-description">
-            <p>{product.description}</p>
+                <p>{product.description}</p>
             </div>
             <div className="product-detail-price">
-            <p>{formatter.format(product.price)}</p>
+                <p>{formatter.format(product.price)}</p>
             </div>
             {product.owner_id === sessionUser?.id && (
             <div>

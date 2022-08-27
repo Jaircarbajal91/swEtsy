@@ -8,7 +8,6 @@ const SearchBar = ({searchWords, setSearchWords}) => {
   const history = useHistory()
   const loc = useLocation()
   const path = loc.pathname
-  // console.log(path)
   useEffect(() => {
     if(path.includes('search')){
       let query = new URLSearchParams(loc.search)
@@ -33,7 +32,6 @@ const SearchBar = ({searchWords, setSearchWords}) => {
   }
 
   const searchClickHandler = e => {
-    console.log(searchWords);
     setSymbolErrors('')
     setSearchWords(prev => prev.replaceAll(/[^A-Za-z0-9\- ]/g, ''))
     if(path.includes('search')){

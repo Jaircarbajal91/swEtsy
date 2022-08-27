@@ -34,8 +34,8 @@ export const getReviewsThunk = id => async dispatch => {
     if (response.ok) {
         const reviews = await response.json();
         dispatch(getReviewsAction(reviews));
-        console.log('reviews is----=====???', reviews)
-        console.log('reviews details is----=====???', reviews.review_details)
+        // console.log('reviews is----=====???', reviews)
+        // console.log('reviews details is----=====???', reviews.review_details)
         return reviews;
     } else {
         const data = await response.json();
@@ -83,12 +83,12 @@ export const editReviewThunk = (productId, reviewId, review) => async dispatch =
         headers: { 'Content-Type': 'application/json' },
     });
     if (response.ok) {
-        console.log("in thunk good--> ", reviewId)
+        // console.log("in thunk good--> ", reviewId)
         const review = await response.json();
         dispatch(editReviewAction(review));
         return review;
     } else {
-        console.log("in thunk bad--> ", reviewId)
+        // console.log("in thunk bad--> ", reviewId)
         const data = await response.json();
         return data.errors;
     }

@@ -40,7 +40,7 @@ export default function EditMyReview({ review, showStore, setFold }) {
     const handleDelete = async e => {
         e.preventDefault()
         let id = Number(e.currentTarget.value)
-        await dispatch(deleteReviewThunk(id)).then(() => console.log('deleted! id is ', id))
+        await dispatch(deleteReviewThunk(id))
         await dispatch(getMyReviewThunk())
     }
 
