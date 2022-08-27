@@ -11,25 +11,33 @@ export default function AddAReviewModal({ product }) {
     const [reviewStars, setReviewStars] = useState()
     const [reviewBody, setReviewBody] = useState('')
     const [errors, setErrors] = useState([])
+    const [isDisabled, setIsDisabled] = useState(true);
 
     const sessionUser = useSelector(state => state.session.user);
     const productReviews = useSelector(state => state.products.reviews);
-
     const id = product.id
-    console.log('owner is ', product.owner_id)
+    // console.log('owner is ', product.owner_id)
+    // console.log('reviewBody.length is ', reviewBody.length)
+
     useEffect(() => {
         dispatch(getReviewsThunk(id))
     }, [id, showModal])
 
     useEffect(() => {
-        const newError = [];
-        if (reviewBody.length > 1000) {
-            newError.push('You may only enter review in 1000 characters.')
-        }
+        const newErrors = [];
         if (!reviewStars) {
-            newError.push('Please rate this product.')
+            newErrors.push('Please rate this product.')
         }
-    }, [reviewBody.length, dispatch])
+        if (reviewBody.length > 500) {
+            newErrors.push('You may only enter review in 500 characters.')
+        }
+        if (product.reviews.some(e => e.user_id === sessionUser.id)) {
+            newErrors.push('You have already reviewed this product.')
+        }
+        setErrors(newErrors)
+        if (!errors.length) setIsDisabled(false);
+        else setIsDisabled(true)
+    }, [reviewBody.length, errors.length, reviewStars])
 
     const handleSubmit = async e => {
         e.preventDefault();
@@ -41,16 +49,10 @@ export default function AddAReviewModal({ product }) {
             user_id: sessionUser.id
         }
 
-        // if (product.reviews.some(e => e.user_id === sessionUser.id)) {
-            
-        // }
         dispatch(createReviewThunk(id, payload)).then((res) => {
             setReviewStars()
             setReviewBody('')
             setShowModal(false)
-            // if (res.review.error) {
-            //     setErrors(res.review.error)
-            // }
         })
     }
 
@@ -72,7 +74,7 @@ export default function AddAReviewModal({ product }) {
                         My Review
                         <div>{product.name}</div>
                         <div>{product.description}</div>
-                        <div><img src={product.image} alt={'product image'} maxheight={'300px'}></img></div>
+                        <div><img src={product.image} alt={'product image'}></img></div>
                         <div>
                             {errors.map((error, ind) => (
                                 <div key={ind}>{error}</div>
@@ -90,10 +92,11 @@ export default function AddAReviewModal({ product }) {
                             placeholder='write a review for this item'
                             onChange={e => setReviewBody(e.target.value)}
                             value={reviewBody}
+                            maxLength={501}
                         ></input>
                         <br></br>
                         <button onClick={handleCancel}>Cancel</button>
-                        <button onClick={handleSubmit}>Submit Review</button>
+                        <button onClick={handleSubmit} disabled={isDisabled}>Submit Review</button>
                     </form>
 
                 </Modal>}

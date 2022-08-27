@@ -22,7 +22,7 @@ const MyReviews = () => {
     useEffect(() => {
         dispatch(getMyReviewThunk()).then(() => setReviewLoaded(true))
     }, [dispatch, showStore, fold])
-
+    console.log("product id ---", typeof myReviews)
     const handleEdit = async (e) => {
         e.preventDefault();
         let x = document.getElementById(`${e.currentTarget.value}`)
@@ -46,7 +46,7 @@ const MyReviews = () => {
                     <div>
                         <div className='review product'>Review on
                             <div className='review product'>
-                                <NavLink to={`/products/${review.id}`}>{review.product.name}</NavLink>
+                                <NavLink to={`/products/${review.product.id}`}>{review.product.name}</NavLink>
                             </div>
                         </div>
                         <div className='review star'>

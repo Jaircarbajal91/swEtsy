@@ -18,11 +18,12 @@ const Reviews = ({ product, isLoaded }) => {
   let reviewLength = productReviews?.length;
   console.log('length====', reviewLength)
 
-  return reviewLoaded && (
+  return reviewLoaded && reviewLength && (
     <div className='review-container'>
+      {/* <p>{product.avgScore}<Stars rating={5} /></p> */}
+      <p><Stars rating={5} /></p>
       <p className='review title'>{reviewLength} shop reviews
       </p>
-      <p>{product.avgScore}<Stars rating={5} /></p>
       {productReviews?.length && productReviews.map(review => {
         return <div className='product review' key={review.id}>
           <div className='review username'>user: {review.user_id}</div>
