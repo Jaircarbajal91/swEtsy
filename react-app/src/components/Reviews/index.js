@@ -1,42 +1,44 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import { NavLink, useHistory, useLocation } from 'react-router-dom'
-import { Modal } from '../../context/Modal';
-import { getReviewsThunk, createReviewThunk, editReviewThunk, deleteReviewThunk } from "../../store/review";
-import Stars from '../Reviews/Stars'
+import { getReviewsThunk } from "../../store/review";
+import Stars from '../Reviews/Stars';
 
-const Reviews = ({ product, isLoaded }) => {
-  const dispatch = useDispatch();
-  const id = product.id;
-  const [reviewLoaded, setReviewLoaded] = useState(false)
-  const productReviews = useSelector(state => state.reviews.reviewsList)
+const Reviews = ({ product }) => {
+const dispatch = useDispatch();
+const id = product.id;
+const [reviewLoaded, setReviewLoaded] = useState(false)
+const productReviews = useSelector(state => state.reviews.reviewsList)
 
-  useEffect(() => {
+useEffect(() => {
     dispatch(getReviewsThunk(id)).then(() => setReviewLoaded(true))
-  }, [product.id])
+}, [product.id])
 
-  let reviewLength = productReviews?.length;
-  console.log('length====', reviewLength)
+let reviewLength = productReviews?.length;
+// console.log('length====', reviewLength)
 
-  return reviewLoaded && (
+return reviewLoaded && (
     <div className='review-container'>
-      <p className='review title'>{reviewLength} shop reviews
-      </p>
-      <p>{product.avgScore}<Stars rating={product.avgScore} /></p>
-      {productReviews?.length && productReviews.map(review => {
+    {/* <p className='review title'>{reviewLength} shop reviews</p> */}
+    <div className='reviews-header'>
+        <h4 className='reviews-number'>
+            {reviewLength} reviews
+            <Stars rating={product.avgScore} />
+        </h4>
+    </div>
+    {productReviews?.length && productReviews.map(review => {
         return <div className='product review' key={review.id}>
-          <div className='review username'>user: {review.user_id}</div>
-          <div className='review star'>
+        <div className='review username'>user: {review.user_id}</div>
+        <div className='review star'>
             <Stars rating={review.stars} />
-          </div>
-          <div className='review reviewbody'>{review.review_body}</div>
-          <br></br>
         </div>
-      })
-      }
+        <div className='review reviewbody'>{review.review_body}</div>
+        <br></br>
+        </div>
+    })
+    }
 
     </div >
-  )
+)
 }
 
 export default Reviews
