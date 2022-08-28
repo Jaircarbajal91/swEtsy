@@ -37,7 +37,7 @@
 
 
 /* CartItem */
-.image-container {
+.cart-image-container {
     border-radius: 5px;
     width: 212.337px;
     height: 168.613px;
@@ -46,7 +46,7 @@
 }
 
 /* CartItem */
-.image-container > img {
+.cart-image-container > img {
     object-fit: cover;
     width: 212.337px;
     height: 168.613px;

@@ -36,7 +36,7 @@ export default function CartItem({ item }) {
 
     return (
         <div className="outmost-div">
-            <div className="image-container">
+            <div className="cart-image-container">
                 <img src={product.image} alt='product' />
             </div>
             <div className="product-name-remove">
