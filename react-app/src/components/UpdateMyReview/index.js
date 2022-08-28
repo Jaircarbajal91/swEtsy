@@ -68,12 +68,13 @@ export default function EditMyReview({ review, showStore, setFold }) {
 
     const handleClear = async e => {
         e.preventDefault()
+        setReviewStars()
         setReviewBody('')
     }
 
     return reviewLoaded && (
         <div id={reviewId} style={{ display: { ...showStore } }}>
-            <form className='editreview-form'>My Review
+            <form className='editreview-form'>Update My Review
                 < section className="star rating-container" >
                     <input type="radio" name="ratingStar" className="rating" value="1" onClick={e => setReviewStars(e.target.value)} />
                     <input type="radio" name="ratingStar" className="rating" value="2" onClick={e => setReviewStars(e.target.value)} />
@@ -87,19 +88,19 @@ export default function EditMyReview({ review, showStore, setFold }) {
                     ))}
                 </div>
                 <div className='editreview-reviewbody'>
-                    <input
-                        type='text'
+                    <textarea
+                        type='textarea'
                         placeholder='write a review for this item'
                         onChange={e => setReviewBody(e.target.value)}
                         value={reviewBody}
                         maxLength={501}
                         className='editreview-reviewbody'
-                    ></input>
+                    ></textarea>
                 </div>
                 <br></br>
-                <button value={reviewId} onClick={handleSubmit} disabled={isDisabled}>Update My Review</button>
-                <button value={reviewId} onClick={handleClear}>Clear</button>
-                <button value={reviewId} onClick={handleDeleteModal}>Delete</button>
+                <button value={reviewId} className='editreview-button' onClick={handleSubmit} disabled={isDisabled}>Update My Review</button>
+                <button value={reviewId} className='editreview-button' onClick={handleClear}>Clear</button>
+                <button value={reviewId} className='editreview-button' onClick={handleDeleteModal}>Delete</button>
                 {showDelete && (
                     <Modal >
                         <DeleteReview setDeleteReview={setDeleteReview} setShowDelete={setShowDelete} reviewId={reviewId} />
