@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { NavLink } from 'react-router-dom'
 import { Modal } from '../../context/Modal';
 import { getReviewsThunk, createReviewThunk } from "../../store/review";
 import './createReview.css'
@@ -25,11 +26,11 @@ export default function AddAReview({ product }) {
 
     useEffect(() => {
         if (sessionUser && product.reviews.some(e => e.user_id === sessionUser.id)) {
-            newErrors.push(`You have already reviewed this product.`, `Please edit/delete under My Reviews.`, <a className='review-redirect' href='https://swetsy-app.herokuapp.com/myreviews' style={{ color: '#472600', textDecoration: 'none' }}>Take me to My Reviews ...</a>)
+            newErrors.push(`You have already reviewed this product.`, `Please edit/delete under My Reviews.`, <NavLink className='review-redirect' to='https://swetsy-app.herokuapp.com/myreviews' style={{ color: '#472600', textDecoration: 'none' }}>Take me to My Reviews ...</NavLink>)
         }
         else {
             if (reviewStars == undefined) {
-                newErrors.push('Please rate this product.')
+                newErrors.push('* Please give this product a rating.')
             }
             if (reviewBody.length > 500) {
                 newErrors.push('You may only enter review in 500 characters.')
@@ -77,14 +78,14 @@ export default function AddAReview({ product }) {
                 <button onClick={() => setShowModal(true)} hidden={product.owner_id === sessionUser.id}>Add a Review</button>
             </div>
             {showModal &&
-                <Modal onClose={() => setShowModal(false)} >
+                <Modal className='createreview-modal' onClose={() => setShowModal(false)} >
                     <form className='createreview-form'>
                         <div className='createreview-name'>{product.name}</div>
                         <div className='createreview-des'>{product.description}</div>
                         <div className='createreview-img'><img src={product.image} alt={'product image'}></img></div>
                         <div>
                             {errors.map((error, ind) => (
-                                <div key={ind}>{error}</div>
+                                <div className='createreview-error' key={ind}>{error}</div>
                             ))}
                         </div>
                         <section className="star-rating-container">
@@ -102,9 +103,10 @@ export default function AddAReview({ product }) {
                             maxLength={501}
                             className='createreview-reviewbody'
                         ></textarea>
-                        <br></br>
-                        <button className='createreview-button' onClick={handleCancel}>Cancel</button>
-                        <button className='createreview-button' onClick={handleSubmit} disabled={isDisabled}>Submit Review</button>
+                        <div>
+                            <button className='createreview-button' onClick={handleCancel}>Cancel</button>
+                            <button className='createreview-button' onClick={handleSubmit} disabled={isDisabled}>Submit Review</button>
+                        </div>
                     </form>
 
                 </Modal>}

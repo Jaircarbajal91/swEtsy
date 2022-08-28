@@ -6,7 +6,7 @@ form.editreview-form {
     padding: 5%;
     display: block;
     justify-content: space-between;
-    border-radius: 10px;
+    border-radius: 20px;
     font-size: 22px;
     color: #56504C;
     font-family: 'DM Serif Display', serif;
@@ -21,7 +21,7 @@ textarea.editreview-reviewbody {
     padding: 10px;
     font-size: 22px;
     font-family: 'Bitter', serif;
-    border-radius: 5px;
+    border-radius: 20px;
     background: rgb(249, 250, 250);
     border-radius: 10px;
     border: 1px solid rgb(181, 189, 196);
@@ -56,7 +56,7 @@ button.editreview-button {
     margin: 5px;
     padding: 0 10px;
     font-size: 16px;
-    border-radius: 6px;
+    border-radius:20px;
     color: #36395a;
     transition: box-shadow 0.15s ease;
     transform: 0.15s ease;
