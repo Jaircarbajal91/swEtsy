@@ -29,7 +29,7 @@ export default function CreateProductPage() {
                 newNameErrors.push('Please give your product a name');
             }
             if (name.length > 70 || name.length < 3) {
-                newNameErrors.push('Name must between 3 and 70 characters');
+                newNameErrors.push('Name must be between 3 and 70 characters');
             }
             setNameErrors(newNameErrors);
             if (!nameErrors.length) setIsDisabled(false);
@@ -172,13 +172,13 @@ export default function CreateProductPage() {
                 {page === 4 &&
                     <div className='form price container'>
                         <div className='product-form-errors-container'>
-                        {priceErrors.length > 0 && (
-                            <ul className='form errors price'>
-                                {priceErrors.map(error => (
-                                    <li key={error}>{error}</li>
-                                ))}
-                            </ul>
-                        )}
+                            {priceErrors.length > 0 && (
+                                <ul className='form errors price'>
+                                    {priceErrors.map(error => (
+                                        <li key={error}>{error}</li>
+                                    ))}
+                                </ul>
+                            )}
                         </div>
                         <input
                             placeholder='How much do you want to charge?'
@@ -194,9 +194,11 @@ export default function CreateProductPage() {
                         />
                     </div>
                 }
+
                 {page > 1 && <button className='back-button' onClick={() => setPage(currPage => currPage - 1)}>Back</button>}
                 {page < 4 && <button disabled={isDisabled} className='next-button' onClick={() => setPage(currPage => currPage + 1)}>Next</button>}
-                {page === 4 && <button disabled={isDisabled} className='submit-button' type='submit'>List Product</button>}
+                {page === 4 && <button disabled={isDisabled} className='submit-button' type='button' onClick={handleSubmit}>List Product</button>}
+
             </div>
         </form>
     );
