@@ -61,69 +61,69 @@ const ProductDetail = () => {
 
     return isLoaded && (
         <div className="product-detail-container">
-        <div className="product-detail-left">
-            <div className="product-image-container">
-                <img className="product-image" src={product.image} alt="" />
-            </div>
-            <div className="reviews">
-                <Reviews product={product} isLoaded={isLoaded} />
-            </div>
-        </div>
-        <div className="product-detail-right">
-            <div className="product-detail-name">
-                <p>{product.name}</p>
-            </div>
-            <div className="product-detail-stars">
-                <Stars rating={rating} />
-            </div>
-            <div className="product-detail-price">
-                <p>{formatter.format(product.price)}</p>
-            </div>
-            {product.owner_id === sessionUser?.id && (
-            <div>
-                <div className="edit-delete">
-                    <button
-                        id="edit-button"
-                        onClick={() => setShowUpdate(true)}>Edit</button>
-                    <button
-                        id='delete-button'
-                        onClick={() => setShowDelete(true)}>Delete</button>
+            <div className="product-detail-left">
+                <div className="product-image-container">
+                    <img className="product-image" src={product.image} alt="" />
                 </div>
-                {showUpdate && (
-                <Modal onClose={() => setShowUpdate(false)}>
-                    <UpdateProduct product={product} setShowUpdate={setShowUpdate} />
-                </Modal>
+                <div className="reviews">
+                    <Reviews product={product} isLoaded={isLoaded} />
+                </div>
+            </div>
+            <div className="product-detail-right">
+                <div className="product-detail-name">
+                    <p>{product.name}</p>
+                </div>
+                <div className="product-detail-stars">
+                    <Stars rating={rating} />
+                </div>
+                <div className="product-detail-price">
+                    <p>{formatter.format(product.price)}</p>
+                </div>
+                {product.owner_id === sessionUser?.id && (
+                <div>
+                    <div className="edit-delete">
+                        <button
+                            id="edit-button"
+                            onClick={() => setShowUpdate(true)}>Edit</button>
+                        <button
+                            id='delete-button'
+                            onClick={() => setShowDelete(true)}>Delete</button>
+                    </div>
+                    {showUpdate && (
+                    <Modal onClose={() => setShowUpdate(false)}>
+                        <UpdateProduct product={product} setShowUpdate={setShowUpdate} />
+                    </Modal>
+                    )}
+                    {showDelete && (
+                    <Modal onClose={() => setShowDelete(false)} >
+                        <DeleteProduct setDeleted={setDeleted} setShowDelete={setShowDelete} />
+                    </Modal>
+                    )}
+                </div>
                 )}
-                {showDelete && (
-                <Modal onClose={() => setShowDelete(false)} >
-                    <DeleteProduct setDeleted={setDeleted} setShowDelete={setShowDelete} />
-                </Modal>
+                {sessionUser && (
+                <div>
+                    <label id="quantity-label">
+                        <p>How many?</p>
+                    </label>
+                    <div className="custom-select">
+                        <select id='quantity' value={quantity} onChange={e => setQuantity(e.target.value)}>
+                        {options.map(option => (
+                            <option key={option} value={option}>{option}</option>
+                        ))}
+                        </select>
+                    </div>
+                    <div className="button add-to-cart">
+                        <button id='add-button' onClick={() => addToCart()}>Add to Cart</button>
+                    </div>
+                </div>
                 )}
-            </div>
-            )}
-            {sessionUser && (
-            <div>
-                <label id="quantity-label">
-                    <p>How many?</p>
-                </label>
-                <div className="custom-select">
-                    <select id='quantity' value={quantity} onChange={e => setQuantity(e.target.value)}>
-                    {options.map(option => (
-                        <option key={option} value={option}>{option}</option>
-                    ))}
-                    </select>
-                </div>
-                <div className="button add-to-cart">
-                    <button id='add-button' onClick={() => addToCart()}>Add to Cart</button>
+                <AddAReview product={product} />
+                <div className="product-detail-description">
+                    <h4 id='description-heading'>Description</h4>
+                    <p>{product.description}</p>
                 </div>
             </div>
-            )}
-            <AddAReview product={product} />
-            <div className="product-detail-description">
-                <h4 id='description-heading'>Description</h4>
-                <p>{product.description}</p>
-            </div>
-        </div>
         </div>
         )
     }
