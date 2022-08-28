@@ -47,6 +47,12 @@ const Products = ({ products, sessionUser }) => {
                     <Product key={eightProductsMiddleDisplay[7].id} product={eightProductsMiddleDisplay[7]} />
                 </div>
             </div>
+            <div className='remainder-products-container'>
+            <h2 className='more-products-text'>More products sold by Sellers</h2>
+                    {remainingProducts.map(product => (
+                        <Product key={product.id} product={product}/>
+                    ))}
+            </div>
         </div>
     );
 }

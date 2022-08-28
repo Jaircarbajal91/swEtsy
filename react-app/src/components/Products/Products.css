@@ -8,6 +8,9 @@
 
 .products-page-container {
   width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .products.container {
   display: flex;
@@ -76,8 +79,8 @@ div.middle-products-display-container.products > div.col-4 > div:nth-child(2),
 div.middle-products-display-container.products > div.col-3 > div:nth-child(1),
 div.middle-products-display-container.products > div.col-2 > div:nth-child(2),
 div.middle-products-display-container.products > div.col-1 > div:nth-child(1) {
-  height: 40%;
-  max-height: 40%;
+  height: 12em;
+  max-height: 12em;
   width: 100%;
   max-width: 100%;
 
@@ -87,8 +90,8 @@ div.middle-products-display-container.products > div.col-4 > div:nth-child(1),
 div.middle-products-display-container.products > div.col-3 > div:nth-child(2),
 div.middle-products-display-container.products > div.col-2 > div:nth-child(1),
 div.middle-products-display-container.products > div.col-1 > div:nth-child(2) {
-  height: 60%;
-  max-height: 60%;
+  height: 20em;
+  max-height: 20em;
   width: 100%;
   max-width: 100%;
 }
@@ -97,8 +100,8 @@ div.middle-products-display-container.products > div.col-4 > div:nth-child(2) > 
 div.middle-products-display-container.products > div.col-3 > div:nth-child(1) > div,
 div.middle-products-display-container.products > div.col-2 > div:nth-child(2) > div,
 div.middle-products-display-container.products > div.col-1 > div:nth-child(1) > div {
-  height: 100%;
-  max-height: 100%;
+  height: 12em;
+  max-height: 12em;
   width: 100%;
   max-width: 100%;
   border: 1px solid #c5c5c5;
@@ -179,4 +182,84 @@ div.middle-products-display-container.products > div > div > div > div.price {
   border-radius: 3em;
   width: fit-content;
   padding: .5em 1em;
+}
+
+
+
+
+
+
+
+
+.remainder-products-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 1600px;
+  gap: 1em;
+}
+
+
+div.remainder-products-container > div {
+  height: 12em;
+  max-height: 12em;
+  width: 16em;
+  max-width: 16em;
+}
+
+div.remainder-products-container > div > div {
+  height: 12em;
+  max-height: 12em;
+  width: 100%;
+  max-width: 100%;
+  border: 1px solid #c5c5c5;
+  border-radius: .5em;
+}
+
+
+div.remainder-products-container > div > div > div.product.image-container {
+  height: 100%;
+  max-height: 100%;
+  width: 100%;
+  max-width: 100%;
+}
+
+
+div.remainder-products-container > div > div > div.product.image-container > img {
+  height: 100%;
+  min-height: 100%;
+  width: 100%;
+  max-width: 100%;
+  object-fit: cover;
+  border-radius: .5em;
+}
+
+div.remainder-products-container > div > div > div.product.name {
+  display: none;
+}
+
+
+div.remainder-products-container > div > div > div.star-container > * {
+  display: none;
+}
+
+div.remainder-products-container > div > div > div.price {
+  position: relative;
+  bottom: 3.3em;
+  left: 1em;
+  background-color: #E4E4E4;
+  border-radius: 3em;
+  width: fit-content;
+  padding: .5em 1em;
+}
+
+.more-products-text {
+  font-weight: 400;
+  display: block;
+  width: 100%;
+  letter-spacing: 0.5px;
+  line-height: 28px;
+  padding-left: 5.4em;
+  font-size: x-large;
+  margin-bottom: 0;
 }
