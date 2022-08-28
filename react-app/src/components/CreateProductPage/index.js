@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { createProductThunk } from '../../store/products';
+import './createProduct.css';
+import background from './bg.jpg';
 
 export default function CreateProductPage() {
     const dispatch = useDispatch();
@@ -102,13 +104,16 @@ export default function CreateProductPage() {
     if (!sessionUser) history.push('/')
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form className='newproduct-form' onSubmit={handleSubmit}>
+            <img className='newproduct-background' src={background} alt='background'></img>
             <div className='inner-form'>
+                <h2 className='newproduct-title'>Millions of shoppers cannot wait to see what you have in store</h2>
+                <h3 className='newproduct-title'>List your product</h3>
                 {page === 1 &&
                     <div className='form name container'>
-                        <div className='product form errors container'>
+                        <div className='product-form-errors-container'>
                             {nameErrors.length > 0 && (
-                                <ul className='form errors name'>
+                                <ul className='form-errors-name'>
                                     {nameErrors.map(error => (
                                         <li key={error}>{error}</li>
                                     ))}
@@ -117,7 +122,7 @@ export default function CreateProductPage() {
                         </div>
                         <input
                             placeholder='What are you selling?'
-                            className='input-field'
+                            className='newproduct-input-field'
                             type='text'
                             value={name}
                             onChange={e => setName(e.target.value)}
@@ -126,7 +131,7 @@ export default function CreateProductPage() {
                 }
                 {page === 2 &&
                     <div className='form description container'>
-                        <div className='product form errors container'>
+                        <div className='product-form-errors-container'>
                             {descriptionErrors.length > 0 && (
                                 <ul className='form errors description'>
                                     {descriptionErrors.map(error => (
@@ -137,7 +142,7 @@ export default function CreateProductPage() {
                         </div>
                         <input
                             placeholder='Tell us about your product!'
-                            className='input-field'
+                            className='newproduct-input-field'
                             type='text'
                             value={description}
                             onChange={e => setDescription(e.target.value)}
@@ -146,7 +151,7 @@ export default function CreateProductPage() {
                 }
                 {page === 3 &&
                     <div className='form image container'>
-                        <div className='product form errors container'>
+                        <div className='product-form-errors-container'>
                             {imageErrors.length > 0 && (
                                 <ul className='form errors image'>
                                     {imageErrors.map(error => (
@@ -157,7 +162,7 @@ export default function CreateProductPage() {
                         </div>
                         <input
                             placeholder='Please upload an image'
-                            className='input-field'
+                            className='newproduct-input-field'
                             type='url'
                             value={image}
                             onChange={e => setImage(e.target.value)}
@@ -166,6 +171,7 @@ export default function CreateProductPage() {
                 }
                 {page === 4 &&
                     <div className='form price container'>
+                        <div className='product-form-errors-container'>
                         {priceErrors.length > 0 && (
                             <ul className='form errors price'>
                                 {priceErrors.map(error => (
@@ -173,9 +179,10 @@ export default function CreateProductPage() {
                                 ))}
                             </ul>
                         )}
+                        </div>
                         <input
                             placeholder='How much do you want to charge?'
-                            className='input-field'
+                            className='newproduct-input-field'
                             type='number'
                             min='0'
                             max='1000000'
@@ -187,9 +194,9 @@ export default function CreateProductPage() {
                         />
                     </div>
                 }
-                {page > 1 && <button className='back button' onClick={() => setPage(currPage => currPage - 1)}>Back</button>}
-                {page < 4 && <button disabled={isDisabled} className='next button' onClick={() => setPage(currPage => currPage + 1)}>Next</button>}
-                {page === 4 && <button disabled={isDisabled} className='submit button' type='submit'>List Product</button>}
+                {page > 1 && <button className='back-button' onClick={() => setPage(currPage => currPage - 1)}>Back</button>}
+                {page < 4 && <button disabled={isDisabled} className='next-button' onClick={() => setPage(currPage => currPage + 1)}>Next</button>}
+                {page === 4 && <button disabled={isDisabled} className='submit-button' type='submit'>List Product</button>}
             </div>
         </form>
     );
