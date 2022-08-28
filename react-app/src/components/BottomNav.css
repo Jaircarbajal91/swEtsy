@@ -11,6 +11,12 @@
     color:#e7eaee;
     text-decoration: none;
     margin-bottom: -1rem;
+    position: relative;
+    bottom: 0;
+}
+
+.content {
+    min-height: 98.3vh;
 }
 
 #root > div.content.container > nav.bottom-nav-container > div.bottom-header{

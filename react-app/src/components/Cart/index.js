@@ -4,10 +4,10 @@ import { NavLink, useHistory, Redirect } from "react-router-dom"
 import { getCartItemsThunk } from "../../store/cart";
 import CartItem from "./CartItem";
 import CartTotalCard from "./CartTotalCard";
-
+import './Cart.css';
 
 const Cart = ({ cartItems, sessionUser, setShowLogin, cartLoaded, setCartLoaded }) => {
-  const history = useHistory();
+//   const history = useHistory();
   const dispatch = useDispatch();
   let initialSubtotal = 0;
   if (cartItems) {
@@ -16,9 +16,9 @@ const Cart = ({ cartItems, sessionUser, setShowLogin, cartLoaded, setCartLoaded 
     };
   }
 
-  const [subtotal, setSubtotal] = useState(initialSubtotal);
-  const [discount, setDiscount] = useState(initialSubtotal * 0.2);
-  const [total, setTotal] = useState(initialSubtotal - discount);
+//   const [subtotal, setSubtotal] = useState(initialSubtotal);
+//   const [discount, setDiscount] = useState(initialSubtotal * 0.2);
+//   const [total, setTotal] = useState(initialSubtotal - discount);
 
   useEffect(() => {
     if (sessionUser) {
@@ -37,14 +37,17 @@ const Cart = ({ cartItems, sessionUser, setShowLogin, cartLoaded, setCartLoaded 
   }
 
   return cartLoaded && (
-    <div>
-      {cartItems?.length > 0 && cartItems?.map((item, i) =>
-        <div>
-          <div key={i}>
-            <CartItem item={item} />
+    <div className="cart-master-div">
+      <div className="cart-left">
+        <h2 className="num-items-in-cart">{cartItems?.length}&nbsp;items in your cart</h2>
+        {cartItems?.length > 0 && cartItems?.map((item, i) =>
+          <div>
+            <div key={i}>
+              <CartItem item={item} />
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
       {cartItems?.length > 0 &&
         <CartTotalCard
           cartItems={cartItems}
@@ -52,7 +55,7 @@ const Cart = ({ cartItems, sessionUser, setShowLogin, cartLoaded, setCartLoaded 
         />
       }
       {!cartItems?.length &&
-        <div>
+        <div className="cart-empty-message">
           <h1>Your cart is empty.</h1>
           <NavLink to='/'>Discover something unique to fill it up</NavLink>
         </div>
