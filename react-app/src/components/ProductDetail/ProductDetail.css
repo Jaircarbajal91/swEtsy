@@ -59,6 +59,11 @@
 .product-detail-name {
     font-weight: 300;
     font-size: 32px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .product-detail-stars {
@@ -176,6 +181,8 @@
     display: -webkit-box;
     -webkit-line-clamp: 20;
     -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    overflow: hidden;
     width: 72%;
     font-size: 20px;
 }
