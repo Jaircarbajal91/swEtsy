@@ -142,11 +142,11 @@
 }
 
 #root > div.content.container > div.search-rule-container{
-    margin-top:1rem;
+    margin-top:1.6rem;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    width:80%;
+    width:87%;
 }
 
 #root > div.content.container > div.search-rule-container > div.search-rule-right {
@@ -213,7 +213,7 @@
 
 #root > div.content.container > div.search-container{
     width:80vw;
-    margin-top:2rem;
+    margin-top:0rem;
     display: flex;
     justify-content: center;
 }
