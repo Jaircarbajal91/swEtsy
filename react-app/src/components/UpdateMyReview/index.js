@@ -88,7 +88,7 @@ export default function EditMyReview({ review, showStore, setFold }) {
             setAllstars('☆☆☆★★')
         }
         if (e.target.value == 3) {
-            setAllstars('☆☆☆★★★')
+            setAllstars('☆☆★★★')
         }
         if (e.target.value == 4) {
             setAllstars('☆★★★★')
