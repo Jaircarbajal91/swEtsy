@@ -17,3 +17,107 @@
   font-weight: 300;
   font-size: medium;
 }
+
+/* ---- register button ------ */
+.register-button {
+  cursor: pointer;
+  display: inline-block;
+  outline: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: 0;
+  margin: 20px;
+  cursor: pointer;
+  border-radius: 30px;
+  padding: 12px 18px 14px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  transition: transform 200ms, background 200ms;
+  background: transparent;
+  color: #000000;
+  box-shadow: 0 0 0 3px #000000 inset;
+}
+
+.register-button:hover {
+  transform: translateY(-3px);
+}
+
+
+/* ---- signin modal ------ */
+.login-modal {
+  color: #5B5B5B;
+  width: 400px;
+  margin: 40px;
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+  flex-direction: column;
+}
+
+#modal-content>form>div.signin-buttom-container>button:nth-child(1),
+#modal-content>form>div.signin-buttom-container>button:nth-child(2) {
+  width: 400px;
+  display: inline-block;
+  outline: 0;
+  border: 0;
+  cursor: pointer;
+  background: #000000;
+  color: #FFFFFF;
+  border-radius: 30px;
+  padding: 12px 16px;
+  margin-top: 10px;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1;
+  transition: transform 200ms, background 200ms;
+}
+
+#modal-content>form>div.signin-buttom-container>button:nth-child(2) {
+  background: #C16000;
+  color: white;
+}
+
+.signin-buttom-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.signin-label {
+  font-size: 16px;
+}
+
+#modal-content>form>input:nth-child(4),
+#modal-content>form>input:nth-child(6) {
+  position: relative;
+  cursor: text;
+  font-size: 14px;
+  line-height: 16px;
+  padding: 10px;
+  margin: 5px 0;
+  height: 30px;
+  background-color: #fff;
+  border: 1px solid #d6d6e7;
+  border-radius: 3px;
+  color: rgb(35, 38, 59);
+  box-shadow: inset 0 1px 4px 0 rgb(119 122 175 / 30%);
+  overflow: hidden;
+  transition: all 100ms ease-in-out;
+  padding-right: 5px;
+
+}
+
+input .signin-input:focus {
+  border-color: #3c4fe0;
+  box-shadow: 0 2px 0 0 rgb(35 38 59 / 5%);
+}
+
+.auth-validate-error {
+  margin: 4px 0;
+  padding: 5px;
+  color: #AD4E00;
+  font-size: 14px;
+}

@@ -1,6 +1,8 @@
+import { NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { editCartItemThunk, getCartItemsThunk, deleteCartItemThunk } from "../../../store/cart";
+import '../Cart.css';
 
 export default function CartItem({ item }) {
     const dispatch = useDispatch();
@@ -34,12 +36,12 @@ export default function CartItem({ item }) {
 
     return (
         <div className="outmost-div">
-            <div className="image-container">
+            <div className="cart-image-container">
                 <img src={product.image} alt='product' />
             </div>
             <div className="product-name-remove">
-                <h4>{product.name}</h4>
-                <button onClick={() => deleteCartItem()}>Remove</button>
+                <NavLink style={{ textDecoration: 'none', color: 'black' }} to={`/products/${product.id}`}>{product.name}</NavLink>
+                <button className='remove-item-button' onClick={() => deleteCartItem()}>Remove</button>
             </div>
             <div className="quantity-price-box">
                 <div className="quantity-select-container">
