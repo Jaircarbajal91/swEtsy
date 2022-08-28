@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { NavLink, useHistory } from "react-router-dom"
+import { NavLink, useHistory, Redirect } from "react-router-dom"
 import { getCartItemsThunk } from "../../store/cart";
 import CartItem from "./CartItem";
 import CartTotalCard from "./CartTotalCard";
@@ -30,6 +30,11 @@ const Cart = ({ cartItems, sessionUser, setShowLogin, cartLoaded, setCartLoaded 
   //   history.push('/')
   //   setShowLogin(true);
   // };
+
+  if (!sessionUser) {
+    setShowLogin(true)
+    return <Redirect to='/'/>
+  }
 
   return cartLoaded && (
     <div>

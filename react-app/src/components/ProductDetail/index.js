@@ -51,6 +51,12 @@ const ProductDetail = () => {
     options.push(i);
   }
 
+  if (!product) {
+    return (
+      <h1>404 Page not found</h1>
+    )
+  }
+
   return isLoaded && (
     <div className="product detail container">
       <div className="product detail image">

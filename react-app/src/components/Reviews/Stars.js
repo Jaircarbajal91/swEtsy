@@ -16,12 +16,12 @@ const Stars = ({ rating }) => {
     }
     starArray = starArray.slice(0, 5);
     return (
-            <div style={{
-                display: 'flex',
-                maxWidth: '.8em'
-            }}>
+        <div className="star-container" style={{
+            display: 'flex',
+            maxWidth: '.8em'
+        }}>
             {starArray.map((star, i) => (
-                <Star key={i} star={star}/>
+                <Star key={i} star={star} />
             ))}
         </div>
     );
