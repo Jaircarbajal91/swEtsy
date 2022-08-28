@@ -288,7 +288,7 @@ const SearchResult = ({ searchWords, setSearchWords }) => {
                     <div className='search-rule-right'>
                         {
                         searchResultCount ? (
-                        <p className='search-products-count'>Showing {searchResultCount ? searchResultCount : '0'} results</p>
+                        <p className='search-products-count'>{searchResultCount ? searchResultCount : '0'} results, without ads</p>
                     ) : (<p></p>)}
                         <select className='search-sort' onChange={sortSelected} value={order}>
                             <option className='search-sort-selection search-sort-default' value='none' selected>Default</option>

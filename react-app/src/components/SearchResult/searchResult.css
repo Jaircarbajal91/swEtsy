@@ -111,7 +111,7 @@
 }
 
 #root > div.content.container > div.search-container > div.search-products-container{
-    margin-top:2rem;
+
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-column-gap:1rem;
@@ -142,8 +142,77 @@
 }
 
 #root > div.content.container > div.search-rule-container{
+    margin-top:1rem;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     width:80%;
+}
+
+#root > div.content.container > div.search-rule-container > div.search-rule-right {
+    width:20rem;
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    justify-content: space-between;
+}
+
+#root > div.content.container > div.search-rule-container > div.search-rule-right > select{
+    border-radius:1.5rem;
+    width:10rem;
+    line-height: 1.5rem;
+    height:1.5rem;
+    font-family: "Graphik Webfont",-apple-system,"Helvetica Neue","Droid Sans",Arial,sans-serif;
+    font-weight: 400;
+    padding-left: 1rem;
+    margin-left: 1rem;
+}
+
+#root > div.content.container > div.search-rule-container > div.search-rule-right > p{
+    font-size: 0.8rem;
+    color:#666;
+}
+
+#root > div.content.container > div.search-rule-container > div.search-rule-left{
+    display: flex;
+    align-items: center;
+}
+
+#root > div.content.container > div.search-rule-container > div.search-rule-left > button{
+    border-radius:1.5rem;
+    width:7rem;
+    line-height:1.5rem;
+    height:1.7rem;
+    font-family: "Graphik Webfont",-apple-system,"Helvetica Neue","Droid Sans",Arial,sans-serif;
+    font-weight: 700;
+    background-color: #fff;
+}
+
+#root > div.content.container > div.search-container > div > h1{
+    font-family: "Guardian-EgypTT",Charter,"Charter Bitstream",Cambria,"Noto Serif Light","Droid Serif",Georgia,serif;
+    font-weight: 300;
+    font-size: 2.8rem;
+    line-height: 3rem;
+}
+
+#root > div.content.container > div.search-container > div.empty-search-container{
+    overflow: hidden;
+    /* background-color: #fdebd2; */
+    background: linear-gradient(#fdebd2,#ffffff);
+    width:100%;
+    padding-left: 1rem;
+}
+
+#root > div.content.container > div.search-container > div > p{
+    font-family: "Graphik Webfont",-apple-system,"Helvetica Neue","Droid Sans",Arial,sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 1.25rem;
+}
+
+#root > div.content.container > div.search-container{
+    width:80vw;
+    margin-top:2rem;
+    display: flex;
+    justify-content: center;
 }
