@@ -6,7 +6,7 @@ form.editreview-form {
     padding: 5%;
     display: block;
     justify-content: space-between;
-    border-radius: 20px;
+    border-radius: 10px;
     font-size: 22px;
     color: #56504C;
     font-family: 'DM Serif Display', serif;
@@ -17,7 +17,7 @@ textarea.editreview-reviewbody {
     min-height: 200px;
     max-width: 98%;
     min-width: 97%;
-    width: 100%;
+    width: 80%;
     padding: 10px;
     font-size: 22px;
     font-family: 'Bitter', serif;
@@ -87,20 +87,35 @@ div.updatereview-error {
     color: #A05102;
 }
 
+/* --- star rating --- */
+
 .star-rating-container {
     unicode-bidi: bidi-override;
     direction: rtl;
-    cursor: pointer;
 }
 
-.star-rating-container>span {
-    display: inline-block;
-    position: relative;
-    width: 1.1em;
-}
-
-.star-rating-container>span:hover:before,
-.star-rating-container>span:hover~span:before {
+.radio-label-container>label:hover:before,
+.radio-label-container>label:hover~label:before {
     content: "\2605";
     position: absolute;
+}
+
+.rating-radio>input:checked:before,
+.rating-radio>input:checked~label:before {
+    content: "\2605";
+    position: absolute;
+}
+
+#r1,
+#r2,
+#r3,
+#r4,
+#r5 {
+    display: none;
+}
+
+.rating-label {
+    cursor: pointer;
+    transition: color 200ms;
+    size: 200px;
 }

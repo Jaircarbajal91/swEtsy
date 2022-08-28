@@ -4,6 +4,10 @@ import { getMyReviewThunk, editReviewThunk, deleteReviewThunk } from "../../stor
 import { Modal } from "../../context/Modal";
 import DeleteReview from '../DeleteReview';
 import './updateMyReview.css'
+import FullStar from '../images/FullStar.svg'
+import EmptyStar from '../images/EmptyStar.svg'
+
+
 
 export default function EditMyReview({ review, showStore, setFold }) {
     const dispatch = useDispatch();
@@ -77,11 +81,24 @@ export default function EditMyReview({ review, showStore, setFold }) {
         <div id={reviewId} style={{ display: { ...showStore } }}>
             <form className='editreview-form'>Update My Review
                 < div className="star-rating-container" >
-                    <span type="radio" name="ratingStar" className="rating" value="1" onClick={e => setReviewStars(e.target.value)}>☆</span>
-                    <span type="radio" name="ratingStar" className="rating" value="2" onClick={e => setReviewStars(e.target.value)}>☆</span>
-                    <span type="radio" name="ratingStar" className="rating" value="3" onClick={e => setReviewStars(e.target.value)}>☆</span>
-                    <span type="radio" name="ratingStar" className="rating" value="4" onClick={e => setReviewStars(e.target.value)}>☆</span>
-                    <span type="radio" name="ratingStar" className="rating" value="5" onClick={e => setReviewStars(e.target.value)}>☆</span>
+                    <selection className="radio-label-container">
+                        <label for='r1' className='rating-label'>☆
+                            <input type="radio" id='r1' className="rating-radio" value="5" onClick={e => setReviewStars(e.target.value)}></input>
+                            <span></span>
+                        </label>
+                        <label for='r2' className='rating-label'>☆
+                            <input type="radio" id='r2' className="rating-radio" value="4" onClick={e => setReviewStars(e.target.value)}></input>
+                        </label>
+                        <label for='r3' className='rating-label'>☆
+                            <input type="radio" id='r3' className="rating-radio" value="3" onClick={e => setReviewStars(e.target.value)}></input>
+                        </label>
+                        <label for='r4' className='rating-label'>☆
+                            <input type="radio" id='r4' className="rating-radio" value="2" onClick={e => setReviewStars(e.target.value)}></input>
+                        </label>
+                        <label for='r5' className='rating-label'>☆
+                            <input type="radio" id='r5' className="rating-radio" value="1" onClick={e => setReviewStars(e.target.value)}></input>
+                        </label>
+                    </selection>
                 </div >
                 <div>
                     {errors.map((error, ind) => (
