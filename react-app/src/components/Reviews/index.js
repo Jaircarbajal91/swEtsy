@@ -24,15 +24,15 @@ return reviewLoaded && (
     <div className='review-container'>
       {/* <p>{product.avgScore}<Stars rating={5} /></p> */}
       <p><Stars rating={product.avgScore} /></p>
-      <p className='review title'>{productReviews?.length} shop reviews</p>
+      <p className='review-title'>{productReviews?.length} shop reviews</p>
       {(productReviews.length) ?
         productReviews.map(review => {
-          return <div className='product review' key={review.id}>
-            <div className='review username'>user: {review.user_id}</div>
-            <div className='review star'>
+          return <div className='product-review' key={review.id}>
+            <div className='review-username'>user: {review.user_id}</div>
+            <div className='review-star'>
               <Stars rating={review.stars} />
             </div>
-            <div className='review reviewbody'>{review.review_body}</div>
+            <div className='review-reviewbody'>{review.review_body}</div>
             <br></br>
           </div>
         }) : (
