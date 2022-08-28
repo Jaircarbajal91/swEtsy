@@ -53,7 +53,7 @@ const LoginForm = ({ setShowLogin, setShowSignup }) => {
 
   return (
     <>
-      <div className='register-modal' onClick={registerNewUser}>Register</div>
+      <div className='register-button' onClick={registerNewUser}>Register</div>
       <form className='login-modal' onSubmit={onLogin}>
         <h2>Sign In</h2>
         <div>

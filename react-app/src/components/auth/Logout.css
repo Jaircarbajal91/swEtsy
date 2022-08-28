@@ -18,8 +18,8 @@
   font-size: medium;
 }
 
-/* ---- register modal ------ */
-.register-modal {
+/* ---- register button ------ */
+.register-button {
   cursor: pointer;
   display: inline-block;
   outline: 0;
@@ -40,14 +40,14 @@
   box-shadow: 0 0 0 3px #000000 inset;
 }
 
-.register-modal:hover {
+.register-button:hover {
   transform: translateY(-3px);
 }
 
 
 /* ---- signin modal ------ */
 .login-modal {
-  color: grey;
+  color:#5B5B5B;
   width: 400px;
   margin: 40px;
   font-size: 14px;
@@ -58,7 +58,7 @@
 
 #modal-content>form>div.signin-buttom-container>button:nth-child(1),
 #modal-content>form>div.signin-buttom-container>button:nth-child(2) {
-  width: 300px;
+  width: 400px;
   display: inline-block;
   outline: 0;
   border: 0;
@@ -66,7 +66,7 @@
   background: #000000;
   color: #FFFFFF;
   border-radius: 30px;
-  padding: 8px 16px 8px;
+  padding: 12px 16px;
   margin-top: 10px;
   font-size: 18px;
   font-weight: 500;
