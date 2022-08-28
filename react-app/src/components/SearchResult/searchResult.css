@@ -89,23 +89,23 @@
     color:#ffffff;
 }
 
-#root > div.content.container > div.search-container > div > a > div.card-container{
+#root > div.content.container > div.search-container > div.search-products-container > div > div.card-container{
     width:20rem;
     height:24.5rem;
 }
 
-#root > div.content.container > div.search-container > div > a{
+#root > div.content.container > div.search-container > div.search-products-container > div{
     color:#222;
     text-decoration: none;
 }
 
 
-#root > div.content.container > div.search-container > div > a > div > div.product.image-container{
+#root > div.content.container > div.search-container > div.search-products-container > div > div > div.product.image-container{
     width:100%;
     height:70%;
 }
 
-#root > div.content.container > div.search-container > div > a > div > div.product.image-container > img{
+#root > div.content.container > div.search-container > div.search-products-container > div > div > div.product.image-container > img{
     width:100%;
     height:100%;
 }
@@ -119,7 +119,7 @@
     /* margin-left:1.5rem; */
 }
 
-#root > div.content.container > div.search-container > div > a > div > div.product.name{
+#root > div.content.container > div.search-container > div.search-products-container > div > div > div.product.name{
     margin-top:0.5rem;
     font-family: "Graphik Webfont",-apple-system,"Helvetica Neue","Droid Sans",Arial,sans-serif;
     font-weight: 400;
@@ -127,13 +127,13 @@
     line-height: 1.4;
 }
 
-#root > div.content.container > div.search-container > div > a > div > div > img{
+#root > div.content.container > div.search-container > div > div > div > div > img{
     height:1.1rem;
     line-height: 1.4;
     margin-top:0.2rem;
 }
 
-#root > div.content.container > div.search-container > div > a > div > div.price{
+#root > div.content.container > div.search-container > div > div > div > div.price{
     font-family: "Graphik Webfont",-apple-system,"Helvetica Neue","Droid Sans",Arial,sans-serif;
     font-weight: 700;
     font-size: 1rem;
