@@ -85,9 +85,11 @@ const ProductDetail = () => {
                     <div className="edit-delete">
                         <button
                             id="edit-button"
+                            className="button"
                             onClick={() => setShowUpdate(true)}>Edit</button>
                         <button
                             id='delete-button'
+                            className="button"
                             onClick={() => setShowDelete(true)}>Delete</button>
                     </div>
                     {showUpdate && (
@@ -105,7 +107,7 @@ const ProductDetail = () => {
                 {sessionUser && (
                 <div>
                     <label id="quantity-label">
-                        <p>How many?</p>
+                        <p>How many do you wish to purchase?</p>
                     </label>
                     <div className="custom-select">
                         <select id='quantity' value={quantity} onChange={e => setQuantity(e.target.value)}>
@@ -115,13 +117,13 @@ const ProductDetail = () => {
                         </select>
                     </div>
                     <div className="button add-to-cart">
-                        <button id='add-button' onClick={() => addToCart()}>Add to Cart</button>
+                        <button className="button" id='add-button' onClick={() => addToCart()}>Add to Cart</button>
                     </div>
                 </div>
                 )}
                 <AddAReview product={product} />
+                <h4 id='description-heading'>Description</h4>
                 <div className="product-detail-description">
-                    <h4 id='description-heading'>Description</h4>
                     <p>{product.description}</p>
                 </div>
             </div>

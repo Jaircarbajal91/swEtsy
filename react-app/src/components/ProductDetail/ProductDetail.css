@@ -10,6 +10,7 @@
     display: flex;
     font-family: "Guardian-EgypTT";
     flex-flow: row;
+    margin-left: 10%;
     /* max-width: 966px; */
     /* border: 1px solid black; */
 }
@@ -25,7 +26,7 @@
 .product-detail-right {
     display: flex;
     flex-flow: column;
-    width: 15%;
+    width: 30%;
 }
 
 .product-image-container {
@@ -63,6 +64,7 @@
 .add-to-cart {
     display: flex;
     flex-direction: column;
+    width: 72%;
 }
 
 #edit-button,
@@ -75,6 +77,7 @@
     color: black;
     font-size: 16px;
     font-weight: bold;
+    cursor: pointer;
 }
 
 #add-button {
@@ -86,6 +89,8 @@
     color: white;
     font-size: 16px;
     font-weight: bold;
+    cursor: pointer;
+    opacity: 1;
 }
 #red-star {
     color: red;
@@ -96,7 +101,7 @@
     margin-bottom: 10px;
 }
 .custom-select {
-    width: 100%;
+    width: 72%;
     min-width: 15ch;
     max-width: 30ch;
     /* border: 1px solid var(--select-border); */
@@ -148,9 +153,56 @@
 } */
 
 #description-heading {
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 18px;
 }
 
 .product-detail-description {
     font-family: Arial, Helvetica, sans-serif;
+    display: -webkit-box;
+    -webkit-line-clamp: 20;
+    -webkit-box-orient: vertical;
+    width: 72%;
+}
+
+.add-review-container {
+    width: 72%;
+    margin-bottom: 10px;
+    background-color: white;
+    border: 3px solid black;
+    border-radius: 2em;
+    height: 40px;
+    color: black;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.add-a-review {
+    height: 100%;
+    width: 100%;
+}
+.button-add-a-review {
+    /* background: transparent;
+    height: 100%;
+    width: 100%;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none; */
+    width: 72%;
+    margin-bottom: 10px;
+    background-color: white;
+    border: 3px solid black;
+    border-radius: 2em;
+    height: 40px;
+    color: black;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.button {
+    transition: all .2s ease;
+}
+.button:hover {
+    transform: scale(1.01);
 }
