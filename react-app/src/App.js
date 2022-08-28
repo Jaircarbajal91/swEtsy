@@ -19,6 +19,7 @@ import CreateProductPage from './components/CreateProductPage';
 import Header from './components/Header';
 import { getCartItemsThunk } from './store/cart';
 import SearchResult from './components/SearchResult';
+import BottomNav from './components/BottomNav';
 
 
 function App() {
@@ -98,6 +99,7 @@ function App() {
             <h1>Page not found</h1>
           </Route>
         </Switch>
+        <BottomNav />
       </div>
     </BrowserRouter>
   );
