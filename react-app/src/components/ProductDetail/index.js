@@ -121,7 +121,9 @@ const ProductDetail = () => {
                     </div>
                 </div>
                 )}
-                <AddAReview product={product} />
+                <div className="add-review-container">
+                    <AddAReview product={product} />
+                </div>
                 <h4 id='description-heading'>Description</h4>
                 <div className="product-detail-description">
                     <p>{product.description}</p>
