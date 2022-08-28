@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Redirect, useHistory } from 'react-router-dom';
 import { login } from '../../store/session';
 
-const LoginForm = ({setShowLogin, setShowSignup}) => {
+const LoginForm = ({ setShowLogin, setShowSignup }) => {
   const history = useHistory()
   const [errors, setErrors] = useState([]);
   const [email, setEmail] = useState('');
@@ -54,7 +54,7 @@ const LoginForm = ({setShowLogin, setShowSignup}) => {
   return (
     <>
       <div onClick={registerNewUser}>Register</div>
-      <form onSubmit={onLogin}>
+      <form className='login-form-modal' onSubmit={onLogin}>
         <div>
           {errors.map((error, ind) => (
             <div key={ind}>{error}</div>
