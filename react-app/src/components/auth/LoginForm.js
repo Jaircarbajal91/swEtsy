@@ -53,34 +53,35 @@ const LoginForm = ({ setShowLogin, setShowSignup }) => {
 
   return (
     <>
-      <div onClick={registerNewUser}>Register</div>
-      <form className='login-form-modal' onSubmit={onLogin}>
+      <div className='register-modal' onClick={registerNewUser}>Register</div>
+      <form className='login-modal' onSubmit={onLogin}>
+        <h2>Sign In</h2>
         <div>
           {errors.map((error, ind) => (
             <div key={ind}>{error}</div>
           ))}
         </div>
-        <div>
-          <label htmlFor='email'>Email</label>
+        <label className='signin-label' htmlFor='email'>  Email</label>
           <input
             name='email'
             type='text'
             placeholder='Email'
             value={email}
             onChange={updateEmail}
+            className='signin-input'
           />
-        </div>
-        <div>
-          <label htmlFor='password'>Password</label>
+        <label className='signin-label' htmlFor='password'>  Password</label>
           <input
             name='password'
             type='password'
             placeholder='Password'
             value={password}
             onChange={updatePassword}
+            className='signin-input'
           />
-          <button type='submit'>Login</button>
-          <button onClick={demoLogin}>Demo</button>
+        <div className='signin-buttom-container'>
+          <button className='singin-button' type='submit'>Login</button>
+          <button className='singin-button' onClick={demoLogin}>Demo User</button>
         </div>
       </form>
     </>
