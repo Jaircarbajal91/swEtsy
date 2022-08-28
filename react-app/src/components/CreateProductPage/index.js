@@ -27,7 +27,7 @@ export default function CreateProductPage() {
                 newNameErrors.push('Please give your product a name');
             }
             if (name.length > 70 || name.length < 3) {
-                newNameErrors.push('Name must between 3 and 70 characters');
+                newNameErrors.push('Name must be between 3 and 70 characters');
             }
             setNameErrors(newNameErrors);
             if (!nameErrors.length) setIsDisabled(false);
@@ -189,7 +189,7 @@ export default function CreateProductPage() {
                 }
                 {page > 1 && <button className='back button' onClick={() => setPage(currPage => currPage - 1)}>Back</button>}
                 {page < 4 && <button disabled={isDisabled} className='next button' onClick={() => setPage(currPage => currPage + 1)}>Next</button>}
-                {page === 4 && <button disabled={isDisabled} className='submit button' type='submit'>List Product</button>}
+                {page === 4 && <button disabled={isDisabled} className='submit button' type='button' onClick={handleSubmit}>List Product</button>}
             </div>
         </form>
     );

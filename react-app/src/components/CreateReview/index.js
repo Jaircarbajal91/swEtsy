@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal } from '../../context/Modal';
 import { getReviewsThunk, createReviewThunk } from "../../store/review";
-
+import '../ProductDetail/ProductDetail.css';
 
 export default function AddAReview({ product }) {
     const dispatch = useDispatch();
@@ -72,8 +72,8 @@ export default function AddAReview({ product }) {
 
     return sessionUser && (
         <>
-            <div className="button add-a-review">
-                <button onClick={() => setShowModal(true)} hidden={product.owner_id === sessionUser.id}>Add a Review</button>
+            <div className="add-a-review">
+                <button className="button button-add-a-review" onClick={() => setShowModal(true)} hidden={product.owner_id === sessionUser.id}>Add a Review</button>
             </div>
             {showModal &&
                 <Modal onClose={() => setShowModal(false)} >
