@@ -9,7 +9,7 @@ const Product = ({ product }) => {
         currency: 'USD',
     });
     return (
-        <div onClick={() => history.push(`/products/${product.id}`)}  style={{
+        <div onClick={() => history.push(`/products/${product.id}`)} style={{
             textDecoration: 'none',
             color: 'black',
             cursor: 'pointer'
