@@ -23,7 +23,7 @@ let reviewLength = productReviews?.length;
 return reviewLoaded && (
     <div className='review-container'>
       {/* <p>{product.avgScore}<Stars rating={5} /></p> */}
-      <p><Stars rating={5} /></p>
+      <p><Stars rating={product.avgScore} /></p>
       <p className='review title'>{productReviews?.length} shop reviews</p>
       {(productReviews.length) ?
         productReviews.map(review => {

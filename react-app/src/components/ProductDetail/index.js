@@ -52,7 +52,7 @@ const ProductDetail = () => {
     for (let i = 1; i <= 100; i++) {
         options.push(i);
     }
-    
+
     if (!product) {
       return (
         <h1>404 Page not found</h1>
@@ -70,14 +70,11 @@ const ProductDetail = () => {
             </div>
         </div>
         <div className="product-detail-right">
-            <div className="product-detail-name">
-                <p>{product.name}</p>
-            </div>
             <div className="product-detail-stars">
                 <Stars rating={rating} />
             </div>
-            <div className="product-detail-description">
-                <p>{product.description}</p>
+            <div className="product-detail-name">
+                <p>{product.name}</p>
             </div>
             <div className="product-detail-price">
                 <p>{formatter.format(product.price)}</p>
@@ -113,6 +110,9 @@ const ProductDetail = () => {
             </div>
             )}
             <AddAReview product={product} />
+            <div className="product-detail-description">
+                <p>{product.description}</p>
+            </div>
         </div>
         </div>
         )
