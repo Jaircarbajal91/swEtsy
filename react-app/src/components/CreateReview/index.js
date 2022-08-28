@@ -26,7 +26,8 @@ export default function AddAReview({ product }) {
 
     useEffect(() => {
         if (sessionUser && product.reviews.some(e => e.user_id === sessionUser.id)) {
-            newErrors.push(`You have already reviewed this product.`, `Please edit/delete under My Reviews.`, <NavLink className='review-redirect' to='https://swetsy-app.herokuapp.com/myreviews' style={{ color: '#472600', textDecoration: 'none' }}>Take me to My Reviews ...</NavLink>)
+            // newErrors.push(`You have already reviewed this product.`, `Please edit/delete under My Reviews.`, <Navlink className='review-redirect' to='/myreviews' style={{ color: '#472600', textDecoration: 'none' }}>Take me to My Reviews ...</NavLink>)
+            newErrors.push(`You have already reviewed this product.`, `Please edit/delete under My Reviews.`)
         }
         else {
             if (reviewStars == undefined) {
