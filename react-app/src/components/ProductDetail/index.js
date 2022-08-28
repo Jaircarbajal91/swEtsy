@@ -70,21 +70,25 @@ const ProductDetail = () => {
             </div>
         </div>
         <div className="product-detail-right">
-            <div className="product-detail-stars">
-                <Stars rating={rating} />
-            </div>
             <div className="product-detail-name">
                 <p>{product.name}</p>
+            </div>
+            <div className="product-detail-stars">
+                <Stars rating={rating} />
             </div>
             <div className="product-detail-price">
                 <p>{formatter.format(product.price)}</p>
             </div>
             {product.owner_id === sessionUser?.id && (
             <div>
-                <button
-                onClick={() => setShowUpdate(true)}>Edit</button>
-                <button
-                onClick={() => setShowDelete(true)}>Delete</button>
+                <div className="edit-delete">
+                    <button
+                        id="edit-button"
+                        onClick={() => setShowUpdate(true)}>Edit</button>
+                    <button
+                        id='delete-button'
+                        onClick={() => setShowDelete(true)}>Delete</button>
+                </div>
                 {showUpdate && (
                 <Modal onClose={() => setShowUpdate(false)}>
                     <UpdateProduct product={product} setShowUpdate={setShowUpdate} />
@@ -99,18 +103,24 @@ const ProductDetail = () => {
             )}
             {sessionUser && (
             <div>
-                <select value={quantity} onChange={e => setQuantity(e.target.value)}>
-                {options.map(option => (
-                    <option key={option} value={option}>{option}</option>
-                ))}
-                </select>
+                <label id="quantity-label">
+                    <p>How many?</p>
+                </label>
+                <div className="custom-select">
+                    <select id='quantity' value={quantity} onChange={e => setQuantity(e.target.value)}>
+                    {options.map(option => (
+                        <option key={option} value={option}>{option}</option>
+                    ))}
+                    </select>
+                </div>
                 <div className="button add-to-cart">
-                <button onClick={() => addToCart()}>Add to Cart</button>
+                    <button id='add-button' onClick={() => addToCart()}>Add to Cart</button>
                 </div>
             </div>
             )}
             <AddAReview product={product} />
             <div className="product-detail-description">
+                <h4 id='description-heading'>Description</h4>
                 <p>{product.description}</p>
             </div>
         </div>
