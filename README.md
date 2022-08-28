@@ -42,13 +42,16 @@ You don't have to log in at this page.
 For demo user, you can click the login, and click demo user.
 
 IMPORTANT: You can click the icon to go back to this index page at any other pages.
+
 ![demoLogin&Login](./feature_screenshots/demologin.JPG)
 ![register](./feature_screenshots/register.JPG)
 
 The route for main page is '/'.
+
 ![indexPage](./feature_screenshots/mainpage.JPG)
 
 The logged in user could see the profile menu from the navbar.
+
 ![profileMenu](./feature_screenshots/profileMenu.JPG)
 
 ### Product Detail
@@ -57,14 +60,17 @@ You can see product detail by clicking a product card in main page or search pag
 ![productDetailNotLogged](./feature_screenshots/productDetailNotLogged.JPG)
 
 Operations like adding to cart and adding review requires the user logged in.
+
 ![productDetailDoLogged](./feature_screenshots/productDetailDoLogged.JPG)
 
 The owner who listed the product can see the edit button of the product.
+
 ![productDetailOwner](./feature_screenshots/productDetailOwner.JPG)
 
 ### Listing a new product
 The user can click the "List A New Product" button in the profile menu, then it will be the page for creating a new product.
 It's a multi page form:
+
 ![newProductPageOne](./feature_screenshots/newProductPageOne.JPG)
 ![newProductPageTwo](./feature_screenshots/newProductPageTwo.JPG)
 ![newProductPageThree](./feature_screenshots/newProductPageThree.JPG)
@@ -74,37 +80,47 @@ Click "back" to go to the previous page, or click "next" to go to the next page.
 
 ### Product Edit and Delete
 The owner can edit the product by clicking Edit, then the product edit panel will be shown.
+
 [!editProduct] `Screen Shot Not Added`
+
 The owner can delete the product by clicking Delete.
 
 ### Cart
 The user have to log in to see the cart page. If not, it will jump to the main page with the login panel.
 In the cart page, the user can change the number of the product, remove anyone of them, and finally click the buy button. After clicking "buy", the cart will be empty.
+
 [!cartPage]`Screen Shot Not Added`
 
 ### Review
 The user can see the review score in search page, and the review details of the product in the product's detail page.
+
 ![productReview](./feature_screenshots/productReview.JPG)
 
 The user can see its all review by clicking "See Your Reviews" in the profile menu.
+
 ![userReviews](./feature_screenshots/userReviews.JPG)
 
 ### Edit or Delete Review
 The user can edit a review by clicking "EDIT YOUR REVIEW" in myrevies page. Then the window for editing a review will show up. The user can edit the current review, then update it by clicking "Update My Review". The user can clear the whole review by clicking "Clear". If the user wants to delete the review, it can just click the "Delete" button.
+
 [!updateReview]`Screen Shot Not Added`
 
 
 ### Search Page
 You don't have to log in to see this page.
 An empty keyword will show you all the products.
+
 ![searchAll](./feature_screenshots/searchAll.JPG)
 
 Or search with a keyword.
+
 ![searchKey](./feature_screenshots/searchKey.JPG)
 
 Also there are price filters the user can choose to target its dream products:
+
 ![filterButton](./feature_screenshots/filterButton.JPG)
 ![filter](./feature_screenshots/filter.JPG)
 
 And the sorting rule for the user to change the order of products:
+
 ![sorting](./feature_screenshots/sorting.JPG)
