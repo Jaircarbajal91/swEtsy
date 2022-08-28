@@ -1,0 +1,53 @@
+/* Cart */
+.cart-master-div {
+    display: flex;
+    align-items: center;
+    width: 80vw;
+    justify-content: space-around;
+    font-family: "Guardian-EgypTT";
+}
+
+/* Cart */
+.cart-left {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    align-items: flex-start;
+}
+
+/* Cart */
+.num-items-in-cart {
+    font-weight: 300;
+    font-size: 32px;
+}
+
+.cart-empty-message {
+    text-decoration: none;
+
+}
+
+/* CartItem */
+.outmost-div {
+    display: flex;
+    margin-bottom: 35px;
+    border-bottom: 1px solid rgb(217, 217, 217);
+}
+
+
+/* CartItem */
+.image-container {
+    border-radius: 5px;
+    width: 212.337px;
+    height: 168.613px;
+    border: 1px solid rgb(228, 228, 228);
+    margin-bottom: 35px;
+}
+
+/* CartItem */
+.image-container > img {
+    object-fit: cover;
+    width: 212.337px;
+    height: 168.613px;
+    max-width: 212.337px;
+    max-height: 168.613px;
+}
