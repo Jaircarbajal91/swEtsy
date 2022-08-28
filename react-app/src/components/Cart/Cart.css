@@ -53,3 +53,9 @@
     max-width: 212.337px;
     max-height: 168.613px;
 }
+
+/* CartItem  */
+/* Product name styling inline in CartItem/index.js */
+.product-name-remove {
+    color: black;
+}

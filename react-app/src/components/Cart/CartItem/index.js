@@ -40,8 +40,8 @@ export default function CartItem({ item }) {
                 <img src={product.image} alt='product' />
             </div>
             <div className="product-name-remove">
-                <NavLink to={`/products/${product.id}`}>{product.name}</NavLink>
-                <button onClick={() => deleteCartItem()}>Remove</button>
+                <NavLink style={{ textDecoration: 'none', color: 'black' }} to={`/products/${product.id}`}>{product.name}</NavLink>
+                <button className='remove-item-button' onClick={() => deleteCartItem()}>Remove</button>
             </div>
             <div className="quantity-price-box">
                 <div className="quantity-select-container">
