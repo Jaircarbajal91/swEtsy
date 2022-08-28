@@ -58,27 +58,29 @@ const LoginForm = ({ setShowLogin, setShowSignup }) => {
         <h2>Sign In</h2>
         <div>
           {errors.map((error, ind) => (
-            <div key={ind}>{error}</div>
+            <div className='auth-validate-error' key={ind}>{error}</div>
           ))}
         </div>
         <label className='signin-label' htmlFor='email'>  Email</label>
-          <input
-            name='email'
-            type='text'
-            placeholder='Email'
-            value={email}
-            onChange={updateEmail}
-            className='signin-input'
-          />
+        <input
+          name='email'
+          type='text'
+          placeholder='Email'
+          value={email}
+          onChange={updateEmail}
+          className='signin-input'
+          required={true}
+        />
         <label className='signin-label' htmlFor='password'>  Password</label>
-          <input
-            name='password'
-            type='password'
-            placeholder='Password'
-            value={password}
-            onChange={updatePassword}
-            className='signin-input'
-          />
+        <input
+          name='password'
+          type='password'
+          placeholder='Password'
+          value={password}
+          onChange={updatePassword}
+          className='signin-input'
+          required={true}
+        />
         <div className='signin-buttom-container'>
           <button className='singin-button' type='submit'>Login</button>
           <button className='singin-button' onClick={demoLogin}>Demo User</button>

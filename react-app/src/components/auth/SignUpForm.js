@@ -53,10 +53,10 @@ const SignUpForm = ({ setShowSignup, setShowLogin }) => {
   }
 
   return (
-    <form className='signup-form' onSubmit={onSignUp} className='register-modal'>
+    <form onSubmit={onSignUp} className='register-modal'>
       <h2>Register</h2>
       {errors.map((error, ind) => (
-        <div key={ind}>{error}</div>
+        <div className='auth-validate-error' key={ind}>{error}</div>
       ))}
       <label className='register-label'>User Name</label>
       <input
@@ -65,6 +65,7 @@ const SignUpForm = ({ setShowSignup, setShowLogin }) => {
         onChange={updateUsername}
         value={username}
         className='register-input'
+        required={true}
       ></input>
       <label className='register-label'>First Name</label>
       <input
@@ -73,6 +74,7 @@ const SignUpForm = ({ setShowSignup, setShowLogin }) => {
         onChange={e => setFirstname(e.target.value)}
         value={firstname}
         className='register-input'
+        required={true}
       ></input>
       <label className='register-label'>Last Name</label>
       <input
@@ -81,6 +83,7 @@ const SignUpForm = ({ setShowSignup, setShowLogin }) => {
         onChange={e => setLastname(e.target.value)}
         value={lastname}
         className='register-input'
+        required={true}
       ></input>
       <label className='register-label'>Email</label>
       <input
@@ -89,6 +92,7 @@ const SignUpForm = ({ setShowSignup, setShowLogin }) => {
         onChange={updateEmail}
         value={email}
         className='register-input'
+        required={true}
       ></input>
       <label className='register-label'>Password</label>
       <input
@@ -97,6 +101,7 @@ const SignUpForm = ({ setShowSignup, setShowLogin }) => {
         onChange={updatePassword}
         value={password}
         className='register-input'
+        required={true}
       ></input>
       <label className='register-label'>Repeat Password</label>
       <input

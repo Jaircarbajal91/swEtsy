@@ -51,7 +51,7 @@
 }
 
 
-#modal-content > form > button{
+#modal-content>form>button {
     width: 400px;
     display: inline-block;
     outline: 0;
@@ -96,4 +96,11 @@
 input .register-input:focus {
     border-color: #3c4fe0;
     box-shadow: 0 2px 0 0 rgb(35 38 59 / 5%);
+}
+
+.auth-validate-error {
+    margin: 4px 0;
+    padding: 5px;
+    color: #AD4E00;
+    font-size: 14px;
 }
