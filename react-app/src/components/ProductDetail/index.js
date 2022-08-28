@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom"
+import { Redirect, useHistory, useParams } from "react-router-dom"
 import DeleteProduct from "../DeleteProduct";
 import UpdateProduct from "../UpdateProduct";
 import { Modal } from "../../context/Modal";
@@ -17,24 +17,16 @@ const ProductDetail = () => {
     const [showUpdate, setShowUpdate] = useState(false)
     const [showDelete, setShowDelete] = useState(false)
     const [quantity, setQuantity] = useState(1);
-    const [deleted, setDeleted] = useState(false)
-    const [isLoaded, setIsLoaded] = useState(false)
-    const product = useSelector(state => state.products[id])
-    const rating = product.avgScore;
-    const sessionUser = useSelector(state => state.session.user)
-    const dispatch = useDispatch()
-    const history = useHistory()
+    const [isLoaded, setIsLoaded] = useState(false);
+    const product = useSelector(state => state.products[id]);
+    const rating = product?.avgScore;
+    const sessionUser = useSelector(state => state.session.user);
+    const dispatch = useDispatch();
+    const history = useHistory();
 
     useEffect(() => {
-        dispatch(getProductsThunk()).then(() => setIsLoaded(true))
-    }, [dispatch])
-
-    useEffect(() => {
-        if (deleted) {
-        setIsLoaded(false)
-        dispatch(deleteProductThunk(id)).then(() => dispatch(getProductsThunk()).then(() => history.push('/')))
-        }
-    }, [deleted, dispatch])
+        dispatch(getProductsThunk()).then(() => setIsLoaded(true));
+    }, [dispatch]);
 
     const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
@@ -42,10 +34,9 @@ const ProductDetail = () => {
     });
 
     const addToCart = async () => {
-
-        await dispatch(addCartItemThunk(id, { quantity }))
-        await dispatch(getCartItemsThunk())
-        history.push('/cart')
+        await dispatch(addCartItemThunk(id, { quantity }));
+        await dispatch(getCartItemsThunk());
+        history.push('/cart');
     }
 
     const options = [];
@@ -99,7 +90,7 @@ const ProductDetail = () => {
                     )}
                     {showDelete && (
                     <Modal onClose={() => setShowDelete(false)} >
-                        <DeleteProduct setDeleted={setDeleted} setShowDelete={setShowDelete} />
+                        <DeleteProduct id={id} setShowDelete={setShowDelete} />
                     </Modal>
                     )}
                 </div>

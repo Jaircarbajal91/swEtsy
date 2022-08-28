@@ -189,7 +189,7 @@ export default function CreateProductPage() {
                 }
                 {page > 1 && <button className='back button' onClick={() => setPage(currPage => currPage - 1)}>Back</button>}
                 {page < 4 && <button disabled={isDisabled} className='next button' onClick={() => setPage(currPage => currPage + 1)}>Next</button>}
-                {page === 4 && <button disabled={isDisabled} className='submit button' type='submit'>List Product</button>}
+                {page === 4 && <button disabled={isDisabled} className='submit button' type='button' onClick={handleSubmit}>List Product</button>}
             </div>
         </form>
     );
