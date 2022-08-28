@@ -103,8 +103,14 @@ export default function CreateProductPage() {
     // If user not logged in, then return user to homepage
     if (!sessionUser) history.push('/')
 
+
+    const handleFormPress = e => {
+        if (e.keyCode === 13) {
+            e.preventDefault()
+        }
+    }
     return (
-        <form className='newproduct-form' onSubmit={handleSubmit}>
+        <form className='newproduct-form' onSubmit={handleSubmit} onKeyDown={handleFormPress}>
             <img className='newproduct-background' src={background} alt='background'></img>
             <div className='inner-form'>
                 <h2 className='newproduct-title'>Millions of shoppers cannot wait to see what you have in store</h2>
@@ -112,6 +118,7 @@ export default function CreateProductPage() {
                 {page === 1 &&
                     <div className='form name container'>
                         <div className='product-form-errors-container'>
+                        <h3>Name your product</h3>
                             {nameErrors.length > 0 && (
                                 <ul className='form-errors-name'>
                                     {nameErrors.map(error => (
@@ -132,6 +139,7 @@ export default function CreateProductPage() {
                 {page === 2 &&
                     <div className='form description container'>
                         <div className='product-form-errors-container'>
+                            <h3>Describe your product</h3>
                             {descriptionErrors.length > 0 && (
                                 <ul className='form errors description'>
                                     {descriptionErrors.map(error => (
@@ -152,6 +160,7 @@ export default function CreateProductPage() {
                 {page === 3 &&
                     <div className='form image container'>
                         <div className='product-form-errors-container'>
+                            <h3>Post product image</h3>
                             {imageErrors.length > 0 && (
                                 <ul className='form errors image'>
                                     {imageErrors.map(error => (
@@ -172,6 +181,7 @@ export default function CreateProductPage() {
                 {page === 4 &&
                     <div className='form price container'>
                         <div className='product-form-errors-container'>
+                            <h3>Add product price</h3>
                             {priceErrors.length > 0 && (
                                 <ul className='form errors price'>
                                     {priceErrors.map(error => (
@@ -195,8 +205,14 @@ export default function CreateProductPage() {
                     </div>
                 }
 
-                {page < 4 && <button disabled={isDisabled} className='next-button' onClick={() => setPage(currPage => currPage + 1)}>Next</button>}
-                {page > 1 && <button className='back-button' onClick={() => setPage(currPage => currPage - 1)}>Back</button>}
+                {page < 4 && <button disabled={isDisabled} className='next-button' onClick={(e) => {
+                    e.preventDefault()
+                    setPage(currPage => currPage + 1)
+                }}>Next</button>}
+                {page > 1 && <button className='back-button' onClick={(e) => {
+                    e.preventDefault()
+                    setPage(currPage => currPage - 1)
+                }}>Back</button>}
                 {page === 4 && <button disabled={isDisabled} className='submit-button' type='button' onClick={handleSubmit}>List Product</button>}
 
             </div>
