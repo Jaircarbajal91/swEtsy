@@ -18,9 +18,11 @@
 /* Cart */
 .num-items-in-cart {
     font-weight: 300;
-    font-size: 32px;
+    font-size: 34px;
+    margin-bottom: 20px;
 }
 
+/* Cart */
 .cart-empty-message {
     text-decoration: none;
 
