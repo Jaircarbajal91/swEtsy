@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal } from '../../context/Modal';
 import { getReviewsThunk, createReviewThunk } from "../../store/review";
+import './createReview.css'
 
 
 export default function AddAReview({ product }) {
@@ -77,33 +78,33 @@ export default function AddAReview({ product }) {
             </div>
             {showModal &&
                 <Modal onClose={() => setShowModal(false)} >
-                    <form>
-                        My Review
-                        <div>{product.name}</div>
-                        <div>{product.description}</div>
-                        <div><img src={product.image} alt={'product image'}></img></div>
+                    <form className='createreview-form'>
+                        <div className='createreview-name'>{product.name}</div>
+                        <div className='createreview-des'>{product.description}</div>
+                        <div className='createreview-img'><img src={product.image} alt={'product image'}></img></div>
                         <div>
                             {errors.map((error, ind) => (
                                 <div key={ind}>{error}</div>
                             ))}
                         </div>
-                        <section className="star rating-container">
+                        <section className="star-rating-container">
                             <input type="radio" name="ratingStar" className="rating" value="1" onClick={e => setReviewStars(e.target.value)} />
                             <input type="radio" name="ratingStar" className="rating" value="2" onClick={e => setReviewStars(e.target.value)} />
                             <input type="radio" name="ratingStar" className="rating" value="3" onClick={e => setReviewStars(e.target.value)} />
                             <input type="radio" name="ratingStar" className="rating" value="4" onClick={e => setReviewStars(e.target.value)} />
                             <input type="radio" name="ratingStar" className="rating" value="5" onClick={e => setReviewStars(e.target.value)} />
                         </section>
-                        <input
-                            type='text'
+                        <textarea
+                            type='textarea'
                             placeholder='write a review for this item'
                             onChange={e => setReviewBody(e.target.value)}
                             value={reviewBody}
                             maxLength={501}
-                        ></input>
+                            className='createreview-reviewbody'
+                        ></textarea>
                         <br></br>
-                        <button onClick={handleCancel}>Cancel</button>
-                        <button onClick={handleSubmit} disabled={isDisabled}>Submit Review</button>
+                        <button className='createreview-button' onClick={handleCancel}>Cancel</button>
+                        <button className='createreview-button' onClick={handleSubmit} disabled={isDisabled}>Submit Review</button>
                     </form>
 
                 </Modal>}
