@@ -16,6 +16,7 @@ export default function EditMyReview({ review, showStore, setFold }) {
     const [reviewLoaded, setReviewLoaded] = useState(false)
     const [deleteReview, setDeleteReview] = useState(false)
     const [showDelete, setShowDelete] = useState(false)
+    const [allstars, setAllstars] = useState('☆☆☆☆☆')
     const [errors, setErrors] = useState([])
     const [isDisabled, setIsDisabled] = useState(true);
     const sessionUser = useSelector(state => state.session.user);
@@ -38,7 +39,7 @@ export default function EditMyReview({ review, showStore, setFold }) {
         setErrors(newErrors)
         if (!errors.length) setIsDisabled(false);
         else setIsDisabled(true);
-    }, [reviewBody.length, errors.length, reviewStars])
+    }, [reviewBody.length, errors.length, reviewStars, allstars])
 
     const handleSubmit = async e => {
         e.preventDefault();
@@ -74,7 +75,28 @@ export default function EditMyReview({ review, showStore, setFold }) {
     const handleClear = async e => {
         e.preventDefault()
         setReviewStars()
+        setAllstars('☆☆☆☆☆')
         setReviewBody('')
+    }
+
+    const handleStars = async e => {
+        e.preventDefault()
+        if (e.target.value == 1) {
+            setAllstars('☆☆☆☆★')
+        }
+        if (e.target.value == 2) {
+            setAllstars('☆☆☆★★')
+        }
+        if (e.target.value == 3) {
+            setAllstars('☆☆☆★★★')
+        }
+        if (e.target.value == 4) {
+            setAllstars('☆★★★★')
+        }
+        if (e.target.value == 5) {
+            setAllstars('★★★★★')
+        }
+        setReviewStars(e.target.value)
     }
 
     return reviewLoaded && (
@@ -82,22 +104,17 @@ export default function EditMyReview({ review, showStore, setFold }) {
             <form className='editreview-form'>Update My Review
                 < div className="star-rating-container" >
                     <selection className="radio-label-container">
-                        <label for='r1' className='rating-label'>☆
-                            <input type="radio" id='r1' className="rating-radio" value="5" onClick={e => setReviewStars(e.target.value)}></input>
-                            <span></span>
-                        </label>
-                        <label for='r2' className='rating-label'>☆
-                            <input type="radio" id='r2' className="rating-radio" value="4" onClick={e => setReviewStars(e.target.value)}></input>
-                        </label>
-                        <label for='r3' className='rating-label'>☆
-                            <input type="radio" id='r3' className="rating-radio" value="3" onClick={e => setReviewStars(e.target.value)}></input>
-                        </label>
-                        <label for='r4' className='rating-label'>☆
-                            <input type="radio" id='r4' className="rating-radio" value="2" onClick={e => setReviewStars(e.target.value)}></input>
-                        </label>
-                        <label for='r5' className='rating-label'>☆
-                            <input type="radio" id='r5' className="rating-radio" value="1" onClick={e => setReviewStars(e.target.value)}></input>
-                        </label>
+                        <label for='r6' className='rating-label-all'>{allstars}</label>
+                        <input type="radio" id='r1' className="rating-radio" value="5" onClick={handleStars}></input>
+                        <label for='r1' className='rating-label'>☆</label>
+                        <input type="radio" id='r2' className="rating-radio" value="4" onClick={handleStars}></input>
+                        <label for='r2' className='rating-label'>☆</label>
+                        <input type="radio" id='r3' className="rating-radio" value="3" onClick={handleStars}></input>
+                        <label for='r3' className='rating-label'>☆</label>
+                        <input type="radio" id='r4' className="rating-radio" value="2" onClick={handleStars}></input>
+                        <label for='r4' className='rating-label'>☆</label>
+                        <input type="radio" id='r5' className="rating-radio" value="1" onClick={handleStars}></input>
+                        <label for='r5' className='rating-label'>☆</label>
                     </selection>
                 </div >
                 <div>

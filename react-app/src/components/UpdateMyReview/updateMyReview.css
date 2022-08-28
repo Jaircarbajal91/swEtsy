@@ -94,17 +94,26 @@ div.updatereview-error {
     direction: rtl;
 }
 
+
+
 .radio-label-container>label:hover:before,
 .radio-label-container>label:hover~label:before {
+    /* content: "\2605"; */
+    content: "★";
+    position: absolute;
+}
+
+.radio-label-container>label:focus:before,
+.radio-label-container>input:checked+label:before {
     content: "\2605";
     position: absolute;
 }
 
-.rating-radio>input:checked:before,
-.rating-radio>input:checked~label:before {
+/* .radio-label-container>label:selection:after,
+.radio-label-container>label:checked:before {
     content: "\2605";
     position: absolute;
-}
+} */
 
 #r1,
 #r2,
@@ -114,8 +123,13 @@ div.updatereview-error {
     display: none;
 }
 
-.rating-label {
+.rating-label,
+.rating-label-all {
     cursor: pointer;
     transition: color 200ms;
     size: 200px;
+    opacity: 1;
+}
+.rating-label-all{
+    position: absolute;
 }
