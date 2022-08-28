@@ -25,9 +25,9 @@ return reviewLoaded && (
             <Stars rating={product.avgScore} />
         </div>
         {productReviews?.length && productReviews.map(review => {
-            return <div className='product review' key={review.id}>
-            <div className='review username'>user: {review.user_id}</div>
-            <div className='review star'>
+            return <div className='product-review' key={review.id}>
+            <div className='review-username'>user: {review.user_id}</div>
+            <div className='review-star'>
                 <Stars rating={review.stars} />
             </div>
             <div className='review reviewbody'>{review.review_body}</div>

@@ -1,3 +1,4 @@
-.reviews-header {
-    font-size: 16px;
+.reviews-header,
+.product-review {
+    font-size: 50px;
 }
