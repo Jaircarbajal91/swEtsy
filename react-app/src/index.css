@@ -3,6 +3,10 @@ html {
     font-family: "Graphik Webfont", -apple-system, "Helvetica Neue", "Droid Sans", Arial, sans-serif;
 }
 
+body {
+    margin: 0%;
+}
+
 .content.container {
     display: flex;
     flex-direction: column;

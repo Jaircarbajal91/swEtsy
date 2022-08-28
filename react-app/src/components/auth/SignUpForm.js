@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { Redirect } from 'react-router-dom';
 import { signUp } from '../../store/session';
+import './Signup.css';
 
-const SignUpForm = ({setShowSignup, setShowLogin}) => {
+const SignUpForm = ({ setShowSignup, setShowLogin }) => {
   const [errors, setErrors] = useState([]);
   const [username, setUsername] = useState('');
   const [firstname, setFirstname] = useState('');
@@ -52,69 +53,69 @@ const SignUpForm = ({setShowSignup, setShowLogin}) => {
   }
 
   return (
-    <form onSubmit={onSignUp}>
-      <div><span> Already registered?</span><span onClick={backToLogin}>Log in</span></div>
-      <div>
-        {errors.map((error, ind) => (
-          <div key={ind}>{error}</div>
-        ))}
-      </div>
-      <div>
-        <label>User Name</label>
-        <input
-          type='text'
-          name='username'
-          onChange={updateUsername}
-          value={username}
-        ></input>
-      </div>
-      <div>
-        <label>First Name</label>
-        <input
-          type='text'
-          name='firstname'
-          onChange={e => setFirstname(e.target.value)}
-          value={firstname}
-        ></input>
-      </div>
-      <div>
-        <label>Last Name</label>
-        <input
-          type='text'
-          name='lastname'
-          onChange={e => setLastname(e.target.value)}
-          value={lastname}
-        ></input>
-      </div>
-      <div>
-        <label>Email</label>
-        <input
-          type='text'
-          name='email'
-          onChange={updateEmail}
-          value={email}
-        ></input>
-      </div>
-      <div>
-        <label>Password</label>
-        <input
-          type='password'
-          name='password'
-          onChange={updatePassword}
-          value={password}
-        ></input>
-      </div>
-      <div>
-        <label>Repeat Password</label>
-        <input
-          type='password'
-          name='repeat_password'
-          onChange={updateRepeatPassword}
-          value={repeatPassword}
-          required={true}
-        ></input>
-      </div>
+    <form onSubmit={onSignUp} className='register-modal'>
+      <h2>Register</h2>
+      {errors.map((error, ind) => (
+        <div className='auth-validate-error' key={ind}>{error}</div>
+      ))}
+      <label className='register-label'>User Name</label>
+      <input
+        type='text'
+        name='username'
+        onChange={updateUsername}
+        value={username}
+        className='register-input'
+        required={true}
+      ></input>
+      <label className='register-label'>First Name</label>
+      <input
+        type='text'
+        name='firstname'
+        onChange={e => setFirstname(e.target.value)}
+        value={firstname}
+        className='register-input'
+        required={true}
+      ></input>
+      <label className='register-label'>Last Name</label>
+      <input
+        type='text'
+        name='lastname'
+        onChange={e => setLastname(e.target.value)}
+        value={lastname}
+        className='register-input'
+        required={true}
+      ></input>
+      <label className='register-label'>Email</label>
+      <input
+        type='text'
+        name='email'
+        onChange={updateEmail}
+        value={email}
+        className='register-input'
+        required={true}
+      ></input>
+      <label className='register-label'>Password</label>
+      <input
+        type='password'
+        name='password'
+        onChange={updatePassword}
+        value={password}
+        className='register-input'
+        required={true}
+      ></input>
+      <label className='register-label'>Repeat Password</label>
+      <input
+        type='password'
+        name='repeat_password'
+        onChange={updateRepeatPassword}
+        value={repeatPassword}
+        required={true}
+        className='register-input'
+      ></input>
       <button type='submit'>Sign Up</button>
+      <span className='login-redirect'> Already registered?</span>
+      <br></br>
+      <span className='login-button' onClick={backToLogin}>Log in</span>
     </form>
   );
 };

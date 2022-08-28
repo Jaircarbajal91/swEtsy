@@ -4,6 +4,10 @@ import { getMyReviewThunk, editReviewThunk, deleteReviewThunk } from "../../stor
 import { Modal } from "../../context/Modal";
 import DeleteReview from '../DeleteReview';
 import './updateMyReview.css'
+import FullStar from '../images/FullStar.svg'
+import EmptyStar from '../images/EmptyStar.svg'
+
+
 
 export default function EditMyReview({ review, showStore, setFold }) {
     const dispatch = useDispatch();
@@ -22,6 +26,7 @@ export default function EditMyReview({ review, showStore, setFold }) {
         dispatch(getMyReviewThunk()).then(() => setReviewLoaded(true))
     }, [dispatch])
 
+    console.log('star is -- ', reviewStars);
     const newErrors = [];
     useEffect(() => {
         if (reviewBody.length > 500) {
@@ -68,38 +73,52 @@ export default function EditMyReview({ review, showStore, setFold }) {
 
     const handleClear = async e => {
         e.preventDefault()
+        setReviewStars()
         setReviewBody('')
     }
 
     return reviewLoaded && (
         <div id={reviewId} style={{ display: { ...showStore } }}>
-            <form className='editreview-form'>My Review
-                < section className="star rating-container" >
-                    <input type="radio" name="ratingStar" className="rating" value="1" onClick={e => setReviewStars(e.target.value)} />
-                    <input type="radio" name="ratingStar" className="rating" value="2" onClick={e => setReviewStars(e.target.value)} />
-                    <input type="radio" name="ratingStar" className="rating" value="3" onClick={e => setReviewStars(e.target.value)} />
-                    <input type="radio" name="ratingStar" className="rating" value="4" onClick={e => setReviewStars(e.target.value)} />
-                    <input type="radio" name="ratingStar" className="rating" value="5" onClick={e => setReviewStars(e.target.value)} />
-                </section >
+            <form className='editreview-form'>Update My Review
+                < div className="star-rating-container" >
+                    <selection className="radio-label-container">
+                        <label for='r1' className='rating-label'>☆
+                            <input type="radio" id='r1' className="rating-radio" value="5" onClick={e => setReviewStars(e.target.value)}></input>
+                            <span></span>
+                        </label>
+                        <label for='r2' className='rating-label'>☆
+                            <input type="radio" id='r2' className="rating-radio" value="4" onClick={e => setReviewStars(e.target.value)}></input>
+                        </label>
+                        <label for='r3' className='rating-label'>☆
+                            <input type="radio" id='r3' className="rating-radio" value="3" onClick={e => setReviewStars(e.target.value)}></input>
+                        </label>
+                        <label for='r4' className='rating-label'>☆
+                            <input type="radio" id='r4' className="rating-radio" value="2" onClick={e => setReviewStars(e.target.value)}></input>
+                        </label>
+                        <label for='r5' className='rating-label'>☆
+                            <input type="radio" id='r5' className="rating-radio" value="1" onClick={e => setReviewStars(e.target.value)}></input>
+                        </label>
+                    </selection>
+                </div >
                 <div>
                     {errors.map((error, ind) => (
-                        <div key={ind}>{error}</div>
+                        <div className='updatereview-error' key={ind}>{error}</div>
                     ))}
                 </div>
                 <div className='editreview-reviewbody'>
-                    <input
-                        type='text'
+                    <textarea
+                        type='textarea'
                         placeholder='write a review for this item'
                         onChange={e => setReviewBody(e.target.value)}
                         value={reviewBody}
                         maxLength={501}
                         className='editreview-reviewbody'
-                    ></input>
+                    ></textarea>
                 </div>
                 <br></br>
-                <button value={reviewId} onClick={handleSubmit} disabled={isDisabled}>Update My Review</button>
-                <button value={reviewId} onClick={handleClear}>Clear</button>
-                <button value={reviewId} onClick={handleDeleteModal}>Delete</button>
+                <button value={reviewId} className='editreview-button' onClick={handleSubmit} disabled={isDisabled}>Update My Review</button>
+                <button value={reviewId} className='editreview-button' onClick={handleClear}>Clear</button>
+                <button value={reviewId} className='editreview-button' onClick={handleDeleteModal}>Delete</button>
                 {showDelete && (
                     <Modal >
                         <DeleteReview setDeleteReview={setDeleteReview} setShowDelete={setShowDelete} reviewId={reviewId} />
