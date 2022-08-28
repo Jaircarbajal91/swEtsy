@@ -1,23 +1,39 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import { getMyReviewThunk, editReviewThunk, deleteReviewThunk } from "../../store/review";
+import { Modal } from "../../context/Modal";
+import DeleteReview from '../DeleteReview';
+import './updateMyReview.css'
 
 export default function EditMyReview({ review, showStore, setFold }) {
     const dispatch = useDispatch();
     const [reviewStars, setReviewStars] = useState()
     const [reviewBody, setReviewBody] = useState('')
     const [reviewLoaded, setReviewLoaded] = useState(false)
+    const [deleteReview, setDeleteReview] = useState(false)
+    const [showDelete, setShowDelete] = useState(false)
     const [errors, setErrors] = useState([])
+    const [isDisabled, setIsDisabled] = useState(true);
     const sessionUser = useSelector(state => state.session.user);
+    const myReviews = useSelector(state => state.reviews.reviewsList)
     let reviewId = review.id
     let productId = review.product.id
-
     useEffect(() => {
         dispatch(getMyReviewThunk()).then(() => setReviewLoaded(true))
     }, [dispatch])
 
-    const myReviews = useSelector(state => state.reviews.reviewsList)
+    const newErrors = [];
+    useEffect(() => {
+        if (reviewBody.length > 500) {
+            newErrors.push('You may only enter review in 500 characters.')
+        }
+        if (sessionUser.id !== review.user_id) {
+            newErrors.push('You may only edit your own reviews.')
+        }
+        setErrors(newErrors)
+        if (!errors.length) setIsDisabled(false);
+        else setIsDisabled(true);
+    }, [reviewBody.length, errors.length, reviewStars])
 
     const handleSubmit = async e => {
         e.preventDefault();
@@ -35,34 +51,60 @@ export default function EditMyReview({ review, showStore, setFold }) {
         })
 
         let x = document.getElementById(`${e.target.value}`)
-        x.style.display == "none" ? x.style.display = "block" : x.style.display = "none"
-    }
-    const handleDelete = async e => {
-        e.preventDefault()
-        let id = Number(e.currentTarget.value)
-        await dispatch(deleteReviewThunk(id)).then(() => console.log('deleted! id is ', id))
-        await dispatch(getMyReviewThunk())
+        x.style.display === "none" ? x.style.display = "block" : x.style.display = "none"
     }
 
-    return (
+    const handleDeleteModal = async e => {
+        e.preventDefault()
+        setShowDelete(true)
+        // let id = Number(e.currentTarget.value)
+        // if (deleteReview) {
+        //     await dispatch(deleteReviewThunk(id)).then(() => console.log('deleted! id is ', id))
+        //     await dispatch(getMyReviewThunk())
+        // } else {
+        //     setShowDelete(false)
+        // }
+    }
+
+    const handleClear = async e => {
+        e.preventDefault()
+        setReviewBody('')
+    }
+
+    return reviewLoaded && (
         <div id={reviewId} style={{ display: { ...showStore } }}>
-            <form>My Review
-                < section class="star rrating-container" >
-                    <input type="radio" name="ratingStar" class="rating" value="1" onClick={e => setReviewStars(e.target.value)} />
-                    <input type="radio" name="ratingStar" class="rating" value="2" onClick={e => setReviewStars(e.target.value)} />
-                    <input type="radio" name="ratingStar" class="rating" value="3" onClick={e => setReviewStars(e.target.value)} />
-                    <input type="radio" name="ratingStar" class="rating" value="4" onClick={e => setReviewStars(e.target.value)} />
-                    <input type="radio" name="ratingStar" class="rating" value="5" onClick={e => setReviewStars(e.target.value)} />
+            <form className='editreview-form'>My Review
+                < section className="star rating-container" >
+                    <input type="radio" name="ratingStar" className="rating" value="1" onClick={e => setReviewStars(e.target.value)} />
+                    <input type="radio" name="ratingStar" className="rating" value="2" onClick={e => setReviewStars(e.target.value)} />
+                    <input type="radio" name="ratingStar" className="rating" value="3" onClick={e => setReviewStars(e.target.value)} />
+                    <input type="radio" name="ratingStar" className="rating" value="4" onClick={e => setReviewStars(e.target.value)} />
+                    <input type="radio" name="ratingStar" className="rating" value="5" onClick={e => setReviewStars(e.target.value)} />
                 </section >
-                <input
-                    type='text'
-                    placeholder='write a review for this item'
-                    onChange={e => setReviewBody(e.target.value)}
-                    value={reviewBody}
-                ></input>
+                <div>
+                    {errors.map((error, ind) => (
+                        <div key={ind}>{error}</div>
+                    ))}
+                </div>
+                <div className='editreview-reviewbody'>
+                    <input
+                        type='text'
+                        placeholder='write a review for this item'
+                        onChange={e => setReviewBody(e.target.value)}
+                        value={reviewBody}
+                        maxLength={501}
+                        className='editreview-reviewbody'
+                    ></input>
+                </div>
                 <br></br>
-                <button value={reviewId} onClick={handleSubmit}>Update My Review</button>
-                <button value={reviewId} onClick={handleDelete}>Delete</button>
+                <button value={reviewId} onClick={handleSubmit} disabled={isDisabled}>Update My Review</button>
+                <button value={reviewId} onClick={handleClear}>Clear</button>
+                <button value={reviewId} onClick={handleDeleteModal}>Delete</button>
+                {showDelete && (
+                    <Modal >
+                        <DeleteReview setDeleteReview={setDeleteReview} setShowDelete={setShowDelete} reviewId={reviewId} />
+                    </Modal>
+                )}
             </form>
         </div >
     )

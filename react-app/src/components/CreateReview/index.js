@@ -1,35 +1,46 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import { Modal } from '../../context/Modal';
-import { getReviewsThunk, createReviewThunk, editReviewThunk, deleteReviewThunk } from "../../store/review";
+import { getReviewsThunk, createReviewThunk } from "../../store/review";
+import '../ProductDetail/ProductDetail.css';
 
-
-export default function AddAReviewModal({ product }) {
+export default function AddAReview({ product }) {
     const dispatch = useDispatch();
     const [showModal, setShowModal] = useState(false)
     const [reviewStars, setReviewStars] = useState()
     const [reviewBody, setReviewBody] = useState('')
     const [errors, setErrors] = useState([])
+    const [isDisabled, setIsDisabled] = useState(true);
 
     const sessionUser = useSelector(state => state.session.user);
-    const productReviews = useSelector(state => state.products.reviews);
-
+    // const productReviews = useSelector(state => state.products.reviews);
     const id = product.id
-    console.log('owner is ', product.owner_id)
+
     useEffect(() => {
         dispatch(getReviewsThunk(id))
     }, [id, showModal])
 
+    const newErrors = [];
+
     useEffect(() => {
-        const newError = [];
-        if (reviewBody.length > 1000) {
-            newError.push('You may only enter review in 1000 characters.')
+        if (sessionUser && product.reviews.some(e => e.user_id === sessionUser.id)) {
+            newErrors.push(`You have already reviewed this product.`, `Please edit/delete under My Reviews.`, <a className='review-redirect' href='https://swetsy-app.herokuapp.com/myreviews' style={{ color: '#472600', textDecoration: 'none' }}>Take me to My Reviews ...</a>)
         }
-        if (!reviewStars) {
-            newError.push('Please rate this product.')
+        else {
+            if (reviewStars == undefined) {
+                newErrors.push('Please rate this product.')
+            }
+            if (reviewBody.length > 500) {
+                newErrors.push('You may only enter review in 500 characters.')
+            }
         }
-    }, [reviewBody.length, dispatch])
+        setErrors(newErrors)
+        if (!errors.length) setIsDisabled(false);
+        else setIsDisabled(true)
+    }, [reviewStars, reviewBody.length, errors.length, showModal])
+
+    // console.log('starr--', reviewStars)
+    // console.log(errors)
 
     const handleSubmit = async e => {
         e.preventDefault();
@@ -41,17 +52,15 @@ export default function AddAReviewModal({ product }) {
             user_id: sessionUser.id
         }
 
-        // if (product.reviews.some(e => e.user_id === sessionUser.id)) {
-            
-        // }
         dispatch(createReviewThunk(id, payload)).then((res) => {
             setReviewStars()
             setReviewBody('')
             setShowModal(false)
-            // if (res.review.error) {
-            //     setErrors(res.review.error)
-            // }
         })
+            .catch(async (res) => {
+                const data = await res.json();
+                if (data && data.errors) newErrors.push(data.errors)
+            })
     }
 
     const handleCancel = async e => {
@@ -63,8 +72,8 @@ export default function AddAReviewModal({ product }) {
 
     return sessionUser && (
         <>
-            <div className="button add-a-review">
-                <button onClick={() => setShowModal(true)} hidden={product.owner_id == sessionUser.id}>Add a Review</button>
+            <div className="add-a-review">
+                <button className="button button-add-a-review" onClick={() => setShowModal(true)} hidden={product.owner_id === sessionUser.id}>Add a Review</button>
             </div>
             {showModal &&
                 <Modal onClose={() => setShowModal(false)} >
@@ -72,28 +81,29 @@ export default function AddAReviewModal({ product }) {
                         My Review
                         <div>{product.name}</div>
                         <div>{product.description}</div>
-                        <div><img src={product.image} alt={'product image'} maxheight={'300px'}></img></div>
+                        <div><img src={product.image} alt={'product image'}></img></div>
                         <div>
                             {errors.map((error, ind) => (
                                 <div key={ind}>{error}</div>
                             ))}
                         </div>
-                        <section class="star rrating-container">
-                            <input type="radio" name="ratingStar" class="rating" value="1" onClick={e => setReviewStars(e.target.value)} />
-                            <input type="radio" name="ratingStar" class="rating" value="2" onClick={e => setReviewStars(e.target.value)} />
-                            <input type="radio" name="ratingStar" class="rating" value="3" onClick={e => setReviewStars(e.target.value)} />
-                            <input type="radio" name="ratingStar" class="rating" value="4" onClick={e => setReviewStars(e.target.value)} />
-                            <input type="radio" name="ratingStar" class="rating" value="5" onClick={e => setReviewStars(e.target.value)} />
+                        <section className="star rrating-container">
+                            <input type="radio" name="ratingStar" className="rating" value="1" onClick={e => setReviewStars(e.target.value)} />
+                            <input type="radio" name="ratingStar" className="rating" value="2" onClick={e => setReviewStars(e.target.value)} />
+                            <input type="radio" name="ratingStar" className="rating" value="3" onClick={e => setReviewStars(e.target.value)} />
+                            <input type="radio" name="ratingStar" className="rating" value="4" onClick={e => setReviewStars(e.target.value)} />
+                            <input type="radio" name="ratingStar" className="rating" value="5" onClick={e => setReviewStars(e.target.value)} />
                         </section>
                         <input
                             type='text'
                             placeholder='write a review for this item'
                             onChange={e => setReviewBody(e.target.value)}
                             value={reviewBody}
+                            maxLength={501}
                         ></input>
                         <br></br>
                         <button onClick={handleCancel}>Cancel</button>
-                        <button onClick={handleSubmit}>Submit Review</button>
+                        <button onClick={handleSubmit} disabled={isDisabled}>Submit Review</button>
                     </form>
 
                 </Modal>}

@@ -26,6 +26,9 @@ export default function CreateProductPage() {
             if (!name.length) {
                 newNameErrors.push('Please give your product a name');
             }
+            if (name.length > 70 || name.length < 3) {
+                newNameErrors.push('Name must be between 3 and 70 characters');
+            }
             setNameErrors(newNameErrors);
             if (!nameErrors.length) setIsDisabled(false);
             else setIsDisabled(true);
@@ -37,6 +40,9 @@ export default function CreateProductPage() {
             const newDescriptionErrors = [];
             if (!description.length) {
                 newDescriptionErrors.push('Please describe your product!');
+            }
+            if (description.length > 250 || description.length < 1) {
+                newDescriptionErrors.push('Description must between 1 and 250 characters');
             }
             setDescriptionErrors(newDescriptionErrors);
             if (!descriptionErrors.length) setIsDisabled(false);
@@ -63,6 +69,7 @@ export default function CreateProductPage() {
         if (page === 4) {
             const newPriceErrors = [];
             if (price <= 0 || (price * 100) % 1 !== 0) newPriceErrors.push('Please enter a valid price');
+            if (price > 1000000) newPriceErrors.push('Price is capped at $1,000,000');
             setPriceErrors(newPriceErrors);
             if (!priceErrors.length) setIsDisabled(false);
             else setIsDisabled(true);

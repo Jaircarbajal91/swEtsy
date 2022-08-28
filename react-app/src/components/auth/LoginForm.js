@@ -18,6 +18,7 @@ const LoginForm = ({setShowLogin, setShowSignup}) => {
       setErrors(data);
     } else {
       setShowLogin(false)
+      history.push('/')
     }
   };
 
@@ -36,13 +37,13 @@ const LoginForm = ({setShowLogin, setShowSignup}) => {
       setErrors(data)
     } else {
       setShowLogin(false)
+      history.push('/')
     }
   }
 
   const registerNewUser = e => {
     e.preventDefault();
     setShowLogin(false);
-    history.push('/sign-up')
     setShowSignup(true);
   }
 
@@ -52,7 +53,7 @@ const LoginForm = ({setShowLogin, setShowSignup}) => {
 
   return (
     <>
-      <button onClick={registerNewUser}>Register</button>
+      <div onClick={registerNewUser}>Register</div>
       <form onSubmit={onLogin}>
         <div>
           {errors.map((error, ind) => (

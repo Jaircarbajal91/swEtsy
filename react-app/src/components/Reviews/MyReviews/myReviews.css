@@ -1,0 +1,163 @@
+@import url('https://fonts.googleapis.com/css2?family=Aboreto&family=Bitter:wght@100;200;400&family=Comfortaa:wght@300&display=swap');
+
+#root>div.content.container>div.myreview-container>p,
+.myreview-container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    font-family: "Guardian-EgypTT", Georgia, serif;
+    font-size: 26px;
+    width: 100%;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 50px;
+    margin: 0;
+}
+
+div.myreview.title {
+    background-color: #EBEAE5;
+    display: flex;
+    /* font-family: "Guardian-EgypTT", Georgia, serif; */
+    font-family: 'Bitter', serif;
+    font-size: 26px;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    padding-left: 50px;
+    border-bottom: #AFAFAF 2px solid;
+    border-top: #AFAFAF 2px solid;
+    margin: 0;
+    height: 110px;
+    font-weight: 900px;
+}
+
+div.myreview-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-family: "Guardian-EgypTT", Georgia, serif;
+    padding: 5px;
+    margin: auto;
+    align-items: center;
+}
+
+div.product-myreview {
+    max-height: fit-content;
+}
+
+div.myreview-container>div>div {
+    display: flex;
+    text-align: center;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+div.myreview-container>div>div {
+    width: 800px;
+    display: grid;
+    grid-template-columns: 2fr 5fr;
+    text-align: left;
+    flex-direction: row;
+    padding: 20px;
+    border-radius: 15px;
+    border: solid #E2E2E2 2px;
+    margin: 10px;
+}
+
+/* div.product-myreview :hover {
+    box-shadow: 2px 2px #ADADAD, -.5em 0 .4em #ADADAD;
+} */
+
+div.myreview-left-img {
+    max-height: 300px;
+    max-width: 300px;
+    align-items: center;
+    overflow: hidden;
+    display: flex;
+    background-color: #EBEAE5;
+    border-style: solid gray 500px;
+    border-radius: 10px;
+    padding-right: .5%;
+    padding-top: .5%;
+    padding-left: 4%;
+    padding-bottom: 4%;
+}
+
+div.myreview-right-box {
+    width: 90%;
+    padding: 8%;
+}
+
+div.myreview-left-img>img {
+    display: block;
+    width: 100%;
+    max-height: 100%;
+    border-radius: 10px;
+    align-items: baseline;
+}
+
+div.myreview-product,
+div.myreview-star,
+div.myreview-reviewbody {
+    font-size: 20px;
+    text-decoration: none;
+    font-family: 'Bitter', serif;
+}
+
+div.myreview-product {
+    color: black;
+    text-decoration: none;
+}
+
+div.myreview-reviewbody {
+    font-size: 20px;
+}
+
+.myreview-redirect {
+    color: #663600;
+    text-Decoration: none;
+    font-weight: 900;
+    font-size: 26px;
+}
+
+.myreview-redirect:hover {
+    color: #663600;
+    text-Decoration: none;
+    font-size: 30px;
+    transition-duration: 300ms;
+}
+
+
+/* ---------------- edit Review ---------------- */
+
+button.myreviews-editbutton {
+    margin-top: 20px;
+    padding: 10px 10px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: .5s;
+    background-size: 200% auto;
+    color: black;
+    border-radius: 10px;
+    display: block;
+    border: 0px;
+    font-weight: 400;
+    background-image: linear-gradient(45deg, #FFC489 0%, #FFE3D6 20%, #894400 100%);
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+button.myreviews-editbutton:hover {
+    background-position: right center;
+    color: #fff;
+    text-decoration: none;
+}
+
+button.myreviews-editbutton:active {
+    transform: scale(0.95);
+}

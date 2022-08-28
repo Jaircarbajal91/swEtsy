@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { NavLink, useHistory } from "react-router-dom"
+import { NavLink, useHistory, Redirect } from "react-router-dom"
 import { getCartItemsThunk } from "../../store/cart";
 import CartItem from "./CartItem";
 import CartTotalCard from "./CartTotalCard";
@@ -21,13 +21,20 @@ const Cart = ({ cartItems, sessionUser, setShowLogin, cartLoaded, setCartLoaded 
   const [total, setTotal] = useState(initialSubtotal - discount);
 
   useEffect(() => {
-    dispatch(getCartItemsThunk()).then(() => setCartLoaded(true))
+    if (sessionUser) {
+      dispatch(getCartItemsThunk()).then(() => setCartLoaded(true))
+    }
   }, [cartItems?.length])
 
+  // if (!sessionUser) {
+  //   history.push('/')
+  //   setShowLogin(true);
+  // };
+
   if (!sessionUser) {
-    setShowLogin(true);
-    history.push('/login')
-  };
+    setShowLogin(true)
+    return <Redirect to='/'/>
+  }
 
   return cartLoaded && (
     <div>

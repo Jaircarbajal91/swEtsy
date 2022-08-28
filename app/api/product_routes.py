@@ -152,13 +152,12 @@ def get_product_reviews(id):
     product_reviews = db.session.query(Review) \
                         .filter(Review.product_id == id) \
                         .all()
+    review_details = []
     if product_reviews is not None and len(product_reviews) > 0:
-        review_details = []
         for review in product_reviews:
             review = review.to_dict()
             review_details.append(review)
     return { "review_details": review_details }
-
 
 @product_routes.route('/<int:id>', methods=['POST'])
 @product_routes.route('/<int:id>/', methods=['POST'])

@@ -24,7 +24,6 @@ def validate_str(form, field):
         raise StopValidation('This input must be a string')
 
 
-
 def validate_int(form, field):
     if field.data is None or field.data != int(field.data):
         raise StopValidation('This input must be a integer')
