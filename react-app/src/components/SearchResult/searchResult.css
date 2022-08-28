@@ -166,6 +166,7 @@
     font-weight: 400;
     padding-left: 1rem;
     margin-left: 1rem;
+    border:0.1rem solid #222
 }
 
 #root > div.content.container > div.search-rule-container > div.search-rule-right > p{
