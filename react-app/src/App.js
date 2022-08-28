@@ -89,7 +89,7 @@ function App() {
             <Reviews veviews={reviews} />
           </Route> */}
           <Route path='/myreviews' exact={true} >
-            <MyReviews reviews={reviews} />
+            <MyReviews reviews={reviews} setShowLogin={setShowLogin} />
           </Route>
           <Route path='/search'>
             <SearchResult searchWords={searchWords} setSearchWords={setSearchWords} />
