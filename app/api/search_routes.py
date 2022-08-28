@@ -6,6 +6,7 @@ from datetime import datetime, date, timedelta
 from .auth_routes import validation_errors_to_error_messages
 from sqlalchemy import or_, desc
 import re
+import statistics
 
 search_routes = Blueprint('search', __name__)
 
@@ -60,10 +61,20 @@ def search():
             filters.extend(f)
             filter_obj[k] = v[-1]
     if len(filters) > 0:
-        filtered_products = Product.query.filter(*filters).order_by(order).offset((page-1)*size).limit(size).all()
+        filtered_products = Product.query.filter(*filters).options(db.joinedload(Product.reviews)).order_by(order).offset((page-1)*size).limit(size).all()
     else:
-        filtered_products = Product.query.order_by(order).offset((page-1)*size).limit(size).all()
-    res = {'products': [product.to_dict() for product in filtered_products], 'page':page, 'size':size, 'order':'id', **filter_obj}
+        filtered_products = Product.query.options(db.joinedload(Product.reviews)).order_by(order).offset((page-1)*size).limit(size).all()
+    product_details = []
+    if(filtered_products is not None and len(filtered_products)>0):
+        for item in filtered_products:
+            reviews = [r.to_dict() for r in item.reviews]
+            stars = [int(r.stars) for r in item.reviews]
+            avg = statistics.mean(stars) if len(stars) else 0
+            item = item.to_dict()
+            item['reviews'] = reviews
+            item['avgScore'] = round(float(avg),2)
+            product_details.append(item)
+    res = {'products': product_details, 'page':page, 'size':size, 'order':'id', **filter_obj}
     # size will be the real size if there are no more than 20 products
     # this is good for the feature "showing xxx products in page xxx"
     # if we have it lmao
