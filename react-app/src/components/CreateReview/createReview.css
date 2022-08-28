@@ -1,0 +1,151 @@
+@import url('https://fonts.googleapis.com/css2?family=Aboreto&family=Bitter:wght@100;200;400&family=Comfortaa:wght@300&family=DM+Serif+Display&display=swap');
+
+form.createreview-form {
+    background-color: rgb(249, 250, 250);
+    margin-top: 20px;
+    width: 500px;
+    margin: 0px;
+    padding: 5%;
+    display: block;
+    justify-content: space-between;
+    border-radius: 5px;
+    font-size: 20px;
+    color: #56504C;
+    font-family: 'DM Serif Display', serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+
+}
+
+div.createreview-name {
+    font-size: 24px;
+    font-family: 'DM Serif Display', serif;
+    margin: 0.1em;
+}
+
+div.createreview-des {
+    font-size: 18px;
+    font-family: "Graphik Webfont", -apple-system, "Helvetica Neue", "Droid Sans", Arial, sans-serif;
+    margin: 0.1em;
+}
+
+#modal-content>form>div.createreview-img,
+div.createreview-img>img {
+    max-width: 300px;
+    min-width: 200px;
+    max-height: 300px;
+    min-height: 200px;
+    width: 100%;
+    box-shadow: 5px 5px 10px grey;
+    margin: 0.1em;
+}
+
+textarea.createreview-reviewbody {
+    max-height: 200px;
+    min-height: 100px;
+    max-width: 90%;
+    min-width: 90%;
+    width: 100%;
+    padding: 10px;
+    font-size: 18px;
+    font-family: 'Bitter', serif;
+    border-radius: 5px;
+    background: rgb(249, 250, 250);
+    border-radius: 10px;
+    border: 1px solid rgb(181, 189, 196);
+    height: 30px;
+    overflow-y: scroll;
+    scrollbar-color: grey;
+    scrollbar-width: thin;
+    color: rgb(8, 9, 10);
+    word-break: break-word;
+    resize: vertical;
+    margin: 0.1em;
+}
+
+
+input.createreview-reviewbody:focus {
+    background-color: #fff;
+    border-color: #3b49df;
+    box-shadow: 1px 1px 0 #3b49df;
+    overflow-y: scroll;
+}
+
+div.createreview-error {
+    margin-top: .8em;
+    font-size: .8em;
+    color: #A05102;
+}
+
+button.createreview-button {
+    display: inline-block;
+    outline: 0;
+    border: 0;
+    font-family: 'Bitter', serif;
+    cursor: pointer;
+    transition: box-shadow 0.15s ease, transform 0.15s ease;
+    will-change: box-shadow, transform;
+    background: #FCFCFD;
+    box-shadow: 0px 2px 4px rgb(45 35 66 / 40%), 0px 7px 13px -3px rgb(45 35 66 / 30%), inset 0px -3px 0px #d6d6e7;
+    height: 40px;
+    margin: 10px;
+    padding: 0 10px;
+    font-size: 14px;
+    border-radius: 20px;
+    color: #36395a;
+    transition: box-shadow 0.15s ease;
+    transform: 0.15s ease;
+
+}
+
+
+button.createreview-button:hover {
+    box-shadow: 0px 4px 8px rgb(45 35 66 / 40%), 0px 7px 13px -3px rgb(45 35 66 / 30%), inset 0px -3px 0px #d6d6e7;
+    transform: translateY(-2px);
+}
+
+button.createreview-button:disabled {
+    box-shadow: 0px 4px 8px rgb(0 0 0 / 40%);
+    color: #534C45;
+    background-color: grey;
+}
+
+button.createreview-button:active {
+    box-shadow: inset 0px 3px 7px #d6d6e7;
+    transform: translateY(2px);
+}
+
+/* ------ creade review modal ------- */
+form .createreview-form {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.review-redirect {
+    outline: 0;
+    border: 0;
+    font-family: 'Bitter', serif;
+    cursor: pointer;
+    transition: box-shadow 0.15s ease, transform 0.15s ease;
+    will-change: box-shadow, transform;
+    background: #FFD3A8;
+    box-shadow: 0px 1px 1px rgb(45 35 66 / 90%);
+    height: 40px;
+    padding: 5px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    border-radius: 20px;
+    color: #36395a;
+    transition: box-shadow 0.15s ease;
+    transform: 0.15s ease;
+
+}

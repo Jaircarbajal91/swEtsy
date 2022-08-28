@@ -1,0 +1,106 @@
+/* ---- register button ------ */
+.login-redirect {
+    cursor: pointer;
+    display: flex;
+    outline: 0;
+    border: 0;
+    cursor: pointer;
+    border-radius: 30px;
+    padding: 30px 0px 0px;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1;
+    background: transparent;
+    color: #000000;
+    flex-direction: column;
+    text-align: center;
+}
+
+.login-button {
+    text-align: center;
+    width: 400px;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 30px;
+    padding: 12px 0;
+    margin: 0px;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1;
+    transition: transform 200ms, background 200ms;
+    background: transparent;
+    color: #000000;
+    box-shadow: 0 0 0 3px #000000 inset;
+}
+
+.login-button:hover {
+    transform: translateY(-3px);
+}
+
+/* ----- register modal --- */
+.register-modal {
+    color: #5B5B5B;
+    width: 400px;
+    min-height: 400px;
+    margin: 40px;
+    font-size: 14px;
+    font-weight: 700;
+    display: flex;
+    flex-direction: column;
+
+}
+
+
+#modal-content>form>button {
+    width: 400px;
+    display: inline-block;
+    outline: 0;
+    border: 0;
+    cursor: pointer;
+    background: #000000;
+    color: #FFFFFF;
+    border-radius: 30px;
+    padding: 12px 0;
+    margin-top: 20px;
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 1;
+    transition: transform 200ms, background 200ms;
+}
+
+.register-label {
+    font-size: 16px;
+}
+
+.register-input {
+    position: relative;
+    cursor: text;
+    font-size: 14px;
+    line-height: 16px;
+    padding: 10px;
+    margin: 5px 0;
+    height: 20px;
+    background-color: #fff;
+    border: 1px solid #d6d6e7;
+    border-radius: 3px;
+    color: rgb(35, 38, 59);
+    box-shadow: inset 0 1px 4px 0 rgb(119 122 175 / 30%);
+    overflow: hidden;
+    transition: all 100ms ease-in-out;
+}
+
+.register-label {
+    font-size: 16px;
+}
+
+input .register-input:focus {
+    border-color: #3c4fe0;
+    box-shadow: 0 2px 0 0 rgb(35 38 59 / 5%);
+}
+
+.auth-validate-error {
+    margin: 4px 0;
+    padding: 5px;
+    color: #AD4E00;
+    font-size: 14px;
+}

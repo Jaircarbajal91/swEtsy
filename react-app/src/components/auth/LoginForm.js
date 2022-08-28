@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Redirect, useHistory } from 'react-router-dom';
 import { login } from '../../store/session';
 
-const LoginForm = ({setShowLogin, setShowSignup}) => {
+const LoginForm = ({ setShowLogin, setShowSignup }) => {
   const history = useHistory()
   const [errors, setErrors] = useState([]);
   const [email, setEmail] = useState('');
@@ -53,34 +53,37 @@ const LoginForm = ({setShowLogin, setShowSignup}) => {
 
   return (
     <>
-      <div onClick={registerNewUser}>Register</div>
-      <form onSubmit={onLogin}>
+      <div className='register-button' onClick={registerNewUser}>Register</div>
+      <form className='login-modal' onSubmit={onLogin}>
+        <h2>Sign In</h2>
         <div>
           {errors.map((error, ind) => (
-            <div key={ind}>{error}</div>
+            <div className='auth-validate-error' key={ind}>{error}</div>
           ))}
         </div>
-        <div>
-          <label htmlFor='email'>Email</label>
-          <input
-            name='email'
-            type='text'
-            placeholder='Email'
-            value={email}
-            onChange={updateEmail}
-          />
-        </div>
-        <div>
-          <label htmlFor='password'>Password</label>
-          <input
-            name='password'
-            type='password'
-            placeholder='Password'
-            value={password}
-            onChange={updatePassword}
-          />
-          <button type='submit'>Login</button>
-          <button onClick={demoLogin}>Demo</button>
+        <label className='signin-label' htmlFor='email'>  Email</label>
+        <input
+          name='email'
+          type='text'
+          placeholder='Email'
+          value={email}
+          onChange={updateEmail}
+          className='signin-input'
+          required={true}
+        />
+        <label className='signin-label' htmlFor='password'>  Password</label>
+        <input
+          name='password'
+          type='password'
+          placeholder='Password'
+          value={password}
+          onChange={updatePassword}
+          className='signin-input'
+          required={true}
+        />
+        <div className='signin-buttom-container'>
+          <button className='singin-button' type='submit'>Login</button>
+          <button className='singin-button' onClick={demoLogin}>Demo User</button>
         </div>
       </form>
     </>
