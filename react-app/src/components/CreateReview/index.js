@@ -15,8 +15,6 @@ export default function AddAReview({ product }) {
     const sessionUser = useSelector(state => state.session.user);
     // const productReviews = useSelector(state => state.products.reviews);
     const id = product.id
-    // console.log('owner is ', product.owner_id)
-    // console.log('reviewBody.length is ', reviewBody.length)
 
     useEffect(() => {
         dispatch(getReviewsThunk(id))
