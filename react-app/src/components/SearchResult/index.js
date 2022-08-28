@@ -36,7 +36,6 @@ const SearchResult = ({ searchWords, setSearchWords }) => {
 
     let filtered = []
     const data = { keyword, minPrice, maxPrice, ownerId, order }
-    // console.log(data)
     for (let key in data) {
         if (data[key]) {
             filtered.push(`${key}=${data[key]}`)

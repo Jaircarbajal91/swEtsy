@@ -1,22 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { getReviewsThunk } from "../../store/review";
-import Stars from '../Reviews/Stars'
+
+import Stars from '../Reviews/Stars';
+import './Reviews.css';
 
 const Reviews = ({ product }) => {
-  const dispatch = useDispatch();
-  const id = product.id;
-  const [reviewLoaded, setReviewLoaded] = useState(false)
-  const productReviews = useSelector(state => state.reviews.reviewsList)
+const dispatch = useDispatch();
+const id = product.id;
+const [reviewLoaded, setReviewLoaded] = useState(false)
+const productReviews = useSelector(state => state.reviews.reviewsList)
 
-  useEffect(() => {
+
+useEffect(() => {
     dispatch(getReviewsThunk(id)).then(() => setReviewLoaded(true))
-  }, [id, dispatch])
+}, [id, dispatch])
 
-  let reviewLength = productReviews?.length;
-  console.log('length====', reviewLength)
 
-  return reviewLoaded && (
+let reviewLength = productReviews?.length;
+// console.log('length====', reviewLength)
+
+return reviewLoaded && (
     <div className='review-container'>
       {/* <p>{product.avgScore}<Stars rating={5} /></p> */}
       <p><Stars rating={5} /></p>
@@ -34,9 +38,8 @@ const Reviews = ({ product }) => {
         }) : (
           <h4> - no review for this product yet - </h4>
         )}
-
     </div >
-  )
+)
 }
 
 export default Reviews
