@@ -86,3 +86,21 @@ div.updatereview-error {
     font-size: .8em;
     color: #A05102;
 }
+
+.star-rating-container {
+    unicode-bidi: bidi-override;
+    direction: rtl;
+    cursor: pointer;
+}
+
+.star-rating-container>span {
+    display: inline-block;
+    position: relative;
+    width: 1.1em;
+}
+
+.star-rating-container>span:hover:before,
+.star-rating-container>span:hover~span:before {
+    content: "\2605";
+    position: absolute;
+}

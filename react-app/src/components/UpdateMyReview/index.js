@@ -22,6 +22,7 @@ export default function EditMyReview({ review, showStore, setFold }) {
         dispatch(getMyReviewThunk()).then(() => setReviewLoaded(true))
     }, [dispatch])
 
+    console.log('star is -- ', reviewStars);
     const newErrors = [];
     useEffect(() => {
         if (reviewBody.length > 500) {
@@ -75,13 +76,13 @@ export default function EditMyReview({ review, showStore, setFold }) {
     return reviewLoaded && (
         <div id={reviewId} style={{ display: { ...showStore } }}>
             <form className='editreview-form'>Update My Review
-                < section className="star rating-container" >
-                    <input type="radio" name="ratingStar" className="rating" value="1" onClick={e => setReviewStars(e.target.value)} />
-                    <input type="radio" name="ratingStar" className="rating" value="2" onClick={e => setReviewStars(e.target.value)} />
-                    <input type="radio" name="ratingStar" className="rating" value="3" onClick={e => setReviewStars(e.target.value)} />
-                    <input type="radio" name="ratingStar" className="rating" value="4" onClick={e => setReviewStars(e.target.value)} />
-                    <input type="radio" name="ratingStar" className="rating" value="5" onClick={e => setReviewStars(e.target.value)} />
-                </section >
+                < div className="star-rating-container" >
+                    <span type="radio" name="ratingStar" className="rating" value="1" onClick={e => setReviewStars(e.target.value)}>☆</span>
+                    <span type="radio" name="ratingStar" className="rating" value="2" onClick={e => setReviewStars(e.target.value)}>☆</span>
+                    <span type="radio" name="ratingStar" className="rating" value="3" onClick={e => setReviewStars(e.target.value)}>☆</span>
+                    <span type="radio" name="ratingStar" className="rating" value="4" onClick={e => setReviewStars(e.target.value)}>☆</span>
+                    <span type="radio" name="ratingStar" className="rating" value="5" onClick={e => setReviewStars(e.target.value)}>☆</span>
+                </div >
                 <div>
                     {errors.map((error, ind) => (
                         <div className='updatereview-error' key={ind}>{error}</div>
