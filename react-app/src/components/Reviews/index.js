@@ -22,21 +22,22 @@ let reviewLength = productReviews?.length;
 
 return reviewLoaded && (
     <div className='review-container'>
-      {/* <p>{product.avgScore}<Stars rating={5} /></p> */}
-      <p><Stars rating={product.avgScore} /></p>
-      <p className='review-title'>{productReviews?.length} shop reviews</p>
-      {(productReviews.length) ?
+        <div className='reviews-header'>
+            <p><Stars rating={product.avgScore} /></p>
+            <p className='review-title'>{productReviews?.length} shop reviews</p>
+        </div>
+    {(productReviews.length) ?
         productReviews.map(review => {
-          return <div className='product-review' key={review.id}>
-            <div className='review-username'>user: {review.user_id}</div>
+        return <div className='product-review' key={review.id}>
+            {/* <div className='review-username'>user: {review.user_id}</div> */}
             <div className='review-star'>
-              <Stars rating={review.stars} />
+                <Stars rating={review.stars} />
             </div>
             <div className='review-reviewbody'>{review.review_body}</div>
-            <br></br>
-          </div>
+                <br></br>
+        </div>
         }) : (
-          <h4> - no review for this product yet - </h4>
+        <h4> - no review for this product yet - </h4>
         )}
     </div >
 )

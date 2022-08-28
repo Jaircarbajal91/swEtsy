@@ -27,6 +27,7 @@
     display: flex;
     flex-flow: column;
     width: 30%;
+    margin-left: 15px;
 }
 
 .product-image-container {
@@ -36,6 +37,7 @@
     border-radius: 5px;
     width: auto;
     height:33.0729167vw;
+    border: 1px solid rgb(228, 228, 228);
 }
 
 .product-image {
@@ -154,7 +156,10 @@
 
 #description-heading {
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 18px;
+    font-size: 20px;
+    border-bottom: 1px solid rgb(217, 217, 217);
+    padding-bottom: 1.7em;
+    width: 72%;
 }
 
 .product-detail-description {
@@ -194,7 +199,7 @@
     cursor: pointer;
 }
 .button {
-    transition: all .2s ease;
+    transition: all .15s ease;
 }
 .button:hover {
     transform: scale(1.01);
