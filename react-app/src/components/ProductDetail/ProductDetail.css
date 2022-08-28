@@ -1,8 +1,15 @@
+.center-the-page {
+    display: flex;
+    align-items: center;
+    border: 1px solid black;
+    width:80vw;
+    justify-content: space-between;
+}
+
 .product-detail-container {
     display: flex;
     font-family: "Guardian-EgypTT";
     flex-flow: row;
-    width:80vw;
     /* max-width: 966px; */
     /* border: 1px solid black; */
 }
@@ -11,14 +18,20 @@
     display: flex;
     flex-flow: column;
     margin: 2em;
-    border: 1px solid black;
+    /* border: 1px solid black; */
     width: 60%;
+}
+
+.product-detail-right {
+    display: flex;
+    flex-flow: column;
+    width: 15%;
 }
 
 .product-image-container {
     /* display: flex; */
     /* flex-flow: column; */
-    border: 1px solid black;
+    /* border: 1px solid black; */
     border-radius: 5px;
     width: auto;
     height:33.0729167vw;

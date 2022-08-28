@@ -60,6 +60,7 @@ const ProductDetail = () => {
     }
 
     return isLoaded && (
+        <div className="center-the-page">
         <div className="product-detail-container">
             <div className="product-detail-left">
                 <div className="product-image-container">
@@ -124,6 +125,7 @@ const ProductDetail = () => {
                     <p>{product.description}</p>
                 </div>
             </div>
+        </div>
         </div>
         )
     }
