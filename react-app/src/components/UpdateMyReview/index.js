@@ -84,7 +84,7 @@ export default function EditMyReview({ review, showStore, setFold }) {
                 </section >
                 <div>
                     {errors.map((error, ind) => (
-                        <div key={ind}>{error}</div>
+                        <div className='updatereview-error' key={ind}>{error}</div>
                     ))}
                 </div>
                 <div className='editreview-reviewbody'>

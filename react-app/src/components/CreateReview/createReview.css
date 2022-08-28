@@ -106,6 +106,12 @@ button.createreview-button:hover {
     transform: translateY(-2px);
 }
 
+button.createreview-button:disabled {
+    box-shadow: 0px 4px 8px rgb(0 0 0 / 40%);
+    color: #534C45;
+    background-color: grey;
+}
+
 button.createreview-button:active {
     box-shadow: inset 0px 3px 7px #d6d6e7;
     transform: translateY(2px);
@@ -122,4 +128,24 @@ form .createreview-form {
     justify-content: center;
     align-items: center;
     z-index: 999;
+}
+
+.review-redirect {
+    outline: 0;
+    border: 0;
+    font-family: 'Bitter', serif;
+    cursor: pointer;
+    transition: box-shadow 0.15s ease, transform 0.15s ease;
+    will-change: box-shadow, transform;
+    background: #FFD3A8;
+    box-shadow: 0px 1px 1px rgb(45 35 66 / 90%);
+    height: 40px;
+    padding: 5px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    border-radius: 20px;
+    color: #36395a;
+    transition: box-shadow 0.15s ease;
+    transform: 0.15s ease;
+
 }
