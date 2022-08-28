@@ -9,8 +9,8 @@ import { deleteProductThunk } from "../../store/products";
 import { addCartItemThunk, getCartItemsThunk } from "../../store/cart";
 import Stars from "../Reviews/Stars";
 import Reviews from '../Reviews'
-import AddAReviewModal from '../CreateReview'
 import './ProductDetail.css'
+import AddAReview from '../CreateReview'
 
 const ProductDetail = () => {
     const { id } = useParams()
@@ -51,6 +51,12 @@ const ProductDetail = () => {
     const options = [];
     for (let i = 1; i <= 100; i++) {
         options.push(i);
+    }
+    
+    if (!product) {
+      return (
+        <h1>404 Page not found</h1>
+      )
     }
 
     return isLoaded && (
@@ -106,11 +112,11 @@ const ProductDetail = () => {
                 </div>
             </div>
             )}
-            <AddAReviewModal product={product} />
-
+            <AddAReview product={product} />
         </div>
         </div>
         )
     }
+
 
 export default ProductDetail;

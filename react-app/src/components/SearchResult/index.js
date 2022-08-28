@@ -4,6 +4,7 @@ import { NavLink, StaticRouter, useHistory, useLocation } from 'react-router-dom
 import { Modal } from '../../context/Modal';
 import { getSearchThunk } from "../../store/search";
 import Product from '../Products/Product';
+import './searchResult.css';
 
 
 const SearchResult = ({ searchWords, setSearchWords }) => {
@@ -17,7 +18,7 @@ const SearchResult = ({ searchWords, setSearchWords }) => {
     const [minPrice, setMinPrice] = useState(query.get('minPrice') || '')
     const [maxPrice, setMaxPrice] = useState(query.get('maxPrice') || '')
     const [ownerId, setOwnerId] = useState(query.get('ownerId') || '')
-    const [customPrice, setCustomPrice] = useState(false)
+    const [customPrice, setCustomPrice] = useState(true)
     const [showFilterModal, setShowFilterModal] = useState(false)
     const [order, setOrder] = useState(query.get('order') || '');
     const [radioMin, setRadioMin] = useState(minPrice)
@@ -138,7 +139,7 @@ const SearchResult = ({ searchWords, setSearchWords }) => {
         setRadioMin('')
         setRadioMax('')
         setOwnerId('')
-        setCustomPrice('')
+        setCustomPrice(true)
         setShowFilterModal(false)
         history.push(`/search?keyword=${keyword}`)
     }
@@ -155,20 +156,21 @@ const SearchResult = ({ searchWords, setSearchWords }) => {
                 </div>
             ) : (
                 <div className='empty-search-container'>
-                    <h1>No Search Results!</h1>
+                    <h1>We couldn't find any results for</h1>
+                    <h1>{sanitizedKey}</h1>
+                    <p>Try searching something else instead?</p>
                 </div>
             )}
-            <p className='search-products-count'>Showing {searchResultCount ? searchResultCount : 0} results</p>
+
         </div>
     )
 
     return (
         <>
-            <button onClick={() => setShowFilterModal(true)}>All Filters</button>
             {showFilterModal &&
                 <Modal onClose={() => setShowFilterModal(false)}>
-                    <div>
-                        <h1>Filters</h1>
+                    <div className='filter-slide-bar'>
+                        <h1 className='filter-title'>Filters</h1>
                         {/* <fieldset> Keyword Search
                             <br></br>
                             <input
@@ -180,8 +182,8 @@ const SearchResult = ({ searchWords, setSearchWords }) => {
                             <button onClick={e => setKeyWord('')}>clear</button>
                         </fieldset> */}
                         <br></br>
-                        <fieldset>Price
-                            <div>
+                        <fieldset className='filter-price-field'><span className='filter-price-field-title'>Price ($)</span>
+                            <div className='filter-price-0 filter-price-radio'>
                                 <input
                                     type="radio"
                                     name='price'
@@ -192,9 +194,11 @@ const SearchResult = ({ searchWords, setSearchWords }) => {
                                     }}
 
                                     checked={radioMin === range.min1 && customPrice}
-                                />{`$0 to $50`} <br></br>
+                                /><span>
+                                    {`$0 to $50`}
+                                </span><br></br>
                             </div>
-                            <div>
+                            <div className='filter-price-50 filter-price-radio'>
                                 <input
                                     type="radio"
                                     name='price'
@@ -206,9 +210,11 @@ const SearchResult = ({ searchWords, setSearchWords }) => {
 
                                     checked={radioMin === range.min2 && customPrice}
 
-                                />{`$50 to $100`} <br></br>
+                                /><span>
+                                {`$50 to $100`}
+                            </span><br></br>
                             </div>
-                            <div>
+                            <div className='filter-price-100 filter-price-radio'>
                                 <input
                                     type="radio"
                                     name='price'
@@ -221,9 +227,11 @@ const SearchResult = ({ searchWords, setSearchWords }) => {
 
                                     checked={radioMin === range.min3 && customPrice}
 
-                                />{`over $100`} <br></br>
+                                /><span>
+                                {`over $100`}
+                            </span><br></br>
                             </div>
-                            <div>
+                            <div className='filter-price-custom filter-price-radio'>
                                 <input
                                     type="radio"
                                     name='price'
@@ -233,10 +241,13 @@ const SearchResult = ({ searchWords, setSearchWords }) => {
                                         // setMaxPrice(0)
                                     }}
                                     checked={!customPrice}
-                                />{`Custom Price Range`}<br></br>
+                                /><span>
+                                {`Custom Price Range`}
+                            </span><br></br>
                             </div>
-                            <div>
+                            <div className='filter-price-custom-container'>
                                 <input
+                                    className='filter-price-low filter-price-input'
                                     type="number"
                                     name='min'
                                     placeholder='Low'
@@ -246,8 +257,11 @@ const SearchResult = ({ searchWords, setSearchWords }) => {
                                     onChange={e => setRadioMin(e.target.value)}
                                     disabled={customPrice}
                                 />
-                                to
+                                <p className='filter-price-custom-to'>
+                                    to
+                                </p>
                                 <input
+                                    className='filter-price-high filter-price-input'
                                     type="number"
                                     name='max'
                                     placeholder='High'
@@ -260,17 +274,30 @@ const SearchResult = ({ searchWords, setSearchWords }) => {
                             </div>
                         </fieldset>
                         <br></br>
-                        <button onClick={handleCancel}>Clear</button>
-                        <button onClick={handleSearch}>Apply</button>
+                        <div className='filter-button-container'>
+                            <button className='filter-button filter-clear-button' onClick={handleCancel}>Clear</button>
+                            <button className='filter-button filter-apply-button' onClick={handleSearch}>Apply</button>
+                        </div>
                     </div>
                 </Modal>}
-            <select className='search sort' onChange={sortSelected} value={order}>
-                <option value='none' selected>Default</option>
-                <option value='ascPrice' >Lowest Price</option>
-                <option value='descPrice' >Highest Price</option>
-                {/* <option value='descReview'>Top Customer Reviews</option> */}
-                <option value='descCreate' >Most Recent</option>
-            </select>
+                <div className='search-rule-container'>
+                    <div className='search-rule-left'>
+                        <button className='search-products-filter-button' onClick={() => setShowFilterModal(true)}>All Filters</button>
+                    </div>
+                    <div className='search-rule-right'>
+                        {
+                        searchResultCount ? (
+                        <p className='search-products-count'>{searchResultCount ? searchResultCount : '0'} results, without ads</p>
+                    ) : (<p></p>)}
+                        <select className='search-sort' onChange={sortSelected} value={order}>
+                            <option className='search-sort-selection search-sort-default' value='none' selected>Default</option>
+                            <option className='search-sort-selection search-sort-ascPrice' value='ascPrice' >Lowest Price</option>
+                            <option className='search-sort-selection search-sort-descPrice' value='descPrice' >Highest Price</option>
+                            {/* <option value='descReview'>Top Customer Reviews</option> */}
+                            <option className='search-sort-selection search-sort-descCreate' value='descCreate' >Most Recent</option>
+                        </select>
+                    </div>
+                </div>
             {productPage}
         </>
     )

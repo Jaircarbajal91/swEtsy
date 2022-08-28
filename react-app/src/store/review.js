@@ -34,8 +34,6 @@ export const getReviewsThunk = id => async dispatch => {
     if (response.ok) {
         const reviews = await response.json();
         dispatch(getReviewsAction(reviews));
-        // console.log('reviews is----=====???', reviews)
-        // console.log('reviews details is----=====???', reviews.review_details)
         return reviews;
     } else {
         const data = await response.json();
@@ -70,8 +68,10 @@ export const createReviewThunk = (id, review) => async dispatch => {
         const newReview = await response.json();
         dispatch(createReviewsAction(newReview));
         return newReview;
+        // console.log('res.ok is----', newReview)
     } else {
         const data = await response.json();
+        // console.log('revs.NOT ok details is----', data.errors)
         return data.errors;
     };
 };
