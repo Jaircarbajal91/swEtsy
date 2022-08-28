@@ -89,7 +89,7 @@ export default function AddAReview({ product }) {
                                 <div key={ind}>{error}</div>
                             ))}
                         </div>
-                        <section className="star rrating-container">
+                        <section className="star rating-container">
                             <input type="radio" name="ratingStar" className="rating" value="1" onClick={e => setReviewStars(e.target.value)} />
                             <input type="radio" name="ratingStar" className="rating" value="2" onClick={e => setReviewStars(e.target.value)} />
                             <input type="radio" name="ratingStar" className="rating" value="3" onClick={e => setReviewStars(e.target.value)} />
