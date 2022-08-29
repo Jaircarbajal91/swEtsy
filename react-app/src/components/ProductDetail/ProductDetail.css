@@ -10,7 +10,10 @@
     display: flex;
     font-family: "Guardian-EgypTT";
     flex-flow: row;
-    margin-left: 10%;
+    margin-left: 10px;
+    justify-content: space-around;
+    width: 100%;
+    min-width: 100%;
     /* max-width: 966px; */
     /* border: 1px solid black; */
 }
@@ -20,6 +23,7 @@
     flex-flow: column;
     margin: 2em;
     /* border: 1px solid black; */
+
     max-width: 60%;
     height: 1000px;
     overflow-y: scroll;
