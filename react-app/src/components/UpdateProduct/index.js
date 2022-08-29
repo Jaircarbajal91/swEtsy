@@ -25,6 +25,11 @@ useEffect(() => {
     newErrors.push('Description must between 1 and 250 characters');
     };
     if (!image.length) newErrors.push('Please enter an image URL');
+    const regex = /^http[^ \!@\$\^&\(\)\+\=]+(\.png|\.jpeg|\.gif|\.jpg)$/;
+    if (!image.match(regex)) {
+        newErrors.push('Please enter a valid image address')
+        newErrors.push('E.g. "https://example.com/image.jpg"')
+    }
     if (price <= 0 || (price * 100) % 1 !== 0) newErrors.push('Please enter a valid price');
     setErrors(newErrors);
 }, [name, description, image, price]);
@@ -49,7 +54,8 @@ const handleSubmit = async e => {
 
 return (
     <form onSubmit={handleSubmit}>
-    <div className="inner-form update">
+    <div className="inner-form-update">
+        <h2 className="edit-title">Edit your listing.</h2>
         <div className="form-errors-container">
         {errors.length > 0 && (<ul className="errors-list">
             {errors.map(error => (
@@ -67,8 +73,9 @@ return (
             required
         />
         <label>Description</label>
-        <input
+        <textarea
             className="input-field"
+            id="description-field"
             type='text'
             value={description}
             onChange={e => setDescription(e.target.value)}
@@ -85,6 +92,7 @@ return (
         <label>Price</label>
         <input
             className="input-field"
+            id='price-field'
             type='number'
             min='0'
             max='1000000'

@@ -7,7 +7,7 @@ import CartTotalCard from "./CartTotalCard";
 import './Cart.css';
 
 const Cart = ({ cartItems, sessionUser, setShowLogin, cartLoaded, setCartLoaded }) => {
-//   const history = useHistory();
+  //   const history = useHistory();
   const dispatch = useDispatch();
   let initialSubtotal = 0;
   if (cartItems) {
@@ -16,9 +16,9 @@ const Cart = ({ cartItems, sessionUser, setShowLogin, cartLoaded, setCartLoaded 
     };
   }
 
-//   const [subtotal, setSubtotal] = useState(initialSubtotal);
-//   const [discount, setDiscount] = useState(initialSubtotal * 0.2);
-//   const [total, setTotal] = useState(initialSubtotal - discount);
+  //   const [subtotal, setSubtotal] = useState(initialSubtotal);
+  //   const [discount, setDiscount] = useState(initialSubtotal * 0.2);
+  //   const [total, setTotal] = useState(initialSubtotal - discount);
 
   useEffect(() => {
     if (sessionUser) {
@@ -33,7 +33,7 @@ const Cart = ({ cartItems, sessionUser, setShowLogin, cartLoaded, setCartLoaded 
 
   if (!sessionUser) {
     setShowLogin(true)
-    return <Redirect to='/'/>
+    return <Redirect to='/' />
   }
 
   return cartLoaded && (
@@ -41,11 +41,7 @@ const Cart = ({ cartItems, sessionUser, setShowLogin, cartLoaded, setCartLoaded 
       <div className="cart-left">
         <h2 className="num-items-in-cart">{cartItems?.length}&nbsp;items in your cart</h2>
         {cartItems?.length > 0 && cartItems?.map((item, i) =>
-          <div>
-            <div key={i}>
-              <CartItem item={item} />
-            </div>
-          </div>
+            <CartItem key={i} item={item} />
         )}
       </div>
       {cartItems?.length > 0 &&

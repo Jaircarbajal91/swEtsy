@@ -25,6 +25,7 @@ const SearchResult = ({ searchWords, setSearchWords }) => {
     const [radioMax, setRadioMax] = useState(maxPrice)
     const [rangeArray, setRangeArray] = useState([minPrice, maxPrice])
     const sessionUser = useSelector(state => state.session.user);
+    const [isLoaded, setIsLoaded] = useState(false);
     const searchProducts = useSelector(state => state.search.products);
     const searchResultCount = useSelector(state => state.search.size)
 
@@ -64,7 +65,7 @@ const SearchResult = ({ searchWords, setSearchWords }) => {
         }
         let filterStringInClick = filterInClick.join("&")
         // console.log('filterStringInClick:', filterStringInClick)
-        dispatch(getSearchThunk(filterStringInClick))
+        dispatch(getSearchThunk(filterStringInClick)).then(() => setIsLoaded(true))
         // history.push(`/search?${filterstring}`)
     }, [dispatch, filterstring, query.get('keyword')])
 
@@ -165,7 +166,7 @@ const SearchResult = ({ searchWords, setSearchWords }) => {
         </div>
     )
 
-    return (
+    return isLoaded && (
         <>
             {showFilterModal &&
                 <Modal onClose={() => setShowFilterModal(false)}>
