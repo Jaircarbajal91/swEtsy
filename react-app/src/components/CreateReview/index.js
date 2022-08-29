@@ -11,6 +11,7 @@ export default function AddAReview({ product }) {
     const [showModal, setShowModal] = useState(false)
     const [reviewStars, setReviewStars] = useState()
     const [reviewBody, setReviewBody] = useState('')
+    const [allstars, setAllstars] = useState('☆☆☆☆☆')
     const [errors, setErrors] = useState([])
     const [isDisabled, setIsDisabled] = useState(true);
 
@@ -71,6 +72,27 @@ export default function AddAReview({ product }) {
         setReviewStars()
         setReviewBody('')
         setShowModal(false)
+        setAllstars('☆☆☆☆☆')
+    }
+
+    const handleStars = async e => {
+        e.preventDefault()
+        if (e.target.value == 1) {
+            setAllstars('☆☆☆☆★')
+        }
+        if (e.target.value == 2) {
+            setAllstars('☆☆☆★★')
+        }
+        if (e.target.value == 3) {
+            setAllstars('☆☆★★★')
+        }
+        if (e.target.value == 4) {
+            setAllstars('☆★★★★')
+        }
+        if (e.target.value == 5) {
+            setAllstars('★★★★★')
+        }
+        setReviewStars(e.target.value)
     }
 
     return sessionUser && (
@@ -89,13 +111,28 @@ export default function AddAReview({ product }) {
                                 <div className='createreview-error' key={ind}>{error}</div>
                             ))}
                         </div>
-                        <section className="star-rating-container">
+                        {/* <section className="star-rating-container">
                             <input type="radio" name="ratingStar" className="rating" value="1" onClick={e => setReviewStars(e.target.value)} />
                             <input type="radio" name="ratingStar" className="rating" value="2" onClick={e => setReviewStars(e.target.value)} />
                             <input type="radio" name="ratingStar" className="rating" value="3" onClick={e => setReviewStars(e.target.value)} />
                             <input type="radio" name="ratingStar" className="rating" value="4" onClick={e => setReviewStars(e.target.value)} />
                             <input type="radio" name="ratingStar" className="rating" value="5" onClick={e => setReviewStars(e.target.value)} />
-                        </section>
+                        </section> */}
+                        < div className="star-rating-container" >
+                            <selection className="radio-label-container">
+                                <label for='r6' className='rating-label-all'>{allstars}</label>
+                                <input type="radio" id='r1' className="rating-radio" value="5" onClick={handleStars}></input>
+                                <label for='r1' className='rating-label'>☆</label>
+                                <input type="radio" id='r2' className="rating-radio" value="4" onClick={handleStars}></input>
+                                <label for='r2' className='rating-label'>☆</label>
+                                <input type="radio" id='r3' className="rating-radio" value="3" onClick={handleStars}></input>
+                                <label for='r3' className='rating-label'>☆</label>
+                                <input type="radio" id='r4' className="rating-radio" value="2" onClick={handleStars}></input>
+                                <label for='r4' className='rating-label'>☆</label>
+                                <input type="radio" id='r5' className="rating-radio" value="1" onClick={handleStars}></input>
+                                <label for='r5' className='rating-label'>☆</label>
+                            </selection>
+                        </div >
                         <textarea
                             type='textarea'
                             placeholder='write a review for this item'
