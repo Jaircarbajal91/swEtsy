@@ -38,12 +38,12 @@ const Cart = ({ cartItems, sessionUser, setShowLogin, cartLoaded, setCartLoaded 
 
   return cartLoaded && (
     <div className="cart-master-div">
-      <div className="cart-left">
-        <h2 className="num-items-in-cart">{cartItems?.length}&nbsp;items in your cart</h2>
+      {cartItems?.length > 0 && <div className="cart-left">
+        {cartItems?.length > 0 && <h2 className="num-items-in-cart">{cartItems.length}&nbsp;items in your cart</h2>}
         {cartItems?.length > 0 && cartItems?.map((item, i) =>
-            <CartItem key={i} item={item} />
+          <CartItem key={i} item={item} />
         )}
-      </div>
+      </div>}
       {cartItems?.length > 0 &&
         <CartTotalCard
           cartItems={cartItems}
@@ -53,11 +53,12 @@ const Cart = ({ cartItems, sessionUser, setShowLogin, cartLoaded, setCartLoaded 
       {!cartItems?.length &&
         <div className="cart-empty-message">
           <h1>Your cart is empty.</h1>
-          <NavLink to='/'>Discover something unique to fill it up</NavLink>
+          <NavLink style={{
+            color: 'black'
+          }} to='/'>Discover something unique to fill it up</NavLink>
         </div>
       }
     </div>
-
   )
 }
 
