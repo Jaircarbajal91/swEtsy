@@ -63,9 +63,9 @@ export default function EditMyReview({ setShowModal }) {
         })
     }
 
-    console.log('review picked', reviewPicked)
-    console.log('product id', reviewPicked?.product_id)
-    console.log('review id', reviewId)
+    // console.log('review picked', reviewPicked)
+    // console.log('product id', reviewPicked?.product_id)
+    // console.log('review id', reviewId)
 
     const handleDeleteModal = async e => {
         e.preventDefault()

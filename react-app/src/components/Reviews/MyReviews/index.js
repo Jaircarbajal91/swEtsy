@@ -23,7 +23,7 @@ const MyReviews = ({ reviews, setShowLogin }) => {
         dispatch(getMyReviewThunk()).then(() => setReviewLoaded(true))
     }, [dispatch, showStore, fold])
 
-    console.log("product id ---", typeof myReviews)
+    // console.log("product id ---", typeof myReviews)
     const handleEdit = async (e) => {
         e.preventDefault();
         let x = document.getElementById(`${e.currentTarget.value}`)
