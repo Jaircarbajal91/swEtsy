@@ -61,6 +61,9 @@ export default function CreateProductPage() {
                 newImageErrors.push('Please enter a valid image address')
                 newImageErrors.push('E.g. "https://example.com/image.jpg"')
             }
+            if(image.length > 250){
+                newImageErrors.push('Image link cannot go over than 250 characters.')
+            }
             setImageErrors(newImageErrors);
             if (!imageErrors.length) setIsDisabled(false);
             else setIsDisabled(true);
