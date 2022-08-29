@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Aboreto&family=Bitter:wght@100;200;400&family=Comfortaa:wght@300&family=DM+Serif+Display&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap');
 
 .newproduct-form {
     width: 100%;
@@ -35,6 +36,8 @@
     font-size: 18px;
     font-family: 'Courier New', Courier, monospace;
     text-align: left;
+    color: #F97000;
+    font-weight: 500;
 
 }
 
@@ -82,4 +85,16 @@
 .submit-button:disabled {
     background: #938E8A;
     color: #444444;
+}
+
+.newproduct-buttons-container {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+}
+
+.newproduct-title-sub {
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+
 }
