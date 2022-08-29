@@ -29,7 +29,7 @@ export default function CreateProductPage() {
                 newNameErrors.push('Please give your product a name');
             }
             if (name.length > 40 || name.length < 3) {
-                newNameErrors.push('Name must be between 3 and 70 characters');
+                newNameErrors.push('Name must be between 3 and 40 characters');
             }
             setNameErrors(newNameErrors);
             if (!nameErrors.length) setIsDisabled(false);
@@ -44,7 +44,7 @@ export default function CreateProductPage() {
                 newDescriptionErrors.push('Please describe your product!');
             }
             if (description.length > 200 || description.length < 1) {
-                newDescriptionErrors.push('Description must between 1 and 250 characters');
+                newDescriptionErrors.push('Description must between 1 and 200 characters');
             }
             setDescriptionErrors(newDescriptionErrors);
             if (!descriptionErrors.length) setIsDisabled(false);
