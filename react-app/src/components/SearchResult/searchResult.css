@@ -37,6 +37,7 @@
     width: 1rem;
     display: inline;
     vertical-align: middle;
+    cursor:pointer;
 }
 
 #modal-content>div>fieldset>div.filter-price-radio>span {
@@ -78,6 +79,7 @@
     margin-left: -2rem;
     width: 48%;
     height: 3rem;
+    cursor:pointer;
 }
 
 #modal-content>div>div.filter-button-container>button.filter-clear-button {
@@ -132,6 +134,7 @@
     height: 1.1rem;
     line-height: 1.4;
     margin-top: 0.2rem;
+    object-fit: cover;
 }
 
 #root>div.content.container>div.search-container>div>div>div>div.price {
@@ -147,7 +150,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    width: 87%;
+    width: 69%;
 }
 
 #root>div.content.container>div.search-rule-container>div.search-rule-right {
@@ -217,5 +220,16 @@
     width: 87vw;
     margin-top: 0rem;
     display: flex;
+    justify-content: center;
+}
+
+.search-sort:hover {
+    cursor: pointer;
+}
+
+.search-products-filter-button {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
     justify-content: center;
 }

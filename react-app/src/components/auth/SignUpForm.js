@@ -24,6 +24,8 @@ const SignUpForm = ({ setShowSignup, setShowLogin }) => {
       } else {
         setShowSignup(false)
       }
+    } else {
+      setErrors(['Your password is not match the repeat password!'])
     }
   };
 
@@ -87,7 +89,7 @@ const SignUpForm = ({ setShowSignup, setShowLogin }) => {
       ></input>
       <label className='register-label'>Email</label>
       <input
-        type='text'
+        type='email'
         name='email'
         onChange={updateEmail}
         value={email}
