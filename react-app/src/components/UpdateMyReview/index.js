@@ -19,6 +19,7 @@ export default function EditMyReview({ setShowModal }) {
     const [allstars, setAllstars] = useState('☆☆☆☆☆')
     const [errors, setErrors] = useState([])
     const [isDisabled, setIsDisabled] = useState(true);
+    const [disableDelete, setDisableDelete] = useState(true)
     const sessionUser = useSelector(state => state.session.user);
     const myReviews = useSelector(state => state.reviews.reviewsList)
     let reviewPicked;
@@ -28,24 +29,33 @@ export default function EditMyReview({ setShowModal }) {
 
     useEffect(() => {
         dispatch(getMyReviewThunk()).then(() => setReviewLoaded(true))
-    }, [dispatch, reviewId])
+    }, [dispatch, reviewId, reviewPicked?.id])
 
-    // console.log('star is -- ', reviewStars);
-    // console.log('review picked ---', myReviews)
-    // console.log('review id is ---', reviewId)
+    console.log('star is -- ', reviewStars);
+    console.log('review picked ---', myReviews)
+    console.log('review id is ---', reviewId)
 
     const newErrors = [];
     useEffect(() => {
         if (reviewBody.length > 500) {
             newErrors.push('You may only enter review in 500 characters.')
         }
-        // if (sessionUser.id !== reviewPicked.user_id) {
-        //     newErrors.push('You may only edit your own reviews.')
-        // }
+        if (!myReviews) {
+            newErrors.push('No review was created by you yet.')
+        }
+        if (reviewId == undefined) {
+            newErrors.push('Please pick a review to continue editing.')
+        }
         setErrors(newErrors)
         if (!errors.length) setIsDisabled(false);
         else setIsDisabled(true);
-    }, [reviewBody.length, errors.length, reviewStars, allstars])
+    }, [reviewBody.length, errors.length, reviewStars, allstars, reviewPicked?.id])
+
+    useEffect(() => {
+        if (reviewId) {
+            setDisableDelete(false);
+        }
+    }, [reviewId])
 
     const handleSubmit = async e => {
         e.preventDefault();
@@ -61,6 +71,7 @@ export default function EditMyReview({ setShowModal }) {
             setReviewBody('')
             setShowModal(false)
         })
+
     }
 
     // console.log('review picked', reviewPicked)
@@ -158,7 +169,7 @@ export default function EditMyReview({ setShowModal }) {
                 <br></br>
                 <button value={reviewId} className='editreview-button' onClick={handleSubmit} disabled={isDisabled}>Update My Review</button>
                 <button value={reviewId} className='editreview-button' onClick={handleClear}>Clear</button>
-                <button value={reviewId} className='editreview-button' onClick={handleDeleteModal}>Delete</button>
+                <button value={reviewId} className='editreview-button' onClick={handleDeleteModal} disabled={disableDelete}>Delete</button>
                 <button value={reviewId} className='editreview-button' onClick={handleCancel}>Cancel Edit</button>
                 {showDelete && (
                     <Modal >
