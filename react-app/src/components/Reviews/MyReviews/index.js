@@ -49,7 +49,7 @@ const MyReviews = ({ reviews, setShowLogin }) => {
     return reviewLoaded && (
         <div className='myreview-container'>
             <div className='myreview title'> Purchases and Reviews</div>
-            <button onClick={() => setShowModal(true)}>Edit!</button>
+            <button className="editreview-modal-button" onClick={() => setShowModal(true)}>Edit Your Reviews</button>
             {showModal && (<Modal>
                 <EditMyReview setShowModal={setShowModal} />
             </Modal>)}
@@ -71,9 +71,9 @@ const MyReviews = ({ reviews, setShowLogin }) => {
                                 <Stars rating={review.stars} />
                             </div>
                             <div className='myreview-reviewbody'>{review.review_body}</div>
-                            <div id={review.id} value={review.id} style={{ display: showStore }}>
+                            {/* <div id={review.id} value={review.id} style={{ display: showStore }}>
                                 <EditMyReview review={review} showStore={showStore} setShowStore={setShowStore} setFold={setFold} />
-                            </div>
+                            </div> */}
                             {/* {fold !== review.id.toString() && (<button id={review.id} className='myreviews-editbutton' onClick={handleEdit} value={review.id} disabled={disableButton}>Edit Your Review</button>)}
                             {fold === review.id.toString() && (<button id={review.id} className='myreviews-editbutton' onClick={handleCancel} value={review.id} disabled={disableButton}>Cancel Edit</button>)} */}
 

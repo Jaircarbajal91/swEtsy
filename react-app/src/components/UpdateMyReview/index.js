@@ -30,9 +30,9 @@ export default function EditMyReview({ setShowModal }) {
         dispatch(getMyReviewThunk()).then(() => setReviewLoaded(true))
     }, [dispatch, reviewId])
 
-    console.log('star is -- ', reviewStars);
-    console.log('review picked ---', myReviews)
-    console.log('review id is ---', reviewId)
+    // console.log('star is -- ', reviewStars);
+    // console.log('review picked ---', myReviews)
+    // console.log('review id is ---', reviewId)
 
     const newErrors = [];
     useEffect(() => {
@@ -120,8 +120,9 @@ export default function EditMyReview({ setShowModal }) {
                     })
                     }
                 </select>
-                <div className='editreview-img'><img src={reviewPicked?.image} alt={'product image'}></img></div>
-                <div>{reviewPicked?.review_body}</div>
+                {/* <div className='editreview-img'><img src={reviewPicked?.product?.image} alt={'product image'}></img></div> */}
+                <div className='editreview-name'>{reviewPicked?.product?.name}</div>
+                <div className='editreview-reviewbody'>{reviewPicked?.review_body}</div>
                 <div>
                     {errors.map((error, ind) => (
                         <div className='updatereview-error' key={ind}>{error}</div>
