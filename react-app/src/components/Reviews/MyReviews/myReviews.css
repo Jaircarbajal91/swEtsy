@@ -39,8 +39,8 @@ div.myreview-container {
 
 div.product-myreview {
     max-height: fit-content;
+    /* border: 1px solid black; */
 }
-
 div.myreview-container>div>div {
     display: flex;
     text-align: center;
@@ -106,17 +106,27 @@ div.myreview-reviewbody {
     font-size: 20px;
     text-decoration: none;
     font-family: 'Bitter', serif;
+    max-width: 28em;
 }
 
 div.myreview-product {
     color: black;
     text-decoration: none;
+    max-width: 100%;
 }
 
 div.myreview-reviewbody {
     font-size: 20px;
+    word-wrap: break-word;
 }
-
+#review-body {
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 100%;
+    word-wrap: break-word;
+}
 .myreview-redirect {
     color: #663500;
     text-Decoration: none;
@@ -169,7 +179,7 @@ button.editreview-modal-button:hover {
     background-color: #616467;
 }
 
-/* 
+/*
 button.editreview-modal-button:active {
     transform: scale(0.95);
 } */

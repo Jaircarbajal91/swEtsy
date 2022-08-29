@@ -30,7 +30,7 @@ useEffect(() => {
         newErrors.push('Please enter a valid image address')
         newErrors.push('E.g. "https://example.com/image.jpg"')
     }
-    if (price <= 0 || (price * 100) % 1 !== 0) newErrors.push('Please enter a valid price');
+    if (price <= 0 || !price.toString().match(/^\d+(?:\.\d{1,2})?$/)) newErrors.push('Please enter a valid price');
     setErrors(newErrors);
 }, [name, description, image, price]);
 
