@@ -111,9 +111,10 @@ export default function EditMyReview({ setShowModal }) {
         <div id={reviewId} >
 
             <form className='editreview-form'>Update My Review
-                <h3>Choose Your Review</h3>
+                <br></br>
+                <label className="dropdown-title">Choose Your Reviews :</label>
                 <select className="dropdown-myreviews" onChange={e => setReviewId(e.target.value)} >
-                    <option value='' selected disabled hidden>Choose Your Reviews ...</option>
+                    <option value='' selected disabled hidden></option>
                     {myReviews && myReviews.map(myreview => {
 
                         return <option key={myreview.id} value={myreview.id}>{myreview.product.name}</option>

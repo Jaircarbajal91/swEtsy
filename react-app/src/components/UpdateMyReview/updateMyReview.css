@@ -1,15 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Aboreto&family=Bitter:wght@100;200;400&family=Comfortaa:wght@300&family=DM+Serif+Display&display=swap');
 
 form.editreview-form {
-    background-color: rgb(240, 240, 240);
+    /* background-color: rgb(240, 240, 240); */
+    min-width: 800px;
     max-width: 800px;
-    max-height: 700px;
+    max-height: 800px;
+    min-height: fit-content;
     margin-top: 20px;
-    padding: 5%;
+    margin-bottom: 20px;
+    padding: 5px 30px;
     display: block;
     justify-content: space-between;
-    border-radius: 10px;
-    font-size: 22px;
+    border-radius: 30px;
+    font-size: 28px;
     color: #56504C;
     font-family: 'DM Serif Display', serif;
 }
@@ -17,10 +20,9 @@ form.editreview-form {
 textarea.editreview-reviewbody {
     max-height: 400px;
     min-height: 200px;
-    max-width: 98%;
-    min-width: 97%;
-    width: 80%;
-    padding: 10px;
+    max-width: 80%;
+    min-width: 90%;
+    padding: 5px 30px;
     font-size: 22px;
     font-family: 'Bitter', serif;
     border-radius: 20px;
@@ -91,7 +93,8 @@ div.updatereview-error {
 
 .editreview-name {
     max-height: 200px;
-    max-width: 200px;
+    max-width: 80%;
+    margin-top: 20px;
     color: black;
 }
 
@@ -107,14 +110,20 @@ div.updatereview-error {
     display: inline-block;
     position: relative;
     font-size: 20px;
-    color: black;
+    color: #270070;
     background-color: aliceblue;
     border-style: none;
-    width: 80%;
+    width: 100%;
     height: 40px;
     border-radius: 20px;
     padding-left: 1em;
     margin: 10px 0;
+}
+
+.dropdown-title {
+    font-size: 20px;
+    margin-bottom: 0px;
+    padding: 0px;
 }
 
 
@@ -123,6 +132,7 @@ div.updatereview-error {
 .star-rating-container {
     unicode-bidi: bidi-override;
     direction: rtl;
+    padding: 5px 30px;
 }
 
 
