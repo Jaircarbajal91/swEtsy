@@ -26,7 +26,7 @@ export default function CartItem({ item }) {
             const allItems = await dispatch(getCartItemsThunk());
             const cartDetails = allItems.cart_details;
             const editedItem = cartDetails.find(editItem => editItem.id === item.id);
-            setRevenue(formatter.format(editedItem.quantity * editedItem.product_detail.price))
+            setRevenue(formatter.format(editedItem?.quantity * editedItem?.product_detail.price))
         });
     }, [quantity]);
 
