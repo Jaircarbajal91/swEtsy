@@ -2,7 +2,7 @@ import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom'
 import { deleteCartThunk } from '../../../store/cart';
 
-export default function CartTotalCard({ cartItems, initialSubtotal}) {
+export default function CartTotalCard({ cartItems, initialSubtotal }) {
     const dispatch = useDispatch();
     const history = useHistory();
 
@@ -22,20 +22,30 @@ export default function CartTotalCard({ cartItems, initialSubtotal}) {
     };
 
     return (
-        <div className='checkout-card'>
-            <div className='items-total'>
-                <p>Item(s) total </p>
-                <p>{formatter.format(subtotal)}</p>
+        <div className='checkout-card-container'>
+            <div className='items-total buy-item-container'>
+                <span>Item(s) total </span>
+                <span>{formatter.format(subtotal)}</span>
             </div>
-            <div className='discount'>
-                <p>Discount</p>
-                <p>{formatter.format(discount)}</p>
+            <div className='discount buy-item-container'>
+                <span>Discount</span>
+                <span>-{formatter.format(discount)}</span>
             </div>
-            <div>
-                <p>Total ({cartItems.length} items)</p>
-                <p>{formatter.format(total)}</p>
+            <div className='shipping buy-item-container'>
+                <span>Shipping</span>
+                <span style={{
+                    color: '#258535'
+                }}>FREE</span>
             </div>
-            <button onClick={deleteCart}>Buy</button>
+            <div className='Total buy-item-container'>
+                <span style={{
+                    display: 'inline'
+                }}>Total ({cartItems.length} items)</span>
+                <span>{formatter.format(total)}</span>
+            </div>
+            <div className='buy-item-button-container'>
+                <button className='button buy-item' onClick={deleteCart}>Proceed with purchase</button>
+            </div>
         </div>
     );
 }
