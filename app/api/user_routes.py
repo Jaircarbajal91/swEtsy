@@ -35,8 +35,8 @@ def get_user_reviews():
                     .options(db.joinedload(Review.product)) \
                     .filter(Review.user_id == uid) \
                     .all()
+    review_details = []
     if user_reviews is not None and len(user_reviews) > 0:
-        review_details = []
         for review in user_reviews:
             review_dict = review.to_dict()
             review_dict['product'] = review.product.to_dict()
