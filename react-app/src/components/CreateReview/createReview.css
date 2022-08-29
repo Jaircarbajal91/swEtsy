@@ -40,6 +40,7 @@ div.createreview-img>img {
     width: 100%;
     box-shadow: 5px 5px 10px grey;
     margin: 0.1em;
+    object-fit: cover;
 }
 
 textarea.createreview-reviewbody {

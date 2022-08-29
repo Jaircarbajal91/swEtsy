@@ -7,8 +7,9 @@ const DeleteReview = ({ setDeleteReview, setShowDelete, reviewId, setShowModal }
     const dispatch = useDispatch();
     const handleDelete = async e => {
         e.preventDefault()
-        await dispatch(deleteReviewThunk(reviewId)).then(() => console.log('deleted! id is ', reviewId))
-        await dispatch(getMyReviewThunk())
+        await dispatch(deleteReviewThunk(reviewId))
+        // await dispatch(getMyReviewThunk())
+        setShowModal(false)
         setShowModal(false)
     }
 

@@ -1,3 +1,5 @@
+
+
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { NavLink, useHistory } from 'react-router-dom'
@@ -19,10 +21,14 @@ const MyReviews = ({ reviews, setShowLogin }) => {
 
     let disableButton
 
+
     useEffect(() => {
         dispatch(getMyReviewThunk()).then(() => setReviewLoaded(true))
-    }, [dispatch, showStore, fold])
+    }, [dispatch, showStore, fold, myReviews?.length, showModal])
 
+    if (myReviews?.length == 0) {
+        return <h2>You have no reviews yet.</h2>
+    }
     // console.log("product id ---", typeof myReviews)
     const handleEdit = async (e) => {
         e.preventDefault();
