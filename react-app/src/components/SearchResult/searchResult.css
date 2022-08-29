@@ -37,6 +37,7 @@
     width: 1rem;
     display: inline;
     vertical-align: middle;
+    cursor:pointer;
 }
 
 #modal-content>div>fieldset>div.filter-price-radio>span {
@@ -78,6 +79,7 @@
     margin-left: -2rem;
     width: 48%;
     height: 3rem;
+    cursor:pointer;
 }
 
 #modal-content>div>div.filter-button-container>button.filter-clear-button {
