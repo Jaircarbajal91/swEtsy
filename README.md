@@ -81,7 +81,7 @@ Click "back" to go to the previous page, or click "next" to go to the next page.
 ### Product Edit and Delete
 The owner can edit the product by clicking Edit, then the product edit panel will be shown.
 
-[!updateProductModal](./feature_screenshots/updateProductModal.png)
+![updateProductModal](./feature_screenshots/updateProductModal.png)
 
 The owner can delete the product by clicking Delete.
 
@@ -89,7 +89,7 @@ The owner can delete the product by clicking Delete.
 The user have to log in to see the cart page. If not, it will jump to the main page with the login panel.
 In the cart page, the user can change the number of the product, remove anyone of them, and finally click the buy button. After clicking "buy", the cart will be empty.
 
-[!cartPage]`Screen Shot Not Added`
+![cartPage]`Screen Shot Not Added`
 
 ### Review
 The user can see the review score in search page, and the review details of the product in the product's detail page.
@@ -103,7 +103,7 @@ The user can see its all review by clicking "See Your Reviews" in the profile me
 ### Edit or Delete Review
 The user can edit a review by clicking "EDIT YOUR REVIEW" in myrevies page. Then the window for editing a review will show up. The user can edit the current review, then update it by clicking "Update My Review". The user can clear the whole review by clicking "Clear". If the user wants to delete the review, it can just click the "Delete" button.
 
-[!updateReview]`Screen Shot Not Added`
+![updateReview]`Screen Shot Not Added`
 
 
 ### Search Page
