@@ -86,12 +86,6 @@ The owner can edit the product by clicking Edit, then the product edit panel wil
 
 The owner can delete the product by clicking Delete.
 
-### Cart
-The user have to log in to see the cart page. If not, it will jump to the main page with the login panel.
-In the cart page, the user can change the number of the product, remove anyone of them, and finally click the buy button. After clicking "buy", the cart will be empty.
-
-![cartPage]`Screen Shot Not Added`
-
 ### Review
 The user can see the review score in search page, and the review details of the product in the product's detail page.
 
@@ -99,12 +93,12 @@ The user can see the review score in search page, and the review details of the 
 
 The user can see its all review by clicking "See Your Reviews" in the profile menu.
 
-![userReviews](./feature_screenshots/userReviews.JPG)
+![editYourReviews](./feature_screenshots/editYourReviews.JPG)
 
 ### Edit or Delete Review
 The user can edit a review by clicking "EDIT YOUR REVIEW" in myrevies page. Then the window for editing a review will show up. The user can edit the current review, then update it by clicking "Update My Review". The user can clear the whole review by clicking "Clear". If the user wants to delete the review, it can just click the "Delete" button.
 
-![updateReview]`Screen Shot Not Added`
+![editReviewWindow](./feature_screenshots/editReviewWindow.JPG)
 
 
 ### Search Page
@@ -126,7 +120,7 @@ And the sorting rule for the user to change the order of products:
 
 ![sorting](./feature_screenshots/sorting.JPG)
 
-Cart Page
+### Cart Page
 
 Must be logged to see cart page. Shows all cart items with options to increase quantity and remove item from cart
 
