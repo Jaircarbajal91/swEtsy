@@ -114,11 +114,11 @@ export default function CreateProductPage() {
             <img className='newproduct-background' src={background} alt='background'></img>
             <div className='inner-form'>
                 <h2 className='newproduct-title'>Millions of shoppers cannot wait to see what you have in store</h2>
-                <h3 className='newproduct-title'>List your product</h3>
+                <h3 className='newproduct-title'>List your product now</h3>
                 {page === 1 &&
                     <div className='form name container'>
                         <div className='product-form-errors-container'>
-                        <h3>Name your product</h3>
+                            <h3 className='newproduct-title-sub'>Name your product :</h3>
                             {nameErrors.length > 0 && (
                                 <ul className='form-errors-name'>
                                     {nameErrors.map(error => (
@@ -139,7 +139,7 @@ export default function CreateProductPage() {
                 {page === 2 &&
                     <div className='form description container'>
                         <div className='product-form-errors-container'>
-                            <h3>Describe your product</h3>
+                            <h3 className='newproduct-title-sub'>Describe your product :</h3>
                             {descriptionErrors.length > 0 && (
                                 <ul className='form errors description'>
                                     {descriptionErrors.map(error => (
@@ -160,7 +160,7 @@ export default function CreateProductPage() {
                 {page === 3 &&
                     <div className='form image container'>
                         <div className='product-form-errors-container'>
-                            <h3>Post product image</h3>
+                            <h3 className='newproduct-title-sub'>Post product image :</h3>
                             {imageErrors.length > 0 && (
                                 <ul className='form errors image'>
                                     {imageErrors.map(error => (
@@ -181,7 +181,7 @@ export default function CreateProductPage() {
                 {page === 4 &&
                     <div className='form price container'>
                         <div className='product-form-errors-container'>
-                            <h3>Add product price</h3>
+                            <h3 className='newproduct-title-sub'>Add product price :</h3>
                             {priceErrors.length > 0 && (
                                 <ul className='form errors price'>
                                     {priceErrors.map(error => (
@@ -204,17 +204,17 @@ export default function CreateProductPage() {
                         />
                     </div>
                 }
-
-                {page < 4 && <button disabled={isDisabled} className='next-button' onClick={(e) => {
-                    e.preventDefault()
-                    setPage(currPage => currPage + 1)
-                }}>Next</button>}
-                {page > 1 && <button className='back-button' onClick={(e) => {
-                    e.preventDefault()
-                    setPage(currPage => currPage - 1)
-                }}>Back</button>}
-                {page === 4 && <button disabled={isDisabled} className='submit-button' type='button' onClick={handleSubmit}>List Product</button>}
-
+                <div className='newproduct-buttons-container'>
+                    {page < 4 && <button disabled={isDisabled} className='next-button' onClick={(e) => {
+                        e.preventDefault()
+                        setPage(currPage => currPage + 1)
+                    }}>Next</button>}
+                    {page === 4 && <button disabled={isDisabled} className='submit-button' type='button' onClick={handleSubmit}>List Product</button>}
+                    {page > 1 && <button className='back-button' onClick={(e) => {
+                        e.preventDefault()
+                        setPage(currPage => currPage - 1)
+                    }}>Back</button>}
+                </div>
             </div>
         </form>
     );
