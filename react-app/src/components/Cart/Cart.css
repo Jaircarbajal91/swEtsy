@@ -47,6 +47,7 @@
 }
 
 .cart-product-name-remove {
+    width: 30%;
     max-width: 30%;
     display: flex;
     flex-direction: column;
@@ -83,7 +84,21 @@
     margin-left: -.7em;
 }
 
+.quantity-select-container {
+    position: relative;
+    width: 4em;
+    height: fit-content;
+    top: 2em;
+}
 
+.cart-quantity-options {
+    width: 100%;
+    height: 2em;
+    border: 1px solid grey;
+    box-shadow: 0 0 5px #bdbdbd;
+    border-radius: .3em;
+    padding-left: .5em;
+}
 
 .remove-item-button:hover {
   background-color: #EFEFEF;

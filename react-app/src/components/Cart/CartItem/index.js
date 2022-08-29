@@ -46,7 +46,7 @@ export default function CartItem({ item }) {
                 <div className='remove-item-button' onClick={() => deleteCartItem()}>Remove</div>
             </div>
                 <div className="quantity-select-container">
-                    <select value={quantity} onChange={e => setQuantity(e.target.value)}>
+                    <select className="cart-quantity-options" value={quantity} onChange={e => setQuantity(e.target.value)}>
                         {options.map(option => (
                             <option key={option} value={option}>{option}</option>
                         ))}
