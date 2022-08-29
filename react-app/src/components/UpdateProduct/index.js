@@ -30,7 +30,7 @@ useEffect(() => {
         newErrors.push('Please enter a valid image address')
         newErrors.push('E.g. "https://example.com/image.jpg"')
     }
-    if (price <= 0 || !price.toString().match(/^\d+(?:\.\d{1,2})?$/)) newErrors.push('Please enter a valid price');
+    if (price <= 0 || !price.toString().match(/^\d+(?:\.\d{1,2})?$/) || price > 1000000) newErrors.push('Please enter a valid price');
     setErrors(newErrors);
 }, [name, description, image, price]);
 
@@ -102,7 +102,7 @@ return (
             onChange={e => setPrice(e.target.value)}
             required
         />
-        <button type='submit' className="edit-prod-submit">Submit Changes</button>
+        <button type='submit' disabled={errors.length > 0} className="edit-prod-submit">Submit Changes</button>
         </div>
     </div>
     </form>
