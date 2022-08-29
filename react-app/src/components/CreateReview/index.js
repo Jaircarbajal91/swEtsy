@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom'
 import { Modal } from '../../context/Modal';
 import { getReviewsThunk, createReviewThunk } from "../../store/review";
+import { getProductsThunk } from '../../store/products'
 import '../ProductDetail/ProductDetail.css';
 import './createReview.css'
 
@@ -61,6 +62,7 @@ export default function AddAReview({ product }) {
             setReviewBody('')
             setShowModal(false)
         })
+            .then(() => dispatch(getProductsThunk()))
             .catch(async (res) => {
                 const data = await res.json();
                 if (data && data.errors) newErrors.push(data.errors)
