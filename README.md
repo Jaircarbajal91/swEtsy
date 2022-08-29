@@ -19,6 +19,7 @@ It mimics an online marketing platform, for people to listing their product and 
 
 [Frontend API Routes](https://github.com/Jaircarbajal91/swEtsy/wiki/Frontend-Routes)
 
+[Redux Store Shape](https://github.com/Jaircarbajal91/swEtsy/wiki/Redux-Store-Shape)
 
 ## The project is built with
 * Python
