@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getMyReviewThunk, editReviewThunk, deleteReviewThunk } from "../../store/review";
+import { getMyReviewThunk, editReviewThunk } from "../../store/review";
 import { Modal } from "../../context/Modal";
 import DeleteReview from '../DeleteReview';
 import './updateMyReview.css'
-import FullStar from '../images/FullStar.svg'
-import EmptyStar from '../images/EmptyStar.svg'
 
 export default function EditMyReview({ setShowModal }) {
     const dispatch = useDispatch();
@@ -31,9 +29,9 @@ export default function EditMyReview({ setShowModal }) {
         dispatch(getMyReviewThunk()).then(() => setReviewLoaded(true))
     }, [dispatch, reviewId, reviewPicked?.id])
 
-    console.log('star is -- ', reviewStars);
-    console.log('review picked ---', myReviews)
-    console.log('review id is ---', reviewId)
+    // console.log('star is -- ', reviewStars);
+    // console.log('review picked ---', myReviews)
+    // console.log('review id is ---', reviewId)
 
     const newErrors = [];
     useEffect(() => {
@@ -118,7 +116,6 @@ export default function EditMyReview({ setShowModal }) {
 
 
     return reviewLoaded && (
-        // <div id={reviewId} style={{ display: { ...showStore } }}>
         <div id={reviewId} >
 
             <form className='editreview-form'>Update My Review
