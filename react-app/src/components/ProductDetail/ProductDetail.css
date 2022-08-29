@@ -20,8 +20,7 @@
     flex-flow: column;
     margin: 2em;
     /* border: 1px solid black; */
-    width: 60%;
-    min-width: 60%;
+    max-width: 60%;
     height: 1000px;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -44,10 +43,9 @@
     /* flex-flow: column; */
     /* border: 1px solid black; */
     border-radius: 5px;
-    width: 40vw;
-    max-width: 40vw;
+    width: auto;
+    max-width: 600px;
     height:33.0729167vw;
-    max-height:33.0729167vw;
     border: 1px solid rgb(228, 228, 228);
 }
 
@@ -55,9 +53,7 @@
     object-fit: cover;
     border-radius: 6px;
     width: 100%;
-    max-width: 100%;
     height:33.0729167vw;
-    max-height:33.0729167vw;
 }
 
 .product-detail-name {
@@ -68,6 +64,8 @@
     -webkit-box-orient: vertical;
     text-overflow: ellipsis;
     overflow: hidden;
+    word-wrap: break-word;
+    width: 72%;
 }
 
 .product-detail-stars {
@@ -189,6 +187,7 @@
     overflow: hidden;
     width: 72%;
     font-size: 20px;
+    word-wrap: break-word;
 }
 
 .add-review-container {
