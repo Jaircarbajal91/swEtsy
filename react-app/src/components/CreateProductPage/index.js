@@ -28,7 +28,7 @@ export default function CreateProductPage() {
             if (!name.length) {
                 newNameErrors.push('Please give your product a name');
             }
-            if (name.length > 70 || name.length < 3) {
+            if (name.length > 40 || name.length < 3) {
                 newNameErrors.push('Name must be between 3 and 70 characters');
             }
             setNameErrors(newNameErrors);
@@ -43,7 +43,7 @@ export default function CreateProductPage() {
             if (!description.length) {
                 newDescriptionErrors.push('Please describe your product!');
             }
-            if (description.length > 250 || description.length < 1) {
+            if (description.length > 200 || description.length < 1) {
                 newDescriptionErrors.push('Description must between 1 and 250 characters');
             }
             setDescriptionErrors(newDescriptionErrors);
