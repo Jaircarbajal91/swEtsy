@@ -121,8 +121,8 @@ export default function EditMyReview({ setShowModal }) {
             <form className='editreview-form'>Update My Review
                 <br></br>
                 <label className="dropdown-title">Choose Your Reviews :</label>
-                <select className="dropdown-myreviews" onChange={e => setReviewId(e.target.value)} >
-                    <option value='' selected disabled hidden></option>
+                <select defaultValue='None' className="dropdown-myreviews" onChange={e => setReviewId(e.target.value)} >
+                    <option value='None' disabled hidden></option>
                     {myReviews && myReviews.map(myreview => {
 
                         return <option key={myreview.id} value={myreview.id}>{myreview.product.name}</option>
@@ -138,19 +138,19 @@ export default function EditMyReview({ setShowModal }) {
                     ))}
                 </div>
                 < div className="star-rating-container" >
-                    <selection className="radio-label-container">
-                        <label for='r6' className='rating-label-all'>{allstars}</label>
+                    <div className="radio-label-container">
+                        <label htmlFor='r6' className='rating-label-all'>{allstars}</label>
                         <input type="radio" id='r1' className="rating-radio" value="5" onClick={handleStars}></input>
-                        <label for='r1' className='rating-label'>☆</label>
+                        <label htmlFor='r1' className='rating-label'>☆</label>
                         <input type="radio" id='r2' className="rating-radio" value="4" onClick={handleStars}></input>
-                        <label for='r2' className='rating-label'>☆</label>
+                        <label htmlFor='r2' className='rating-label'>☆</label>
                         <input type="radio" id='r3' className="rating-radio" value="3" onClick={handleStars}></input>
-                        <label for='r3' className='rating-label'>☆</label>
+                        <label htmlFor='r3' className='rating-label'>☆</label>
                         <input type="radio" id='r4' className="rating-radio" value="2" onClick={handleStars}></input>
-                        <label for='r4' className='rating-label'>☆</label>
+                        <label htmlFor='r4' className='rating-label'>☆</label>
                         <input type="radio" id='r5' className="rating-radio" value="1" onClick={handleStars}></input>
-                        <label for='r5' className='rating-label'>☆</label>
-                    </selection>
+                        <label htmlFor='r5' className='rating-label'>☆</label>
+                    </div>
                 </div >
 
                 <div className='editreview-reviewbody'>
