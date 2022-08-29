@@ -124,3 +124,13 @@ Also there are price filters the user can choose to target its dream products:
 And the sorting rule for the user to change the order of products:
 
 ![sorting](./feature_screenshots/sorting.JPG)
+
+Cart Page
+
+Must be logged to see cart page. Shows all cart items with options to increase quantity and remove item from cart
+
+![cart](./feature_screenshots/cart.png)
+
+Clicking proceed with purchase will remove all items from cart.
+
+![purchase-cart](./feature_screenshots/purchaseCart.png)
