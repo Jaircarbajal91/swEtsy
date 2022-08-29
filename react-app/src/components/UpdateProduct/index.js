@@ -19,10 +19,10 @@ const [hasSubmitted, setHasSubmitted] = useState(false);
 useEffect(() => {
     const newErrors = [];
     if (!name.length) newErrors.push('Please give your product a name');
-    if (name.length > 40 || name.length < 3) newErrors.push('Name must be between 3 and 70 characters');
+    if (name.length > 40 || name.length < 3) newErrors.push('Name must be between 3 and 40 characters');
     if (!description.length) newErrors.push('Please describe your product!');
     if (description.length > 200 || description.length < 1) {
-    newErrors.push('Description must between 1 and 250 characters');
+    newErrors.push('Description must between 1 and 200 characters');
     };
     if (!image.length) newErrors.push('Please enter an image URL');
     const regex = /^http[^ \!@\$\^&\(\)\+\=]+(\.png|\.jpeg|\.gif|\.jpg)$/;
