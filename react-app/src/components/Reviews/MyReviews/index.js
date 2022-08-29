@@ -59,18 +59,22 @@ const MyReviews = ({ reviews, setShowLogin }) => {
                         <div className='myreview-left-img'>
                             <img className='myreview-img' src={review.product.image} alt={'product image'} />
                         </div>
-                        <div className='myreview-right-box'>
                             <div className='myreview-product'>Review on
                                 <div className='myreview-reviewbody'>
                                     <NavLink to={`/products/${review.product.id}`}
                                         className={'myreview-redirect'}
                                     > {review.product.name}</NavLink>
+                                    <div className='myreview-star'>
+                                        <Stars rating={review.stars} />
+                                    </div>
+                                    <div id='review-body'>
+                                        {review.review_body}
+                                    </div>
                                 </div>
                             </div>
-                            <div className='myreview-star'>
-                                <Stars rating={review.stars} />
+                            <div className='myreview-reviewbody'>
+
                             </div>
-                            <div className='myreview-reviewbody'>{review.review_body}</div>
                             {/* <div id={review.id} value={review.id} style={{ display: showStore }}>
                                 <EditMyReview review={review} showStore={showStore} setShowStore={setShowStore} setFold={setFold} />
                             </div> */}
@@ -79,7 +83,7 @@ const MyReviews = ({ reviews, setShowLogin }) => {
 
                             {/* <button id={review.id} onClick={handleEdit} value={review.id} disabled={disableButton}>Edit Your Review</button>
                                 <button id={review.id} onClick={handleCancel} value={review.id} display={showStore} disabled={disableButton}>Cancel Edit</button> */}
-                        </div>
+
                     </div>
                 </div>
             })
