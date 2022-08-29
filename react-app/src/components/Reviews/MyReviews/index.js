@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { NavLink, useHistory } from 'react-router-dom'
+import { Modal } from '../../../context/Modal';
 import { getMyReviewThunk } from "../../../store/review";
 import Stars from '../../Reviews/Stars'
 import EditMyReview from '../../UpdateMyReview'
@@ -11,6 +12,7 @@ const MyReviews = ({ reviews, setShowLogin }) => {
     const history = useHistory();
     const [reviewLoaded, setReviewLoaded] = useState(false)
     const [showStore, setShowStore] = useState('none')
+    const [showModal, setShowModal] = useState(false)
     const [fold, setFold] = useState('none')
     const myReviews = useSelector(state => state.reviews.reviewsList)
     const sessionUser = useSelector(state => state.session.user);
@@ -47,6 +49,10 @@ const MyReviews = ({ reviews, setShowLogin }) => {
     return reviewLoaded && (
         <div className='myreview-container'>
             <div className='myreview title'> Purchases and Reviews</div>
+            <button onClick={() => setShowModal(true)}>Edit!</button>
+            {showModal && (<Modal>
+                <EditMyReview setShowModal={setShowModal} />
+            </Modal>)}
             {myReviews?.length && myReviews.map(review => {
                 return <div className='product-myreview' key={review.id}>
                     <div>
@@ -57,7 +63,6 @@ const MyReviews = ({ reviews, setShowLogin }) => {
                             <div className='myreview-product'>Review on
                                 <div className='myreview-reviewbody'>
                                     <NavLink to={`/products/${review.product.id}`}
-                                        // style={{ color: '#663600', textDecoration: 'none' }}
                                         className={'myreview-redirect'}
                                     > {review.product.name}</NavLink>
                                 </div>
@@ -69,10 +74,11 @@ const MyReviews = ({ reviews, setShowLogin }) => {
                             <div id={review.id} value={review.id} style={{ display: showStore }}>
                                 <EditMyReview review={review} showStore={showStore} setShowStore={setShowStore} setFold={setFold} />
                             </div>
-                            {fold !== review.id.toString() && (<button id={review.id} className='myreviews-editbutton' onClick={handleEdit} value={review.id} disabled={disableButton}>Edit Your Review</button>)}
-                            {fold === review.id.toString() && (<button id={review.id} className='myreviews-editbutton' onClick={handleCancel} value={review.id} disabled={disableButton}>Cancel Edit</button>)}
+                            {/* {fold !== review.id.toString() && (<button id={review.id} className='myreviews-editbutton' onClick={handleEdit} value={review.id} disabled={disableButton}>Edit Your Review</button>)}
+                            {fold === review.id.toString() && (<button id={review.id} className='myreviews-editbutton' onClick={handleCancel} value={review.id} disabled={disableButton}>Cancel Edit</button>)} */}
+
                             {/* <button id={review.id} onClick={handleEdit} value={review.id} disabled={disableButton}>Edit Your Review</button>
-                    <button id={review.id} onClick={handleCancel} value={review.id} display={showStore} disabled={disableButton}>Cancel Edit</button> */}
+                                <button id={review.id} onClick={handleCancel} value={review.id} display={showStore} disabled={disableButton}>Cancel Edit</button> */}
                         </div>
                     </div>
                 </div>

@@ -7,13 +7,13 @@ import './updateMyReview.css'
 import FullStar from '../images/FullStar.svg'
 import EmptyStar from '../images/EmptyStar.svg'
 
-
-
-export default function EditMyReview({ review, showStore, setFold }) {
+export default function EditMyReview({ setShowModal }) {
     const dispatch = useDispatch();
     const [reviewStars, setReviewStars] = useState()
     const [reviewBody, setReviewBody] = useState('')
     const [reviewLoaded, setReviewLoaded] = useState(false)
+    const [reviewId, setReviewId] = useState()
+    const [productId, setProductId] = useState()
     const [deleteReview, setDeleteReview] = useState(false)
     const [showDelete, setShowDelete] = useState(false)
     const [allstars, setAllstars] = useState('☆☆☆☆☆')
@@ -21,21 +21,27 @@ export default function EditMyReview({ review, showStore, setFold }) {
     const [isDisabled, setIsDisabled] = useState(true);
     const sessionUser = useSelector(state => state.session.user);
     const myReviews = useSelector(state => state.reviews.reviewsList)
-    let reviewId = review.id
-    let productId = review.product.id
+    let reviewPicked;
+
+    reviewPicked = myReviews.find(i => i.id == reviewId)
+
+
     useEffect(() => {
         dispatch(getMyReviewThunk()).then(() => setReviewLoaded(true))
-    }, [dispatch])
+    }, [dispatch, reviewId])
 
     console.log('star is -- ', reviewStars);
+    console.log('review picked ---', myReviews)
+    console.log('review id is ---', reviewId)
+
     const newErrors = [];
     useEffect(() => {
         if (reviewBody.length > 500) {
             newErrors.push('You may only enter review in 500 characters.')
         }
-        if (sessionUser.id !== review.user_id) {
-            newErrors.push('You may only edit your own reviews.')
-        }
+        // if (sessionUser.id !== reviewPicked.user_id) {
+        //     newErrors.push('You may only edit your own reviews.')
+        // }
         setErrors(newErrors)
         if (!errors.length) setIsDisabled(false);
         else setIsDisabled(true);
@@ -49,27 +55,21 @@ export default function EditMyReview({ review, showStore, setFold }) {
             review_body: reviewBody,
         }
 
-        await dispatch(editReviewThunk(productId, reviewId, payload)).then((res) => {
+        await dispatch(editReviewThunk(reviewPicked?.product_id, reviewId, payload)).then((res) => {
             dispatch(getMyReviewThunk())
             setReviewStars()
             setReviewBody('')
-            setFold('none')
+            setShowModal(false)
         })
-
-        let x = document.getElementById(`${e.target.value}`)
-        x.style.display === "none" ? x.style.display = "block" : x.style.display = "none"
     }
+
+    console.log('review picked', reviewPicked)
+    console.log('product id', reviewPicked?.product_id)
+    console.log('review id', reviewId)
 
     const handleDeleteModal = async e => {
         e.preventDefault()
         setShowDelete(true)
-        // let id = Number(e.currentTarget.value)
-        // if (deleteReview) {
-        //     await dispatch(deleteReviewThunk(id)).then(() => console.log('deleted! id is ', id))
-        //     await dispatch(getMyReviewThunk())
-        // } else {
-        //     setShowDelete(false)
-        // }
     }
 
     const handleClear = async e => {
@@ -77,6 +77,12 @@ export default function EditMyReview({ review, showStore, setFold }) {
         setReviewStars()
         setAllstars('☆☆☆☆☆')
         setReviewBody('')
+    }
+
+    const handleCancel = async e => {
+        e.preventDefault()
+        setAllstars('☆☆☆☆☆')
+        setShowModal(false)
     }
 
     const handleStars = async e => {
@@ -99,9 +105,28 @@ export default function EditMyReview({ review, showStore, setFold }) {
         setReviewStars(e.target.value)
     }
 
+
     return reviewLoaded && (
-        <div id={reviewId} style={{ display: { ...showStore } }}>
+        // <div id={reviewId} style={{ display: { ...showStore } }}>
+        <div id={reviewId} >
+
             <form className='editreview-form'>Update My Review
+                <h3>Choose Your Review</h3>
+                <select className="dropdown-myreviews" onChange={e => setReviewId(e.target.value)} >
+                    <option value='' selected disabled hidden>Choose Your Reviews ...</option>
+                    {myReviews && myReviews.map(myreview => {
+
+                        return <option key={myreview.id} value={myreview.id}>{myreview.product.name}</option>
+                    })
+                    }
+                </select>
+                <div className='editreview-img'><img src={reviewPicked?.image} alt={'product image'}></img></div>
+                <div>{reviewPicked?.review_body}</div>
+                <div>
+                    {errors.map((error, ind) => (
+                        <div className='updatereview-error' key={ind}>{error}</div>
+                    ))}
+                </div>
                 < div className="star-rating-container" >
                     <selection className="radio-label-container">
                         <label for='r6' className='rating-label-all'>{allstars}</label>
@@ -117,11 +142,7 @@ export default function EditMyReview({ review, showStore, setFold }) {
                         <label for='r5' className='rating-label'>☆</label>
                     </selection>
                 </div >
-                <div>
-                    {errors.map((error, ind) => (
-                        <div className='updatereview-error' key={ind}>{error}</div>
-                    ))}
-                </div>
+
                 <div className='editreview-reviewbody'>
                     <textarea
                         type='textarea'
@@ -136,9 +157,10 @@ export default function EditMyReview({ review, showStore, setFold }) {
                 <button value={reviewId} className='editreview-button' onClick={handleSubmit} disabled={isDisabled}>Update My Review</button>
                 <button value={reviewId} className='editreview-button' onClick={handleClear}>Clear</button>
                 <button value={reviewId} className='editreview-button' onClick={handleDeleteModal}>Delete</button>
+                <button value={reviewId} className='editreview-button' onClick={handleCancel}>Cancel Edit</button>
                 {showDelete && (
                     <Modal >
-                        <DeleteReview setDeleteReview={setDeleteReview} setShowDelete={setShowDelete} reviewId={reviewId} />
+                        <DeleteReview setShowModal={setShowModal} setDeleteReview={setDeleteReview} setShowDelete={setShowDelete} reviewId={reviewId} />
                     </Modal>
                 )}
             </form>

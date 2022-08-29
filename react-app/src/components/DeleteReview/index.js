@@ -3,12 +3,13 @@ import { useDispatch } from 'react-redux';
 import { getMyReviewThunk, deleteReviewThunk } from "../../store/review";
 import './deleteConfirmation.css'
 
-const DeleteReview = ({ setDeleteReview, setShowDelete, reviewId }) => {
+const DeleteReview = ({ setDeleteReview, setShowDelete, reviewId, setShowModal }) => {
     const dispatch = useDispatch();
     const handleDelete = async e => {
         e.preventDefault()
         await dispatch(deleteReviewThunk(reviewId)).then(() => console.log('deleted! id is ', reviewId))
         await dispatch(getMyReviewThunk())
+        setShowModal(false)
     }
 
     return (
