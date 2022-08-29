@@ -39,7 +39,7 @@ div.myreview-container {
 
 div.product-myreview {
     max-height: fit-content;
-    border: 1px solid black;
+    /* border: 1px solid black; */
 }
 div.myreview-container>div>div {
     display: flex;
@@ -106,6 +106,7 @@ div.myreview-reviewbody {
     font-size: 20px;
     text-decoration: none;
     font-family: 'Bitter', serif;
+    max-width: 28em;
 }
 
 div.myreview-product {
