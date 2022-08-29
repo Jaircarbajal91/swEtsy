@@ -30,6 +30,9 @@ useEffect(() => {
         newErrors.push('Please enter a valid image address')
         newErrors.push('E.g. "https://example.com/image.jpg"')
     }
+    if(image.length > 250){
+        newErrors.push('Image link cannot go over than 250 characters.')
+    }
     if (price <= 0 || !price.toString().match(/^\d+(?:\.\d{1,2})?$/) || price > 1000000) newErrors.push('Please enter a valid price');
     setErrors(newErrors);
 }, [name, description, image, price]);
