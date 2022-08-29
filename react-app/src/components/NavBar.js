@@ -32,6 +32,7 @@ const NavBar = ({ setShowLogin, setShowSignup, sessionUser, searchWords, setSear
   const checkSession = () => {
     if (!sessionUser) {
       setShowLogin(true);
+      history.push('/')
     } else {
       history.push('/cart')
     }
