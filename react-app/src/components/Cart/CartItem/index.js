@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { editCartItemThunk, getCartItemsThunk, deleteCartItemThunk } from "../../../store/cart";
@@ -6,6 +6,7 @@ import '../Cart.css';
 
 export default function CartItem({ item }) {
     const dispatch = useDispatch();
+    const history = useHistory()
     const product = item.product_detail;
     const [quantity, setQuantity] = useState(item.quantity);
 
@@ -36,21 +37,22 @@ export default function CartItem({ item }) {
 
     return (
         <div className="outmost-div">
-            <div className="cart-image-container">
+            <div className="cart-image-container" onClick={() => history.push(`/products/${product.id}`)}>
+                <span className="cart-item name-text">{product.name}</span>
                 <img src={product.image} alt='product' />
             </div>
-            <div className="product-name-remove">
-                <NavLink style={{ textDecoration: 'none', color: 'black' }} to={`/products/${product.id}`}>{product.name}</NavLink>
-                <button className='remove-item-button' onClick={() => deleteCartItem()}>Remove</button>
+            <div className="cart-product-name-remove">
+                <div>{product.description}</div>
+                <div className='remove-item-button' onClick={() => deleteCartItem()}>Remove</div>
             </div>
-            <div className="quantity-price-box">
                 <div className="quantity-select-container">
-                    <select value={quantity} onChange={e => setQuantity(e.target.value)}>
+                    <select className="cart-quantity-options" value={quantity} onChange={e => setQuantity(e.target.value)}>
                         {options.map(option => (
                             <option key={option} value={option}>{option}</option>
                         ))}
                     </select>
                 </div>
+            <div className="quantity-price-box">
                 <div className="item-total-container">
                     <p>{revenue}</p>
                     x{quantity}
