@@ -81,7 +81,7 @@ Click "back" to go to the previous page, or click "next" to go to the next page.
 ### Product Edit and Delete
 The owner can edit the product by clicking Edit, then the product edit panel will be shown.
 
-[!editProduct](./feature_screenshots/updateProductModal.png)
+[!updateProductModal](./feature_screenshots/updateProductModal.png)
 
 The owner can delete the product by clicking Delete.
 
