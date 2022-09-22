@@ -17,22 +17,22 @@ const BottomNav = () => {
                     <p className='bottom-contributors-p'>Contributors</p>
                     <ul className='bottom-contributors-ul'>
                         <li>
-                            <a href='https://github.com/alice886' target="_blank" rel="noopener noreferrer">
+                            <a href='https://alice886.github.io/' target="_blank" rel="noopener noreferrer">
                                 Alice L.
                             </a>
                         </li>
                         <li>
-                            <a href='https://github.com/khz538' target="_blank" rel="noopener noreferrer">
+                            <a href='https://kevinz.dev' target="_blank" rel="noopener noreferrer">
                                 Kevin Z.
                             </a>
                         </li>
                         <li>
-                            <a href='https://github.com/Jaircarbajal91' target="_blank" rel="noopener noreferrer">
+                            <a href='https://glowing-sundae-61a61d.netlify.app/ ' target="_blank" rel="noopener noreferrer">
                                 Jair C.
                             </a>
                         </li>
                         <li>
-                            <a href='https://github.com/zerotume' target="_blank" rel="noopener noreferrer">
+                            <a href='https://www.hengwang.pro/' target="_blank" rel="noopener noreferrer">
                                 Heng W.
                             </a>
                         </li>
