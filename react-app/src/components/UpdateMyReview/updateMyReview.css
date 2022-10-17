@@ -57,10 +57,10 @@ button.editreview-button {
     background: #FCFCFD;
     box-shadow: 0px 2px 4px rgb(45 35 66 / 40%), 0px 7px 13px -3px rgb(45 35 66 / 30%), inset 0px -3px 0px #d6d6e7;
     height: 40px;
-    margin: 2px;
-    padding: 0 10px;
+    margin: 2px 35px;
+    padding: 0 20px;
     font-size: 16px;
-    border-radius: 20px;
+    border-radius: 10px;
     color: #36395a;
     transition: box-shadow 0.15s ease;
     transform: 0.15s ease;
@@ -128,14 +128,11 @@ div.updatereview-error {
 
 
 /* --- star rating --- */
-
 .star-rating-container {
-    unicode-bidi: bidi-override;
+    /* unicode-bidi: bidi-override; */
     direction: rtl;
     padding: 5px 30px;
 }
-
-
 
 .radio-label-container>label:hover:before,
 .radio-label-container>label:hover~label:before {
@@ -144,18 +141,17 @@ div.updatereview-error {
     position: absolute;
 }
 
-.radio-label-container>label:focus:before,
+/* ////////// no need for the below */
+/* .radio-label-container>label:focus:before,
 .radio-label-container>input:checked+label:before {
     content: "\2605";
     position: absolute;
-}
-
+} */
 /* .radio-label-container>label:selection:after,
 .radio-label-container>label:checked:before {
     content: "\2605";
     position: absolute;
 } */
-
 #r1,
 #r2,
 #r3,
@@ -168,8 +164,8 @@ div.updatereview-error {
 .rating-label-all {
     cursor: pointer;
     transition: color 200ms;
-    size: 200px;
-    opacity: 1;
+    /* size: 200px;
+    opacity: 1; */
 }
 
 .rating-label-all {
