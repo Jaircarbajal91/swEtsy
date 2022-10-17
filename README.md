@@ -1,7 +1,7 @@
 #  `Etsy` Clone: `swEtsy`
 
-swEtsy is a web application for practicing web developent. It is inspired by Etsy.
-It mimics an online marketing platform, for people to listing their product and buy products sold by others.
+swEtsy is a web application for practicing web development. It is inspired by Etsy. 
+It mimics an online marketing platform, for people to list their products and buy products sold by others.
 
 ### How to launch the full site:
 [swEtsy](https://swetsy-app.herokuapp.com/)
