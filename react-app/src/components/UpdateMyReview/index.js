@@ -8,7 +8,6 @@ import './updateMyReview.css'
 export default function EditMyReview({ setShowModal }) {
     const dispatch = useDispatch();
     const [reviewStars, setReviewStars] = useState()
-    const [reviewBody, setReviewBody] = useState('')
     const [reviewLoaded, setReviewLoaded] = useState(false)
     const [reviewId, setReviewId] = useState()
     const [productId, setProductId] = useState()
@@ -21,8 +20,8 @@ export default function EditMyReview({ setShowModal }) {
     const sessionUser = useSelector(state => state.session.user);
     const myReviews = useSelector(state => state.reviews.reviewsList)
     let reviewPicked;
-
     reviewPicked = myReviews.find(i => i.id == reviewId)
+    const [reviewBody, setReviewBody] = useState(reviewPicked?.review_body)
 
 
     useEffect(() => {
@@ -35,7 +34,7 @@ export default function EditMyReview({ setShowModal }) {
 
     const newErrors = [];
     useEffect(() => {
-        if (reviewBody.length > 500) {
+        if (reviewBody?.length > 500) {
             newErrors.push('You may only enter review in 500 characters.')
         }
         if (!myReviews) {
@@ -47,7 +46,7 @@ export default function EditMyReview({ setShowModal }) {
         setErrors(newErrors)
         if (!errors.length) setIsDisabled(false);
         else setIsDisabled(true);
-    }, [reviewBody.length, errors.length, reviewStars, allstars, reviewPicked?.id])
+    }, [reviewBody?.length, errors.length, reviewStars, allstars, reviewPicked?.id])
 
     useEffect(() => {
         if (reviewId) {
@@ -121,7 +120,7 @@ export default function EditMyReview({ setShowModal }) {
             <form className='editreview-form'>Update My Review
                 <br></br>
                 <label className="dropdown-title">Choose Your Reviews :</label>
-                <select defaultValue='None' className="dropdown-myreviews" onChange={e => setReviewId(e.target.value)} >
+                <select defaultValue='None' className="dropdown-myreviews" onChange={e => { setReviewId(e.target.value)}} >
                     <option value='None' disabled hidden></option>
                     {myReviews && myReviews.map(myreview => {
 
