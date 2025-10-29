@@ -6,8 +6,11 @@
   bottom: 0;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   z-index: 999;
+  padding: 40px;
+  box-sizing: border-box;
+  overflow-y: auto;
 }
 
 #modal-background {
@@ -25,7 +28,9 @@
   position: relative;
   background-color: transparent;
   border-radius: 0;
-  max-width: 90vw;
-  max-height: 90vh;
-  overflow: auto;
+  width: auto;
+  max-width: none;
+  max-height: none;
+  overflow: visible;
+  margin: 0;
 }
