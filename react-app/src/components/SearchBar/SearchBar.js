@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 import Magnifying from "../images/Magnifying.svg"
 import './SearchBar.css'
@@ -9,37 +9,48 @@ const SearchBar = ({ searchWords, setSearchWords }) => {
   const history = useHistory()
   const loc = useLocation()
   const path = loc.pathname
-  useEffect(() => {
+
+  const updateSearchFromURL = useCallback(() => {
     if (path.includes('search')) {
       let query = new URLSearchParams(loc.search)
       setSearchWords(query.get('keyword') || '')
     } else {
       setSearchWords('')
     }
-  }, [path])
+  }, [path, loc.search, setSearchWords])
 
   useEffect(() => {
-    if (!(/^[A-Za-z0-9 \-]*$/g.test(searchWords))) {
-      setSymbolErrors('Only alphabates, numbers, spaces and - permitted for search!')
-      setDisableSearch('true')
+    updateSearchFromURL()
+  }, [updateSearchFromURL])
+
+  const validateSearchInput = useCallback(() => {
+    if (!(/^[A-Za-z0-9 -]*$/g.test(searchWords))) {
+      setSymbolErrors('Only alphabets, numbers, spaces and - permitted for search!')
+      setDisableSearch(true)
     } else {
       setSymbolErrors('')
       setDisableSearch(false)
     }
   }, [searchWords])
 
+  useEffect(() => {
+    validateSearchInput()
+  }, [validateSearchInput])
+
   const searchChangeHandler = e => {
     setSearchWords(e.target.value)
   }
 
-  const searchClickHandler = e => {
+  const performSearch = useCallback(() => {
     setSymbolErrors('')
-    setSearchWords(prev => prev.replaceAll(/[^A-Za-z0-9\- ]/g, ''))
+    const cleanSearchWords = searchWords.replaceAll(/[^A-Za-z0-9\- ]/g, '')
+    setSearchWords(cleanSearchWords)
+    
     if (path.includes('search')) {
       let query = new URLSearchParams(loc.search)
       let filtered = []
       let data = {
-        keyword: searchWords,
+        keyword: cleanSearchWords,
         minPrice: query.get('minPrice'),
         maxPrice: query.get('maxPrice'),
         ownerId: query.get('ownerId'),
@@ -53,69 +64,47 @@ const SearchBar = ({ searchWords, setSearchWords }) => {
       let filterstring = filtered.join("&")
       history.push(`/search?${filterstring}`)
     } else {
-      history.push(`/search?keyword=${searchWords}`)
+      history.push(`/search?keyword=${cleanSearchWords}`)
     }
+  }, [searchWords, path, loc.search, history, setSearchWords])
+
+  const searchClickHandler = e => {
+    performSearch()
   }
 
   const handleSearchPress = e => {
-    // if(!(/^[A-Za-z0-9 \-]*$/g.test(searchWords))){
-    //   setSearchWords(prev => {
-    //    setSymbolErrors('Only alphabates, numbers, spaces and - permitted for search!')
-    //     return prev.replaceAll(/[^A-Za-z0-9 ]/g, '')
-    //   })
-    // }
     if (e.keyCode === 13 && !disableSearch) {
-      setSymbolErrors('')
-      setSearchWords(prev => prev.replaceAll(/[^A-Za-z0-9\- ]/g, ''))
-      if (path.includes('search')) {
-        let query = new URLSearchParams(loc.search)
-        let filtered = []
-        let data = {
-          keyword: searchWords,
-          minPrice: query.get('minPrice'),
-          maxPrice: query.get('maxPrice'),
-          ownerId: query.get('ownerId'),
-          order: query.get('order')
-        }
-        for (let key in data) {
-          if (data[key]) {
-            filtered.push(`${key}=${data[key]}`)
-          }
-        }
-        let filterstring = filtered.join("&")
-        history.push(`/search?${filterstring}`)
-      } else {
-        history.push(`/search?keyword=${searchWords}`)
-      }
+      performSearch()
       e.target.blur()
     }
   }
 
-  let cursorStlyes;
-  if (symbolErrors) {
-    cursorStlyes = {
-      cursor:'not-allowed'
-    }
-  } else {
-    cursorStlyes  = {
-      cursor:'pointer'
-    }
-  }
+  const cursorStyles = symbolErrors ? { cursor: 'not-allowed' } : { cursor: 'pointer' }
 
   return (
     <div className="search-bar-container">
       <div className='searchbar-container'>
-        <input className='input search-bar'
+        <input 
+          className='input search-bar'
           type="text"
           placeholder='Search for anything'
           value={searchWords}
           pattern="[^A-Za-z0-9 ]"
-          title="Only numbers, alphabates and spaces are permitted!"
+          title="Only numbers, alphabets and spaces are permitted!"
           onChange={searchChangeHandler}
           onKeyDown={handleSearchPress}
         />
-        <div className='magnifying-container' style={cursorStlyes} onClick={symbolErrors ? null : searchClickHandler}>
-          <img src={Magnifying} disabled={disableSearch} className='input search-submit' ></img>
+        <div 
+          className='magnifying-container' 
+          style={cursorStyles} 
+          onClick={symbolErrors ? null : searchClickHandler}
+        >
+          <img 
+            src={Magnifying} 
+            disabled={disableSearch} 
+            className='input search-submit' 
+            alt="Search"
+          />
         </div>
       </div>
       {symbolErrors && (

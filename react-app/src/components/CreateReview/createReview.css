@@ -1,46 +1,61 @@
-@import url('https://fonts.googleapis.com/css2?family=Aboreto&family=Bitter:wght@100;200;400&family=Comfortaa:wght@300&family=DM+Serif+Display&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
 
+/* Modern Review Form Styling */
 form.createreview-form {
-    background-color: rgb(249, 250, 250);
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
     margin-top: 20px;
     width: 500px;
     margin: 0px;
-    padding: 5%;
-    display: block;
-    justify-content: space-between;
-    border-radius: 5px;
-    font-size: 20px;
-    color: #56504C;
-    font-family: 'DM Serif Display', serif;
+    padding: 2rem;
     display: flex;
     flex-direction: column;
     align-items: center;
+    border-radius: 16px;
+    font-size: 16px;
+    color: #334155;
+    font-family: 'Inter', sans-serif;
     box-sizing: border-box;
-
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    border: 1px solid #e2e8f0;
 }
 
 div.createreview-name {
-    font-size: 24px;
-    font-family: 'DM Serif Display', serif;
-    margin: 0.1em;
+    font-size: 28px;
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    margin: 0.5em 0;
+    color: #1e293b;
+    text-align: center;
 }
 
 div.createreview-des {
-    font-size: 18px;
-    font-family: "Graphik Webfont", -apple-system, "Helvetica Neue", "Droid Sans", Arial, sans-serif;
-    margin: 0.1em;
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
+    margin: 0.5em 0;
+    color: #64748b;
+    text-align: center;
+    line-height: 1.5;
 }
 
-#modal-content>form>div.createreview-img,
-div.createreview-img>img {
+div.createreview-img {
+    margin: 1em 0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+div.createreview-img > img {
     max-width: 300px;
     min-width: 200px;
     max-height: 300px;
     min-height: 200px;
     width: 100%;
-    box-shadow: 5px 5px 10px grey;
-    margin: 0.1em;
     object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+div.createreview-img > img:hover {
+    transform: scale(1.05);
 }
 
 textarea.createreview-reviewbody {
@@ -49,77 +64,149 @@ textarea.createreview-reviewbody {
     max-width: 90%;
     min-width: 90%;
     width: 100%;
-    padding: 10px;
-    font-size: 18px;
-    font-family: 'Bitter', serif;
-    border-radius: 5px;
-    background: rgb(249, 250, 250);
-    border-radius: 10px;
-    border: 1px solid rgb(181, 189, 196);
-    height: 30px;
-    overflow-y: scroll;
-    scrollbar-color: grey;
-    scrollbar-width: thin;
-    color: rgb(8, 9, 10);
+    padding: 16px;
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
+    border-radius: 12px;
+    background: #ffffff;
+    border: 2px solid #e2e8f0;
+    color: #1e293b;
     word-break: break-word;
     resize: vertical;
-    margin: 0.1em;
+    margin: 1em 0;
+    transition: all 0.2s ease;
+    outline: none;
 }
 
+textarea.createreview-reviewbody:focus {
+    background-color: #ffffff;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
 
-input.createreview-reviewbody:focus {
-    background-color: #fff;
-    border-color: #3b49df;
-    box-shadow: 1px 1px 0 #3b49df;
-    overflow-y: scroll;
+textarea.createreview-reviewbody::placeholder {
+    color: #94a3b8;
+    font-style: italic;
 }
 
 div.createreview-error {
-    margin-top: .8em;
-    font-size: .8em;
-    color: #A05102;
+    margin-top: 0.5em;
+    font-size: 14px;
+    color: #dc2626;
+    background: #fef2f2;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border-left: 4px solid #dc2626;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Star Rating Styling */
+.star-rating-container {
+    margin: 1em 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.radio-label-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.rating-label-all {
+    font-size: 24px;
+    font-family: 'Inter', sans-serif;
+    color: #fbbf24;
+    margin-bottom: 8px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.rating-radio {
+    display: none;
+}
+
+.rating-label {
+    font-size: 32px;
+    color: #d1d5db;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin: 0 4px;
+    user-select: none;
+}
+
+.rating-label:hover {
+    color: #fbbf24;
+    transform: scale(1.1);
+}
+
+.rating-radio:checked + .rating-label {
+    color: #fbbf24;
+}
+
+/* Button Styling */
+.review-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 1em;
 }
 
 button.createreview-button {
-    display: inline-block;
-    outline: 0;
-    border: 0;
-    font-family: 'Bitter', serif;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+    border: none;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
     cursor: pointer;
-    transition: box-shadow 0.15s ease, transform 0.15s ease;
-    will-change: box-shadow, transform;
-    background: #FCFCFD;
-    box-shadow: 0px 2px 4px rgb(45 35 66 / 40%), 0px 7px 13px -3px rgb(45 35 66 / 30%), inset 0px -3px 0px #d6d6e7;
-    height: 40px;
-    margin: 10px;
-    padding: 0 10px;
+    transition: all 0.2s ease;
+    background: #ffffff;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    height: 44px;
+    padding: 0 20px;
     font-size: 14px;
-    border-radius: 20px;
-    color: #36395a;
-    transition: box-shadow 0.15s ease;
-    transform: 0.15s ease;
-
+    border-radius: 12px;
+    color: #374151;
+    border: 2px solid #e5e7eb;
+    min-width: 100px;
 }
 
-
 button.createreview-button:hover {
-    box-shadow: 0px 4px 8px rgb(45 35 66 / 40%), 0px 7px 13px -3px rgb(45 35 66 / 30%), inset 0px -3px 0px #d6d6e7;
-    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    transform: translateY(-1px);
+    border-color: #d1d5db;
 }
 
 button.createreview-button:disabled {
-    box-shadow: 0px 4px 8px rgb(0 0 0 / 40%);
-    color: #534C45;
-    background-color: grey;
+    box-shadow: none;
+    color: #9ca3af;
+    background-color: #f3f4f6;
+    border-color: #e5e7eb;
+    cursor: not-allowed;
+    transform: none;
 }
 
 button.createreview-button:active {
-    box-shadow: inset 0px 3px 7px #d6d6e7;
-    transform: translateY(2px);
+    transform: translateY(0);
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
-/* ------ creade review modal ------- */
-form .createreview-form {
+/* Submit button specific styling */
+button.createreview-button[type="submit"]:not(:disabled) {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    color: #ffffff;
+    border-color: #3b82f6;
+}
+
+button.createreview-button[type="submit"]:not(:disabled):hover {
+    background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+    border-color: #2563eb;
+}
+
+/* Modal Styling */
+.createreview-modal {
     position: fixed;
     top: 0;
     right: 0;
@@ -129,24 +216,31 @@ form .createreview-form {
     justify-content: center;
     align-items: center;
     z-index: 999;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
 }
 
-.review-redirect {
-    outline: 0;
-    border: 0;
-    font-family: 'Bitter', serif;
-    cursor: pointer;
-    transition: box-shadow 0.15s ease, transform 0.15s ease;
-    will-change: box-shadow, transform;
-    background: #FFD3A8;
-    box-shadow: 0px 1px 1px rgb(45 35 66 / 90%);
-    height: 40px;
-    padding: 5px;
-    margin-bottom: 20px;
-    font-size: 14px;
-    border-radius: 20px;
-    color: #36395a;
-    transition: box-shadow 0.15s ease;
-    transform: 0.15s ease;
-
+/* Responsive Design */
+@media (max-width: 640px) {
+    form.createreview-form {
+        width: 90%;
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+    
+    div.createreview-img > img {
+        max-width: 250px;
+        min-width: 150px;
+        max-height: 250px;
+        min-height: 150px;
+    }
+    
+    .review-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    button.createreview-button {
+        width: 100%;
+    }
 }

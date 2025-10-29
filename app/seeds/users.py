@@ -1,27 +1,91 @@
 from app.models import db, User
+from datetime import datetime, timedelta
+import random
 
-
-# Adds a demo user, you can add other users here if you want
 def seed_users():
-    demo = User(
-        username='Demo', first_name='Demo', last_name='Lition',email='demo@aa.io', password='password')
-    marnie = User(
-        username='marnie', first_name='Marnie', last_name='Cvarkovic',email='marnie@aa.io', password='password')
-    bobbie = User(
-        username='bobbie', first_name='Bobbie', last_name='Brown', email='bobbie@aa.io', password='password')
-
-    db.session.add(demo)
-    db.session.add(marnie)
-    db.session.add(bobbie)
-
+    """Create diverse, realistic users with proper names and emails"""
+    
+    users = [
+        # Demo user for easy testing
+        User(
+            username='demo',
+            first_name='Demo',
+            last_name='User',
+            email='demo@swetsy.com',
+            password='password'
+        ),
+        
+        # Realistic sellers and buyers
+        User(
+            username='sarah_crafts',
+            first_name='Sarah',
+            last_name='Johnson',
+            email='sarah.johnson@email.com',
+            password='password'
+        ),
+        User(
+            username='mike_woodworker',
+            first_name='Michael',
+            last_name='Chen',
+            email='michael.chen@email.com',
+            password='password'
+        ),
+        User(
+            username='emma_artisan',
+            first_name='Emma',
+            last_name='Rodriguez',
+            email='emma.rodriguez@email.com',
+            password='password'
+        ),
+        User(
+            username='alex_handmade',
+            first_name='Alex',
+            last_name='Thompson',
+            email='alex.thompson@email.com',
+            password='password'
+        ),
+        User(
+            username='jessica_creative',
+            first_name='Jessica',
+            last_name='Williams',
+            email='jessica.williams@email.com',
+            password='password'
+        ),
+        User(
+            username='david_maker',
+            first_name='David',
+            last_name='Brown',
+            email='david.brown@email.com',
+            password='password'
+        ),
+        User(
+            username='lisa_handcrafted',
+            first_name='Lisa',
+            last_name='Garcia',
+            email='lisa.garcia@email.com',
+            password='password'
+        ),
+        User(
+            username='ryan_artisan',
+            first_name='Ryan',
+            last_name='Davis',
+            email='ryan.davis@email.com',
+            password='password'
+        ),
+        User(
+            username='amanda_crafts',
+            first_name='Amanda',
+            last_name='Wilson',
+            email='amanda.wilson@email.com',
+            password='password'
+        )
+    ]
+    
+    for user in users:
+        db.session.add(user)
+    
     db.session.commit()
 
-
-# Uses a raw SQL query to TRUNCATE the users table.
-# SQLAlchemy doesn't have a built in function to do this
-# TRUNCATE Removes all the data from the table, and RESET IDENTITY
-# resets the auto incrementing primary key, CASCADE deletes any
-# dependent entities
 def undo_users():
     db.session.execute('TRUNCATE users RESTART IDENTITY CASCADE;')
     db.session.commit()

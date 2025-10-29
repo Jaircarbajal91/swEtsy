@@ -1,429 +1,151 @@
 from app.models import db, Review
-from random import randint
+from random import choice, randint
 
 def seed_reviews():
-    r1 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body='I love the way that this athletic wear looks and feels. The fabric is soft, lightweight, and its really comfortable.',
+    """Create realistic, high-quality reviews with consistent star ratings"""
+    
+    # Define review templates with appropriate star ratings
+    review_templates = {
+        5: [
+            "Absolutely love this! The quality exceeded my expectations and shipping was super fast.",
+            "Perfect! Exactly as described and beautifully crafted. Will definitely order again.",
+            "Amazing product! The attention to detail is incredible. Highly recommend!",
+            "Outstanding quality and craftsmanship. This is exactly what I was looking for.",
+            "Beautiful work! The seller was very responsive and the product arrived quickly.",
+            "Exceptional quality! This is a true work of art. Worth every penny.",
+            "Love it! The quality is fantastic and it looks even better in person.",
+            "Perfect! Fast shipping and excellent communication. Highly satisfied.",
+            "Amazing! The craftsmanship is top-notch and the product is exactly as pictured.",
+            "Outstanding! Great quality, fast shipping, and excellent customer service."
+        ],
+        4: [
+            "Very nice product! Good quality and arrived on time. Would recommend.",
+            "Great item! Minor issue with packaging but the product itself is lovely.",
+            "Good quality overall. Shipping took a bit longer than expected but worth the wait.",
+            "Nice product! Quality is good, though slightly different from the photo.",
+            "Solid purchase! Good value for money and arrived in good condition.",
+            "Pretty good! The quality is decent and it serves its purpose well.",
+            "Good product overall. Minor imperfections but still very usable.",
+            "Nice item! Good craftsmanship, though the color is slightly different than expected.",
+            "Decent quality! Arrived on time and looks good. Happy with the purchase.",
+            "Good buy! The product is well-made and functional. Would consider buying again."
+        ],
+        3: [
+            "Okay product. Quality is average but it works as expected.",
+            "Decent item. Nothing spectacular but it does what it's supposed to do.",
+            "Average quality. The product works but could be better for the price.",
+            "It's okay. Not amazing but not terrible either. Gets the job done.",
+            "Fair quality. The product is functional but has some minor issues.",
+            "Average purchase. The item works but doesn't exceed expectations.",
+            "Okay for the price. Quality is acceptable but not outstanding.",
+            "Decent product. It works fine but could use some improvements.",
+            "Average quality. The item serves its purpose but nothing special.",
+            "Fair product. It works as described but quality could be better."
+        ],
+        2: [
+            "Disappointed with the quality. The product doesn't match the description.",
+            "Not great. The quality is poor and it arrived damaged.",
+            "Below expectations. The product is not as described and feels cheap.",
+            "Poor quality. The item arrived with defects and doesn't work properly.",
+            "Not satisfied. The product is overpriced for what you get.",
+            "Disappointing purchase. The quality is much lower than expected.",
+            "Not good. The product arrived damaged and the seller was unresponsive.",
+            "Poor experience. The item doesn't match the photos and feels flimsy.",
+            "Disappointed. The quality is subpar and not worth the money.",
+            "Not recommended. The product is cheaply made and doesn't last."
+        ],
+        1: [
+            "Terrible quality. The product arrived broken and unusable.",
+            "Waste of money. The item is completely different from the description.",
+            "Awful experience. The product is defective and the seller won't respond.",
+            "Horrible quality. The item fell apart immediately after use.",
+            "Complete disappointment. The product is not as advertised at all.",
+            "Terrible purchase. The item is broken and the seller is unhelpful.",
+            "Worst purchase ever. The product is unusable and overpriced.",
+            "Awful quality. The item arrived damaged and is completely useless.",
+            "Terrible experience. The product doesn't work and customer service is poor.",
+            "Complete waste. The item is broken and the seller refuses to help."
+        ]
+    }
+    
+    # Create reviews with realistic patterns
+    reviews = []
+    
+    # Generate reviews for each product (2-4 reviews per product)
+    for product_id in range(1, 21):  # 20 products
+        num_reviews = randint(2, 4)
+        reviewed_users = set()
+        
+        for _ in range(num_reviews):
+            # Ensure each user only reviews each product once
+            while True:
+                user_id = randint(1, 10)
+                if user_id not in reviewed_users:
+                    reviewed_users.add(user_id)
+                    break
+            
+            # Determine star rating based on realistic distribution
+            # 60% 5-star, 25% 4-star, 10% 3-star, 3% 2-star, 2% 1-star
+            rand = randint(1, 100)
+            if rand <= 60:
+                stars = 5
+            elif rand <= 85:
+                stars = 4
+            elif rand <= 95:
+                stars = 3
+            elif rand <= 98:
+                stars = 2
+            else:
+                stars = 1
+            
+            review_body = choice(review_templates[stars])
+            
+            review = Review(
+                stars=stars,
+                review_body=review_body,
+                product_id=product_id,
+                user_id=user_id
+            )
+            reviews.append(review)
+    
+    # Add some additional detailed reviews for popular products
+    detailed_reviews = [
+        Review(
+            stars=5,
+            review_body="This ceramic vase is absolutely stunning! The craftsmanship is incredible and it looks perfect in my living room. The seller was very professional and the packaging was excellent. Highly recommend this artist!",
         product_id=1,
-        user_id=2
-    )
-    r2 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="I bought these and four other pairs of leggings at a recent sporting goods store. The only thing I didn't like about these leggings is that they feel a little more thick in the thighs.",
-        product_id=1,
         user_id=3
-    )
-    r3 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="I love sportswear and I have a huge collection of leggings. But most of them are just too short and tight. I was really looking forward to getting these leggings. They are the best leggings I've ever owned.",
+        ),
+        Review(
+            stars=4,
+            review_body="Beautiful macrame piece! The quality is good and it arrived quickly. The only minor issue was that it was slightly smaller than I expected, but it still looks great on my wall.",
         product_id=2,
-        user_id=2
-    )
-    r4 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="They fit perfectly, the material is soft, and they are really comfortable.",
-        product_id=2,
-        user_id=3
-    )
-    r5 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="I bought them in a size smaller than I usually wear because the sizing was a bit off. I wish they had more colors. ",
+            user_id=4
+        ),
+        Review(
+            stars=5,
+            review_body="These cutting boards are fantastic! They're well-made, food-safe, and look beautiful in my kitchen. The different sizes are perfect for various cooking tasks. Worth every penny!",
         product_id=3,
-        user_id=2
-    )
-    r6 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="If you are looking for a pair of leggings that are comfortable and soft, you should give these a try. I hope they work for you as well.",
-        product_id=3,
-        user_id=3
-    )
-    r7 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="I was looking for a new training wrap to replace my favorite one that I used when I trained for my first ultramarathon. The jogger woven training wraps are comfortable, durable, and easy to wash.",
+            user_id=5
+        ),
+        Review(
+            stars=5,
+            review_body="Gorgeous earrings! The silver is high quality and the pearls are beautiful. I've received many compliments when wearing them. The seller's attention to detail is amazing.",
         product_id=4,
-        user_id=2
-    )
-    r8 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="I live on the West coast and it's hard to find good quality, affordable training gear for the winter months.  I started running ultras in January and bought this wrap for my first race, and it does the job! ",
-        product_id=4,
-        user_id=3
-    )
-    r9 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="I love the medicine balls because they give you a perfect workout. I use them for yoga, cross fit and also strength training. ",
+            user_id=6
+        ),
+        Review(
+            stars=4,
+            review_body="Nice leather wallet! The quality is good and it has plenty of card slots. The RFID blocking feature is a nice bonus. Would recommend for the price.",
         product_id=5,
-        user_id=2
-    )
-    r10 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="The medicine ball is a great exercise tool for anyone who want to tone up their core and hips.",
-        product_id=5,
-        user_id=3
-    )
-    r11 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="The quality is good, and it's soft, but I wouldn't recommend it for weightlifting.  ",
-        product_id=6,
-        user_id=2
-    )
-    r12 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="I love this! They're the perfect combination of comfort and style.",
-        product_id=6,
-        user_id=3
-    )
-    r13 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="I ordered a sport t-shirt a few months ago, and it was great.",
-        product_id=7,
-        user_id=2
-    )
-    r14 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="I've always had a hard time finding workout clothes that fit me well. I don't have an extremely tall body (I'm only 5' 9), but I have a bigger than average build. I was excited to try out the new men workout shorts.",
-        product_id=7,
-        user_id=3
-    )
-    r15 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="I bought this mat because I wanted the best, most comfortable yoga mat for my back. I was looking for something that would last; something that I could use all the time.",
-        product_id=8,
-        user_id=2
-    )
-    r16 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="I do yoga at least 3 times a week. While I'm doing it, I always think about how much I love being able to create a comfortable and most of all, safe environment for myself. This mat is one of my favorites.",
-        product_id=8,
-        user_id=3
-    )
-    r17 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="I've had a few of these mats for years, and I like them. They're the most comfortable mats you can find, and because they're a bit thicker than most, they don't slip on the floor.",
-        product_id=9,
-        user_id=2
-    )
-    r18 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="They're also extremely durable and easy to clean. I've had this one for a couple years, and it's held up well.",
-        product_id=9,
-        user_id=3
-    )
-    r19 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="This was a gift for my grandson and we have not stopped playing it since he got it home.",
-        product_id=10,
-        user_id=2
-    )
-    r20 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="The ball has a high amount of bounce and is very easy to control. My 10-months baby loves it and me too.",
-        product_id=10,
-        user_id=3
-    )
-
-    r21 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="nah I don't like this product, color is off and size is inaccurate!",
-        product_id=11,
-        user_id=1
-    )
-    r22 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="The gorilla kettle ball is ideal for both adults and children. It is a fun way to stay hydrated and it has some health benefits.",
-        product_id=11,
-        user_id=3
-    )
-    r23 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="I've been on a quest to get into shape and have found the dumbbell set to be a great way to get fit.",
-        product_id=12,
-        user_id=1
-    )
-    r24 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="I've tried to make my own dumbbell set before, but I always ended up with a set that was too heavy or bulky. ",
-        product_id=12,
-        user_id=3
-    )
-    r25 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="This set from Amazon is the perfect mix of quality and affordability.",
-        product_id=13,
-        user_id=1
-    )
-    r26 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="It's sturdy, flexible and lightweight. I can get in a few sets",
-        product_id=13,
-        user_id=3
-    )
-    r27 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="I've been looking for a good one for awhile and i must say i'm amazingly satisfied with this one.",
-        product_id=14,
-        user_id=1
-    )
-    r28 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body=" It's a very comfortable and stylish item, it's also a little bit unique.",
-        product_id=14,
-        user_id=3
-    )
-    r29 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body=" It's a very comfortable and stylish item, it's also a little bit unique.",
-        product_id=15,
-        user_id=1
-    )
-    r30 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="I've been looking for a good one for awhile and i must say i'm amazingly satisfied with this one.",
-        product_id=15,
-        user_id=3
-    )
-    r31 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="I was pleasantly surprised when I first unwrapped the package. It's a good quality set of yoga clothes that are comfortable, stylish and fit perfectly.",
-        product_id=16,
-        user_id=1
-    )
-    r32 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body=" I am hoping that I will continue to use this set of clothes as my yoga outfit.",
-        product_id=16,
-        user_id=3
-    )
-    r33 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body=" I am hoping that I will continue to use this set of clothes as my yoga outfit.",
-        product_id=17,
-        user_id=1
-    )
-    r34 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="From one yoga lover to another, I recommend this set of yoga clothes to you!",
-        product_id=17,
-        user_id=3
-    )
-    r35 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="I love this item. I always go out of my way to buy it for myself when I go shopping. ",
-        product_id=18,
-        user_id=1
-    )
-    r36 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="I purchased this full track suit on a whim, and I am so glad that I did! This is such a nice item",
-        product_id=18,
-        user_id=3
-    )
-    r37 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="I usually wear a size 10 in clothing, but I bought a size 12, and it fits great. I love the material, quality and color.",
-        product_id=19,
-        user_id=1
-    )
-    r38 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="I just got these workout clothes and I really like them. They are pretty basic workout clothes and they are comfortable.",
-        product_id=19,
-        user_id=3
-    )
-    r39 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="I like it because it provides a great amount of compression, but it's not so tight that it restricts my breathing. I'm usually a size medium, I wear a medium in this and it's perfect.",
-        product_id=20,
-        user_id=1
-    )
-    r40 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="I bought them for a workout I did at the gym and now I'm wearing them around the house. They are super cute and if you're looking for a subtle workout outfit, this is it.",
-        product_id=20,
-        user_id=3
-    )
-    r41 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="I bought is a synthetic material and does not get sweaty. It's stretchable and comfortable.",
-        product_id=21,
-        user_id=1
-    )
-    r42 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="I like the fact that it's got pockets for money, keys, mobile phone, and other small things.",
-        product_id=21,
-        user_id=2
-    )
-    r43 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body=" I decided to order a pair online and get them while they are on sale. I received my new shoes in a timely manner and I was very impressed with the quality. ",
-        product_id=22,
-        user_id=1
-    )
-    r44 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="They're the best running shoes I've ever had!",
-        product_id=22,
-        user_id=2
-    )
-    r45 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="I am a runner and I recomment this!",
-        product_id=23,
-        user_id=1
-    )
-    r46 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="They're the best running shoes I've ever had",
-        product_id=23,
-        user_id=2
-    )
-    r47 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="It really is the best singing headband for women.  ",
-        product_id=24,
-        user_id=1
-    )
-    r48 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="I love the fact that it is adjustable. It is super comfortable and fits my head perfectly. ",
-        product_id=24,
-        user_id=2
-    )
-    r49 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="This is my new obsession for the summer months.",
-        product_id=25,
-        user_id=1
-    )
-    r50 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="I purchased it for my husband, as he is the one who would be wearing it and it has a lot of cool features.",
-        product_id=25,
-        user_id=2
-    )
-    r51 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="I don't like this, I mean it literally, I love wearing bras. They are the most comfortable things I wear. ",
-        product_id=26,
-        user_id=1
-    )
-    r52 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="My friends don't get it. They think I'm a bra-wearing zombie. This is a backless bra, it looks great on and it's comfortable.",
-        product_id=26,
-        user_id=2
-    )
-    r53 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body=" I love all the support that a bra gives me, especially when I do yoga or just go for a run. My sports bra is the best-fitting, most comfortable bra I've ever worn.",
-        product_id=27,
-        user_id=1
-    )
-    r54 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="The bra boasts a very high compression level which provides support while doing yoga.",
-        product_id=27,
-        user_id=2
-    )
-    r55 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="Yeah, I was going to say that it's a little big, but it's not as bad as I thought. I guess I'll have to get used to it.",
-        product_id=28,
-        user_id=1
-    )
-    r56 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="Looking back at the pictures, I can't believe how fat I was. I mean, I know that I'm over weight, but I really thought that I was way heavier than that.",
-        product_id=28,
-        user_id=2
-    )
-    r57 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="You may have heard of bench press exercises before, but if you haven't, you need to start now. The bench press is one of the best exercises to develop and strengthen your chest.",
-        product_id=29,
-        user_id=1
-    )
-    r58 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="I have been lifting weights for many years and have taken various forms and types of weight training classes, and I recommend this.",
-        product_id=29,
-        user_id=2
-    )
-    r59 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="I've been using this workout ball to do some cardio and weight training for about 3 months now. I notice that my blood pressure has dropped so I'm much more healthy and a lot happier.",
-        product_id=30,
-        user_id=1
-    )
-    r60 = Review(
-        stars=randint(1, 5), # assign pseudorandom int between 1 and 5
-        review_body="This fitness tracker is easy to use, it attaches to my waistband and tracks my steps, distance, heart rate, and calories burned. I've lost about 15 pounds and noticed a big increase in my energy.",
-        product_id=30,
-        user_id=2
-    )
-
-    db.session.add(r1)
-    db.session.add(r2)
-    db.session.add(r3)
-    db.session.add(r4)
-    db.session.add(r5)
-    db.session.add(r6)
-    db.session.add(r7)
-    db.session.add(r8)
-    db.session.add(r9)
-    db.session.add(r10)
-    db.session.add(r11)
-    db.session.add(r12)
-    db.session.add(r13)
-    db.session.add(r14)
-    db.session.add(r15)
-    db.session.add(r16)
-    db.session.add(r17)
-    db.session.add(r18)
-    db.session.add(r19)
-    db.session.add(r20)
-    db.session.add(r21)
-    db.session.add(r22)
-    db.session.add(r23)
-    db.session.add(r24)
-    db.session.add(r25)
-    db.session.add(r26)
-    db.session.add(r27)
-    db.session.add(r28)
-    db.session.add(r29)
-    db.session.add(r30)
-    db.session.add(r31)
-    db.session.add(r32)
-    db.session.add(r33)
-    db.session.add(r34)
-    db.session.add(r35)
-    db.session.add(r36)
-    db.session.add(r37)
-    db.session.add(r38)
-    db.session.add(r39)
-    db.session.add(r40)
-    db.session.add(r41)
-    db.session.add(r42)
-    db.session.add(r43)
-    db.session.add(r44)
-    db.session.add(r45)
-    db.session.add(r46)
-    db.session.add(r47)
-    db.session.add(r48)
-    db.session.add(r49)
-    db.session.add(r50)
-    db.session.add(r51)
-    db.session.add(r52)
-    db.session.add(r53)
-    db.session.add(r54)
-    db.session.add(r55)
-    db.session.add(r56)
-    db.session.add(r57)
-    db.session.add(r58)
-    db.session.add(r59)
-    db.session.add(r60)
+            user_id=7
+        )
+    ]
+    
+    reviews.extend(detailed_reviews)
+    
+    for review in reviews:
+        db.session.add(review)
 
     db.session.commit()
 

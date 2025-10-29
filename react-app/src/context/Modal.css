@@ -16,11 +16,16 @@
   right: 0;
   left: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
 
 #modal-content {
-  position: absolute;
-  background-color: white;
-  border-radius: .7em;
+  position: relative;
+  background-color: transparent;
+  border-radius: 0;
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow: auto;
 }
