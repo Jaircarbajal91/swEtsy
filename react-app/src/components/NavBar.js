@@ -86,16 +86,18 @@ const NavBar = ({ setShowLogin, setShowSignup, sessionUser, searchWords, setSear
               <img className='down-icon' src={DownArrow} alt="downArrow-icon" />
             </div>
           )}
-          <div className='cart-icon-container'>
-            <div to='/cart' className='navlink' onClick={checkSession}>
-              <img className='cart-icon' src={CartIcon} alt="cart-icon" />
-              {cartItems && cartItems.length > 0 && (
-                <span className='cart-badge'>
-                  {cartItems.reduce((total, item) => total + (item.quantity || 0), 0)}
-                </span>
-              )}
+          {sessionUser && (
+            <div className='cart-icon-container'>
+              <div to='/cart' className='navlink' onClick={checkSession}>
+                <img className='cart-icon' src={CartIcon} alt="cart-icon" />
+                {cartItems && cartItems.length > 0 && (
+                  <span className='cart-badge'>
+                    {cartItems.reduce((total, item) => total + (item.quantity || 0), 0)}
+                  </span>
+                )}
+              </div>
             </div>
-          </div>
+          )}
         </div>
         {/* <ul>
         <li>
@@ -123,19 +125,29 @@ const NavBar = ({ setShowLogin, setShowSignup, sessionUser, searchWords, setSear
             <img className='user-icon-drop-down' src={UserIcon} alt="reviews-icon" />
             <span className='dropdown text'>Welcome back, {sessionUser.first_name}</span>
           </div>
-          <NavLink to='/products/new' className='navlink' activeClassName='active'>
+          <NavLink 
+            to='/products/new' 
+            className='navlink' 
+            activeClassName='active'
+            onClick={() => setShowDropDown(false)}
+          >
             <div className='create-product drop-down-item'>
               <img className='new-product-icon' src={ShopIcon} alt="new-product-icon" />
               <span className='dropdown text'>List A New Product</span>
             </div>
           </NavLink>
-          <NavLink to='/myreviews' className='navlink' activeClassName='active'>
+          <NavLink 
+            to='/myreviews' 
+            className='navlink' 
+            activeClassName='active'
+            onClick={() => setShowDropDown(false)}
+          >
             <div className='create-product drop-down-item'>
               <img className='new-product-icon' src={ReviewsIcon} alt="reviews-icon" />
               <span className='dropdown text'>See Your Reviews</span>
             </div>
           </NavLink>
-          <LogoutButton />
+          <LogoutButton setShowDropDown={setShowDropDown} />
         </div>,
         document.body
       )}

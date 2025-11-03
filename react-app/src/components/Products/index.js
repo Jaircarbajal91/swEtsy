@@ -7,7 +7,8 @@ const Products = ({ products, sessionUser }) => {
     // Remove unused shuffle function
     const sixCircleDisplayProducts = products.slice(0, 6);
     const eightProductsMiddleDisplay = products.slice(6, 14);
-    const remainingProducts = products.slice(14, products.length)
+    // Limit to 15 products max (3 rows × 5 columns on large screens)
+    const remainingProducts = products.slice(14, 29)
     
     return (
         <div className='products-page-container'>

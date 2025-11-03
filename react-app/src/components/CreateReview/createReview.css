@@ -204,11 +204,8 @@ div.createreview-error {
     font-weight: 600;
     color: #f59e0b;
     font-family: 'Inter', sans-serif;
-    margin-top: 8px;
     animation: fadeIn 0.3s ease-out;
-    text-align: right;
-    width: 100%;
-    padding-right: 8px;
+    margin-right: 12px;
 }
 
 /* Textarea Wrapper */
@@ -505,11 +502,6 @@ button.createreview-button[type="button"]:disabled {
     
     button.createreview-button {
         width: 100%;
-    }
-    
-    .rating-value-display {
-        margin-top: 4px;
-        margin-bottom: 8px;
     }
     
     .star-rating-wrapper {

@@ -18,10 +18,12 @@ export default function AddAReview({ product }) {
     const [showSuccess, setShowSuccess] = useState(false);
 
     const sessionUser = useSelector(state => state.session.user);
-    const id = product.id
+    const id = product?.id
 
     const getReviews = useCallback(() => {
-        dispatch(getReviewsThunk(id))
+        if (id) {
+            dispatch(getReviewsThunk(id))
+        }
     }, [dispatch, id])
 
     useEffect(() => {
@@ -31,7 +33,7 @@ export default function AddAReview({ product }) {
     const validateReview = useCallback(() => {
         const newErrors = [];
 
-        if (sessionUser && product.reviews.some(e => e.user_id === sessionUser.id)) {
+        if (sessionUser && product?.reviews && Array.isArray(product.reviews) && product.reviews.some(e => e.user_id === sessionUser.id)) {
             newErrors.push(`You have already reviewed this product.`, `Please edit/delete under My Reviews`)
         } else {
             if (reviewStars === undefined) {
@@ -44,7 +46,7 @@ export default function AddAReview({ product }) {
         
         setErrors(newErrors)
         setIsDisabled(newErrors.length > 0)
-    }, [reviewStars, reviewBody.length, sessionUser, product.reviews])
+    }, [reviewStars, reviewBody.length, sessionUser, product?.reviews])
 
     useEffect(() => {
         validateReview()
@@ -57,8 +59,8 @@ export default function AddAReview({ product }) {
         const payload = {
             stars: reviewStars,
             review_body: reviewBody,
-            product_id: product.id,
-            user_id: sessionUser.id
+            product_id: product?.id,
+            user_id: sessionUser?.id
         }
 
         try {
@@ -100,7 +102,7 @@ export default function AddAReview({ product }) {
                 <button 
                     className="button button-add-a-review" 
                     onClick={() => setShowModal(true)} 
-                    hidden={product.owner_id === sessionUser.id}
+                    hidden={product?.owner_id === sessionUser?.id}
                 >
                     Add a Review
                 </button>
@@ -108,10 +110,10 @@ export default function AddAReview({ product }) {
             {showModal &&
                 <Modal className='createreview-modal' onClose={() => setShowModal(false)} >
                     <form className='createreview-form'>
-                        <div className='createreview-name'>{product.name}</div>
-                        <div className='createreview-des'>{product.description}</div>
+                        <div className='createreview-name'>{product?.name || 'Product'}</div>
+                        <div className='createreview-des'>{product?.description || ''}</div>
                         <div className='createreview-img'>
-                            <img src={product.image} alt={`${product.name} product`} />
+                            <img src={product?.image || ''} alt={`${product?.name || 'Product'} product`} />
                         </div>
                         {errors.length > 0 && (
                             <div className="error-container">
@@ -133,6 +135,11 @@ export default function AddAReview({ product }) {
                                 data-hover-rating={hoveredStar || 0}
                                 onMouseLeave={() => setHoveredStar(null)}
                             >
+                                {reviewStars && (
+                                    <div className="rating-value-display">
+                                        {reviewStars} {reviewStars === 1 ? 'star' : 'stars'}
+                                    </div>
+                                )}
                                 {[5, 4, 3, 2, 1].map((starValue) => {
                                     // Array is [5,4,3,2,1] so star 5 is leftmost, star 1 is rightmost
                                     // Fill stars from right: if rating is N, we want the N rightmost stars filled
@@ -169,11 +176,6 @@ export default function AddAReview({ product }) {
                                     );
                                 })}
                             </div>
-                            {reviewStars && (
-                                <div className="rating-value-display">
-                                    {reviewStars} {reviewStars === 1 ? 'star' : 'stars'}
-                                </div>
-                            )}
                         </div>
                         <div className="textarea-wrapper">
                             <textarea

@@ -1,7 +1,9 @@
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useEffect, useState, useMemo } from "react";
-import { editCartItemThunk, getCartItemsThunk, deleteCartItemThunk } from "../../../store/cart";
+import { editCartItemThunk, getCartItemsThunk } from "../../../store/cart";
+import { Modal } from "../../../context/Modal";
+import DeleteCartItem from "../DeleteCartItem";
 import '../Cart.css';
 
 export default function CartItem({ item }) {
@@ -9,6 +11,7 @@ export default function CartItem({ item }) {
     const history = useHistory()
     const product = item.product_detail;
     const [quantity, setQuantity] = useState(item.quantity);
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
     const formatter = useMemo(() => new Intl.NumberFormat('en-US', {
         style: 'currency',
@@ -31,13 +34,17 @@ export default function CartItem({ item }) {
         });
     }, [quantity, item.id, formatter, dispatch]);
 
-    const deleteCartItem = async () => {
-        await dispatch(deleteCartItemThunk(item.id));
-        await dispatch(getCartItemsThunk());
-    }
-
     return (
         <div className="outmost-div">
+            {showDeleteConfirm && (
+                <Modal onClose={() => setShowDeleteConfirm(false)}>
+                    <DeleteCartItem 
+                        setShowDelete={setShowDeleteConfirm}
+                        itemId={item.id}
+                        productName={product?.name || 'this item'}
+                    />
+                </Modal>
+            )}
             <div className="cart-item-left-section">
                 <div className="cart-image-container" onClick={() => history.push(`/products/${product.id}`)}>
                     <img src={product.image} alt='product' />
@@ -45,7 +52,7 @@ export default function CartItem({ item }) {
                 <div className="cart-product-details">
                     <span className="cart-item name-text" onClick={() => history.push(`/products/${product.id}`)}>{product.name}</span>
                     <div className="product-description">{product.description}</div>
-                    <div className='remove-item-button' onClick={() => deleteCartItem()}>Remove</div>
+                    <div className='remove-item-button' onClick={() => setShowDeleteConfirm(true)}>Remove</div>
                 </div>
             </div>
             <div className="cart-item-right-section">

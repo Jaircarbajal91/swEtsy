@@ -47,8 +47,18 @@ const Cart = ({ cartItems, sessionUser, setShowLogin, cartLoaded, setCartLoaded 
       }
       {!cartItems?.length &&
         <div className="cart-empty-message">
-          <h1>Your cart is empty.</h1>
-          <NavLink to='/'>Discover something unique to fill it up</NavLink>
+          <div className="cart-empty-icon">
+            <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7 4H20L18 15H7L5 2H2" stroke="#cbd5e1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <circle cx="9" cy="20" r="1.5" stroke="#cbd5e1" strokeWidth="1.5" fill="none"/>
+              <circle cx="18" cy="20" r="1.5" stroke="#cbd5e1" strokeWidth="1.5" fill="none"/>
+            </svg>
+          </div>
+          <h2 className="cart-empty-title">Your cart is empty</h2>
+          <p className="cart-empty-subtitle">Discover something unique to fill it up</p>
+          <NavLink to='/' className="cart-empty-button">
+            Start Shopping
+          </NavLink>
         </div>
       }
     </div>

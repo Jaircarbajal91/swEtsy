@@ -22,18 +22,13 @@
 
 .navlink.logo {
   margin-left: 0;
+  margin-right: 0.25rem;
   flex-shrink: 0;
-  padding: 0.5rem;
-  transition: transform 0.3s ease, filter 0.3s ease;
-}
-
-.navlink.logo:hover {
-  transform: scale(1.05);
-  filter: brightness(1.1);
+  padding: 0.5rem 0.15rem;
 }
 
 .navlink.logo img {
-  height: 50px;
+  height: 98px;
   width: auto;
 }
 
@@ -146,27 +141,51 @@ img.down-icon {
   min-width: 15em;
   min-height: 4em;
   background-color: #FFFFFF;
-  box-shadow: 0 0 7px rgb(195, 195, 195);
-  border-radius: .7em;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
+  border-radius: 12px;
   isolation: isolate;
+  animation: dropdownFadeIn 0.2s ease-out;
+  transition: box-shadow 0.2s ease;
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.drop-down-item {
+  transition: background-color 0.15s ease, transform 0.1s ease;
 }
 
 .drop-down-item:hover {
-  background-color: #dbdbdb;
+  background-color: #f5f5f5;
+  transform: translateX(2px);
+}
+
+.drop-down-menu-container > .drop-down-item:last-child {
+  border-radius: 0 0 12px 12px;
 }
 
 .create-product.drop-down-item {
-  border-radius: .7em;
+  border-radius: 0;
   display: flex;
   align-items: center;
   width: 100%;
   cursor: pointer;
+  transition: background-color 0.15s ease;
 }
 
 .dropdown.text {
   margin-left: .7em;
-  font-weight: 300;
+  font-weight: 400;
   font-size: medium;
+  color: #1a1a1a;
 }
 
 .new-product-icon {
@@ -177,16 +196,16 @@ img.down-icon {
 }
 
 .create-product.drop-down-item:hover {
-  background-color: #dbdbdb;
+  background-color: #f5f5f5;
 }
 
 .drop-down-item-container.user {
-  border-radius: .7em;
+  border-radius: 12px 12px 0px 0px;
   display: flex;
   align-items: center;
   width: 100%;
-  border-radius: .7em .7em 0px 0px;
-  border-bottom: 1px solid rgb(203, 202, 202);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 0.5em 0;
 }
 
 .user-icon-drop-down{
@@ -277,7 +296,7 @@ img.down-icon {
   }
   
   .navlink.logo img {
-    height: 32px;
+    height: 60px;
     max-width: none;
   }
 }

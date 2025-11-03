@@ -53,6 +53,8 @@ csrf.exempt(auth_routes)
 csrf.exempt(cart_routes)
 # Exempt product routes since cart add functionality uses JSON
 csrf.exempt(product_routes)
+# Exempt review routes since they handle JSON requests without form validation
+csrf.exempt(review_routes)
 
 
 # Since we are deploying with Docker and Flask,
