@@ -39,6 +39,8 @@ def login():
     form = LoginForm()
     # Get the csrf_token from the request cookie and put it into the
     # form manually to validate_on_submit can be used
+    if 'csrf_token' not in request.cookies:
+        return {'errors': ['csrf_token : The CSRF token cookie is missing. Please refresh the page.']}, 401
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         # Add the user to the session, we are logged in!
@@ -63,6 +65,8 @@ def sign_up():
     Creates a new user and logs them in
     """
     form = SignUpForm()
+    if 'csrf_token' not in request.cookies:
+        return {'errors': ['csrf_token : The CSRF token cookie is missing. Please refresh the page.']}, 401
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         user = User(

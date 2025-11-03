@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, session, redirect
+from flask import Flask, render_template, request, session, redirect, jsonify
 from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, generate_csrf
@@ -43,7 +43,16 @@ db.init_app(app)
 Migrate(app, db)
 
 # Application Security
-CORS(app)
+# CORS configuration to allow credentials (cookies) with requests
+CORS(app, supports_credentials=True)
+# Initialize CSRF protection
+csrf = CSRFProtect(app)
+# Exempt auth routes since they manually validate CSRF tokens via forms
+csrf.exempt(auth_routes)
+# Exempt cart routes since they handle JSON requests without form validation
+csrf.exempt(cart_routes)
+# Exempt product routes since cart add functionality uses JSON
+csrf.exempt(product_routes)
 
 
 # Since we are deploying with Docker and Flask,
@@ -65,6 +74,23 @@ def inject_csrf_token(response):
     response.set_cookie(
         'csrf_token',
         generate_csrf(),
+        secure=True if os.environ.get('FLASK_ENV') == 'production' else False,
+        samesite='Strict' if os.environ.get(
+            'FLASK_ENV') == 'production' else None,
+        httponly=True)
+    return response
+
+
+@app.route('/api/csrf/restore')
+def restore_csrf():
+    """
+    Route to restore CSRF token cookie
+    """
+    token = generate_csrf()
+    response = jsonify({'csrf_token': token})
+    response.set_cookie(
+        'csrf_token',
+        token,
         secure=True if os.environ.get('FLASK_ENV') == 'production' else False,
         samesite='Strict' if os.environ.get(
             'FLASK_ENV') == 'production' else None,

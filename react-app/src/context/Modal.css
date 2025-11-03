@@ -6,7 +6,7 @@
   bottom: 0;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   z-index: 999;
   padding: 40px;
   box-sizing: border-box;

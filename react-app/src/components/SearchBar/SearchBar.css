@@ -18,7 +18,9 @@
 }
 
 .search-bar-container {
-  width: 966px;
+  width: 100%;
+  flex: 1;
+  max-width: 600px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -28,6 +30,7 @@
   display: flex;
   min-width: 100%;
   align-items: center;
+  position: relative;
   /* margin-bottom: 1em; */
 }
 
@@ -36,20 +39,25 @@
 }
 
 .magnifying-glass-icon {
-  max-width: 10%;
+  width: 1.2em;
+  height: 1.2em;
+  pointer-events: none;
 }
 
 .magnifying-container {
-  height: 2.8em;
-  position: relative;
-  right: 5.4em;
-  min-width: 5.3%;
+  height: 2.4em;
+  position: absolute;
+  right: 1em;
+  min-width: 3.5em;
   border-top-right-radius: 4em;
   border-bottom-right-radius: 4em;
   display: flex;
   align-items: center;
+  justify-content: center;
   padding-left: 1em;
+  padding-right: 1em;
   transition: transform 200ms cubic-bezier(0.345, 0.115, 0.135, 1.42), background 200ms ease-out,box-shadow 200ms ease-out;
+  pointer-events: auto;
 }
 
 .magnifying-container:hover {

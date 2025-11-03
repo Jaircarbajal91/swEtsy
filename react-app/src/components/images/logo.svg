@@ -1,3 +1,5 @@
-<svg width="120" height="40" viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <text x="10" y="25" fontFamily="Arial, sans-serif" fontSize="20" fontWeight="bold" fill="currentColor">swEtsy</text>
+<svg width="140" height="50" viewBox="0 0 140 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <text x="10" y="30" fontFamily="Arial, sans-serif" fontSize="24" fontWeight="bold" fill="#333" letterSpacing="-0.5">
+    <tspan fill="#2563EB">sw</tspan><tspan fill="#333">Etsy</tspan>
+  </text>
 </svg>

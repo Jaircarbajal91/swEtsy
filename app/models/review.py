@@ -1,6 +1,8 @@
 from itertools import product
 from .db import db
 from flask_login import UserMixin
+from datetime import datetime
+from sqlalchemy.types import DateTime
 
 class Review(db.Model, UserMixin):
     __tablename__ = 'reviews'
@@ -10,6 +12,7 @@ class Review(db.Model, UserMixin):
     review_body = db.Column(db.String(1000))
     product_id = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
     user = db.relationship('User', back_populates='user_reviews', foreign_keys=[user_id])
     product = db.relationship('Product', back_populates='reviews', foreign_keys=[product_id])
@@ -25,5 +28,6 @@ class Review(db.Model, UserMixin):
             'stars': self.stars,
             'review_body': self.review_body,
             'product_id': self.product_id,
-            'user_id': self.user_id
+            'user_id': self.user_id,
+            'created_at': self.created_at.isoformat() if self.created_at else None
         }

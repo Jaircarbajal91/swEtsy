@@ -1,6 +1,12 @@
 import Star from "./Star";
 
 const Stars = ({ rating }) => {
+    // Handle invalid or missing rating
+    if (rating === null || rating === undefined || isNaN(rating) || rating < 0) {
+        rating = 0;
+    }
+    // Ensure rating is within valid range (0-5)
+    rating = Math.max(0, Math.min(5, Number(rating)));
 
     let starArray = [];
     for (let i = 0; i < Math.floor(rating); i++) {
@@ -18,7 +24,7 @@ const Stars = ({ rating }) => {
     return (
         <div className="star-container" style={{
             display: 'flex',
-            maxWidth: '.8em'
+            gap: '2px'
         }}>
             {starArray.map((star, i) => (
                 <Star key={i} star={star} />

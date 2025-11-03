@@ -1,75 +1,398 @@
+/* Modern Update Product Form Styles */
 
-
-.form-fields {
-    display: flex;
-    flex-flow: column;
-    padding: 2em;
-    width: 20vw;
-}
-
-.edit-prod-submit {
-    transition: all .15s ease;
+.update-product-form {
     width: 100%;
-    margin-bottom: 10px;
-    background-color: white;
-    border: 3px solid black;
-    border-radius: 2em;
-    height: 30px;
-    color: black;
-    font-size: 14px;
-    font-weight: bold;
-    cursor: pointer;
-}
-.edit-prod-submit:hover {
-    transform: scale(1.01);
-    background-color: #FFF;
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
-.form-fields > .input-field {
-    border-radius: 6px;
+.update-product-container {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    border-radius: 24px;
+    box-shadow: 0 20px 60px -12px rgba(0, 0, 0, 0.15), 
+                0 0 0 1px rgba(255, 255, 255, 0.05);
+    overflow: hidden;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+/* Header Section */
+.update-product-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 32px 40px;
+    color: white;
+    text-align: center;
     position: relative;
-    cursor: text;
-    font-size: 14px;
-    line-height: 16px;
-    padding: 10px;
-    margin: 5px 0;
-    height: 20px;
-    background-color: #fff;
-    border: 1px solid #d6d6e7;
-    color: rgb(35, 38, 59);
-    /* box-shadow: inset 0 1px 4px 0 rgb(119 122 175 / 30%); */
     overflow: hidden;
 }
 
-#price-field {
-    margin-bottom: 20px;
+.update-product-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    animation: pulse 4s ease-in-out infinite;
 }
 
-#description-field {
-    resize:none;
-    font-family: Arial, Helvetica, sans-serif;
-    overflow: hidden;
-    height: 60px;
-    overflow-x: hidden;
-    overflow-y: scroll;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.5; }
+    50% { transform: scale(1.1); opacity: 0.3; }
 }
-#description-field::-webkit-scrollbar {
-    display: none;
+
+.header-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    margin-bottom: 16px;
+    backdrop-filter: blur(10px);
 }
-.form-fields > label {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 18px;
+
+.header-icon svg {
+    color: white;
 }
+
 .edit-title {
-    margin-left: 1.1em;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 30px;
-    font-weight: 300;
+    margin: 0 0 8px 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: white;
+}
+
+.edit-subtitle {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.9);
+    opacity: 0.9;
+}
+
+/* Error Messages */
+.form-errors-container {
+    padding: 20px 40px;
+    background: #fef2f2;
+    border-bottom: 1px solid #fee2e2;
 }
 
 .errors-list {
     list-style: none;
-    color: rgb(200, 0, 0);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.error-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #dc2626;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 12px;
+    background: white;
+    border-radius: 8px;
+    border-left: 3px solid #dc2626;
+}
+
+.error-item svg {
+    flex-shrink: 0;
+    color: #dc2626;
+}
+
+/* Main Content Layout */
+.update-product-content {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 40px;
+    padding: 40px;
+}
+
+@media (max-width: 968px) {
+    .update-product-content {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+}
+
+/* Preview Section */
+.preview-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.preview-card {
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e2e8f0;
+    position: sticky;
+    top: 20px;
+}
+
+.preview-label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #64748b;
+    margin-bottom: 16px;
+}
+
+.image-preview-container {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #f1f5f9;
+    border: 2px solid #e2e8f0;
+    margin-bottom: 16px;
+    position: relative;
+}
+
+.image-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.image-preview-container:hover .image-preview {
+    transform: scale(1.05);
+}
+
+.preview-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.preview-name {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1e293b;
+    line-height: 1.4;
+}
+
+.preview-price {
+    font-size: 24px;
+    font-weight: 700;
+    color: #667eea;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Form Section */
+.form-section {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: #334155;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.label-text {
+    color: #334155;
+}
+
+.label-count {
+    font-size: 12px;
+    font-weight: 500;
+    color: #94a3b8;
+}
+
+/* Input Fields */
+.input-field {
+    width: 100%;
+    padding: 14px 16px;
+    font-size: 15px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    color: #1e293b;
+    background: #ffffff;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    outline: none;
+    box-sizing: border-box;
+}
+
+.input-field::placeholder {
+    color: #94a3b8;
+}
+
+.input-field:focus {
+    border-color: #667eea;
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+    transform: translateY(-1px);
+}
+
+.input-field:hover:not(:focus) {
+    border-color: #cbd5e1;
+}
+
+.textarea-field {
+    resize: vertical;
+    min-height: 100px;
+    line-height: 1.6;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.price-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.price-symbol {
+    position: absolute;
+    left: 16px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #64748b;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.price-field {
+    padding-left: 36px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.input-hint {
+    font-size: 12px;
+    color: #64748b;
+    margin-top: -4px;
+    padding-left: 4px;
+}
+
+/* Form Actions */
+.form-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+    padding-top: 24px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.cancel-button,
+.submit-button {
+    flex: 1;
+    padding: 14px 24px;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.cancel-button {
+    background: #f1f5f9;
+    color: #64748b;
+    border: 2px solid #e2e8f0;
+}
+
+.cancel-button:hover {
+    background: #e2e8f0;
+    color: #475569;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.submit-button {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.submit-button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+}
+
+.submit-button:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.submit-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #cbd5e1;
+    box-shadow: none;
+}
+
+.submit-button svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .update-product-container {
+        border-radius: 16px;
+    }
+
+    .update-product-header {
+        padding: 24px 20px;
+    }
+
+    .edit-title {
+        font-size: 24px;
+    }
+
+    .update-product-content {
+        padding: 24px 20px;
+    }
+
+    .preview-card {
+        position: static;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .cancel-button,
+    .submit-button {
+        width: 100%;
+    }
+}
+
+/* Inner form update - legacy compatibility */
+.inner-form-update {
+    width: 100%;
+}
+
+/* Smooth transitions */
+* {
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }

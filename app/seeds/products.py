@@ -15,7 +15,7 @@ def seed_products():
             name='Handmade Ceramic Vase',
             description='Beautiful hand-thrown ceramic vase perfect for flowers or as a decorative piece. Each piece is unique with natural glazing variations.',
             image='https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=500',
-            price=45.99,
+            price=47.99,
             create_at=base_date,
             update_at=base_date,
             owner_id=2
@@ -81,7 +81,7 @@ def seed_products():
         Product(
             name='Digital Art Print',
             description='Modern abstract digital art print. Available in multiple sizes. Printed on premium matte paper.',
-            image='https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=500',
+            image='https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=500',
             price=18.50,
             create_at=base_date,
             update_at=base_date,
@@ -121,8 +121,8 @@ def seed_products():
         Product(
             name='Handmade Doll',
             description='Soft handmade rag doll with embroidered features. Safe for children. Includes matching outfit.',
-            image='https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500',
-            price=45.00,
+            image='https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=500',
+            price=43.75,
             create_at=base_date,
             update_at=base_date,
             owner_id=4
@@ -132,7 +132,7 @@ def seed_products():
         Product(
             name='Ceramic Dinnerware Set',
             description='Complete dinnerware set for 4 people. Hand-glazed ceramic plates, bowls, and mugs. Dishwasher safe.',
-            image='https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=500',
+            image='https://images.unsplash.com/photo-1556911220-bff31c812dba?w=500',
             price=120.00,
             create_at=base_date,
             update_at=base_date,
@@ -141,7 +141,7 @@ def seed_products():
         Product(
             name='Hand-carved Wooden Spoons',
             description='Set of 6 hand-carved wooden spoons made from sustainable wood. Perfect for cooking and serving.',
-            image='https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=500',
+            image='https://images.unsplash.com/photo-1600334129128-685c5582fd35?w=500',
             price=35.50,
             create_at=base_date,
             update_at=base_date,
@@ -161,7 +161,7 @@ def seed_products():
         Product(
             name='Garden Tool Set',
             description='Handcrafted wooden garden tool set with metal heads. Includes trowel, fork, and cultivator. Natural wood finish.',
-            image='https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=500',
+            image='https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=500',
             price=48.00,
             create_at=base_date,
             update_at=base_date,
@@ -173,7 +173,7 @@ def seed_products():
             name='Handbound Journal',
             description='Handbound leather journal with handmade paper. Perfect for writing, sketching, or planning. 200 pages.',
             image='https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500',
-            price=38.99,
+            price=41.25,
             create_at=base_date,
             update_at=base_date,
             owner_id=9
@@ -181,7 +181,7 @@ def seed_products():
         Product(
             name='Calligraphy Pen Set',
             description='Professional calligraphy pen set with various nib sizes. Includes ink and practice sheets. Perfect for beginners.',
-            image='https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500',
+            image='https://images.unsplash.com/photo-1612198188060-c7c2a3b66eae?w=500',
             price=29.50,
             create_at=base_date,
             update_at=base_date,
@@ -201,8 +201,8 @@ def seed_products():
         Product(
             name='Cat Scratching Post',
             description='Handmade cat scratching post with sisal rope and wooden base. Helps protect furniture from scratching.',
-            image='https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=500',
-            price=55.00,
+            image='https://images.unsplash.com/photo-1573865526739-10659fec78a5?w=500',
+            price=57.50,
             create_at=base_date,
             update_at=base_date,
             owner_id=3

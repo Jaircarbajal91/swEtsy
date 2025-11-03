@@ -1,11 +1,11 @@
 from app.models import db, Cart
-from datetime import date, timedelta
+from datetime import datetime, date, timedelta
 import random
 
 def seed_carts():
     """Create realistic shopping cart data with varied quantities and products"""
     
-    today = date.today()
+    today = datetime.now()
     
     # Create diverse cart items with realistic quantities
     cart_items = [

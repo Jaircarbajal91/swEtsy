@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
 import Stars from '../../Reviews/Stars'
 
-const Product = ({ product }) => {
+const Product = ({ product, showStars = true }) => {
     const history = useHistory()
     const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
@@ -21,7 +21,7 @@ const Product = ({ product }) => {
                 <div className='product name'>
                     {product.name}
                 </div>
-                <Stars rating={product.avgScore} />
+                {showStars && <Stars rating={product.avgScore} />}
                 <div className='price'>
                     {formatter.format(product.price)}
                 </div>

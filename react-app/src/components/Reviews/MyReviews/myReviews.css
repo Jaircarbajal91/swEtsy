@@ -1,185 +1,400 @@
 @import url('https://fonts.googleapis.com/css2?family=Aboreto&family=Bitter:wght@100;200;400&family=Comfortaa:wght@300&display=swap');
 
-#root>div.content.container>div.myreview-container>p,
+/* ============================================
+   Container & Layout
+   ============================================ */
+
 .myreview-container {
     display: flex;
     flex-direction: column;
-    flex-wrap: nowrap;
+    width: 100%;
+    min-height: 100vh;
     font-family: "Guardian-EgypTT", Georgia, serif;
-    font-size: 25px;
-    width: 100%;
-    justify-content: flex-start;
-    align-items: center;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e8eaed 100%);
+    padding: 1.5rem 1rem;
+    box-sizing: border-box;
 }
 
-div.myreview.title {
-    background-color: #EBEAE5;
-    display: flex;
-    /* font-family: "Guardian-EgypTT", Georgia, serif; */
-    font-family: 'Bitter', serif;
-    font-size: 25px;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-    padding-left: 50px;
-    border-bottom: #AFAFAF 2px solid;
-    margin: 0;
-    height: 110px;
-    font-weight: 900px;
-}
+/* ============================================
+   Header Section
+   ============================================ */
 
-div.myreview-container {
+.myreview-header {
     display: flex;
-    width: 100%;
     flex-direction: column;
+    align-items: center;
     justify-content: center;
-    font-family: "Guardian-EgypTT", Georgia, serif;
-    align-items: center;
-}
-
-div.product-myreview {
-    max-height: fit-content;
-    /* border: 1px solid black; */
-}
-div.myreview-container>div>div {
-    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem 0;
     text-align: center;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-    margin-bottom: 5px;
-    margin-top: 5px;
 }
 
-div.myreview-container>div>div {
-    width: 800px;
-    display: grid;
-    grid-template-columns: 2fr 5fr;
-    text-align: left;
-    flex-direction: row;
-    padding-top: 20px;
-    padding-left: 30px;
-    padding-bottom: 30px;
-    padding-right: 30px;
-    border-radius: 15px;
-    border: solid #E2E2E2 2px;
-    margin: 10px;
-    position: relative;
-}
-
-/* div.product-myreview :hover {
-    box-shadow: 2px 2px #ADADAD, -.5em 0 .4em #ADADAD;
-} */
-
-div.myreview-left-img {
-    max-height: 200px;
-    max-width: 200px;
-    align-items: center;
-    overflow: hidden;
-    display: flex;
-    background-color: #EBEAE5;
-    border-style: solid gray 500px;
-    border-radius: 5px;
-    padding-right: .5%;
-    padding-top: .5%;
-    padding-left: 2%;
-    padding-bottom: 2%;
-}
-
-div.myreview-right-box {
-    width: 90%;
-    padding: 8%;
-}
-
-div.myreview-left-img>img {
-    display: block;
-    width: 100%;
-    max-height: 300px;
-    overflow: hidden;
-    border-radius: 5px;
-    align-items: baseline;
-}
-
-div.myreview-product,
-div.myreview-star,
-div.myreview-reviewbody {
-    font-size: 20px;
-    text-decoration: none;
+.myreview-title {
     font-family: 'Bitter', serif;
-    max-width: 28em;
-}
-
-div.myreview-product {
-    color: black;
-    text-decoration: none;
-    max-width: 100%;
-}
-
-div.myreview-reviewbody {
-    font-size: 20px;
-    word-wrap: break-word;
-}
-#review-body {
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    max-width: 100%;
-    word-wrap: break-word;
-}
-.myreview-redirect {
-    color: #663500;
-    text-Decoration: none;
-    font-size: 24px;
-    transition-duration: 200ms;
-}
-
-.myreview-redirect:hover {
-    color: #F16603;
-    text-Decoration: none;
-    font-weight: 900;
-    font-size: 30px;
-    transition-duration: 200ms;
-}
-
-
-
-
-/* ---------------- edit Review ---------------- */
-
-.editreview-modal-button {
-    margin: 2em;
-    padding: 2em;
-    display: inline-block;
-    outline: none;
-    cursor: pointer;
-    font-size: 14px;
-    line-height: 1;
-    border-radius: 500px;
-    transition-property: background-color, border-color, color, box-shadow, filter;
-    transition-duration: .3s;
-    border: 1px solid transparent;
-    letter-spacing: 2px;
-    min-width: 160px;
-    text-transform: uppercase;
-    white-space: normal;
+    font-size: clamp(2rem, 5vw, 3rem);
     font-weight: 700;
+    color: #1a1a1a;
+    margin: 0;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #1a1a1a 0%, #3a3a3a 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* ============================================
+   Icon Buttons
+   ============================================ */
+
+.myreview-icon-buttons {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    display: flex;
+    gap: 0.5rem;
+    z-index: 10;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.product-myreview-card:hover .myreview-icon-buttons {
+    opacity: 1;
+}
+
+.myreview-edit-button,
+.myreview-delete-button {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 0.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.myreview-edit-button:hover {
+    background: #1a1a1a;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.myreview-delete-button:hover {
+    background: #dc2626;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.25);
+}
+
+.myreview-edit-button:active,
+.myreview-delete-button:active {
+    transform: translateY(0);
+}
+
+.myreview-edit-button svg,
+.myreview-delete-button svg {
+    pointer-events: none;
+}
+
+/* ============================================
+   Reviews Grid
+   ============================================ */
+
+.myreview-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 1rem;
+    box-sizing: border-box;
+}
+
+/* ============================================
+   Review Card
+   ============================================ */
+
+.product-myreview-card {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    position: relative;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.product-myreview-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #1a1a1a 0%, #3a3a3a 100%);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.product-myreview-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+.product-myreview-card:hover::before {
+    opacity: 1;
+}
+
+.myreview-card-content {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    align-items: start;
+}
+
+/* ============================================
+   Image Wrapper
+   ============================================ */
+
+.myreview-image-wrapper {
+    width: 100%;
+    height: 140px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+.product-myreview-card:hover .myreview-image-wrapper {
+    transform: scale(1.05);
+}
+
+.myreview-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s;
+}
+
+.product-myreview-card:hover .myreview-img {
+    transform: scale(1.1);
+}
+
+/* ============================================
+   Review Details
+   ============================================ */
+
+.myreview-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+}
+
+.myreview-product-label {
+    font-family: 'Comfortaa', sans-serif;
+    font-size: clamp(0.875rem, 2vw, 1rem);
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 400;
+    margin-bottom: 0.25rem;
+}
+
+.myreview-product-link {
+    font-family: 'Bitter', serif;
+    font-size: clamp(1.25rem, 3vw, 1.75rem);
+    font-weight: 700;
+    color: #1a1a1a;
+    text-decoration: none;
+    transition: all 0.3s;
+    line-height: 1.3;
+    display: inline-block;
+    margin-bottom: 0.5rem;
+}
+
+.myreview-product-link:hover {
+    color: #663500;
+    transform: translateX(4px);
+}
+
+.myreview-date {
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 0.875rem;
+    color: #9ca3af;
+    margin-top: auto;
+    padding-top: 0.5rem;
+    text-align: right;
+}
+
+.myreview-star-rating {
+    margin: 0.5rem 0;
+    display: flex;
+    align-items: center;
+}
+
+.myreview-body {
+    font-family: 'Comfortaa', sans-serif;
+    font-size: clamp(1rem, 2.5vw, 1.125rem);
+    line-height: 1.7;
+    color: #374151;
+    margin: 0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* ============================================
+   Responsive Design - Tablet
+   ============================================ */
+
+@media (min-width: 768px) {
+    .myreview-container {
+        padding: 3rem 2rem;
+    }
+
+    .myreview-header {
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 1rem 3rem;
+        max-width: 1200px;
+        margin: 0 auto 1.5rem;
+    }
+
+    .myreview-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+        padding: 0 2rem;
+    }
+
+    .myreview-card-content {
+        grid-template-columns: 160px 1fr;
+        gap: 1.5rem;
+        padding: 1.5rem;
+    }
+
+    .myreview-image-wrapper {
+        height: 160px;
+    }
+}
+
+/* ============================================
+   Responsive Design - Desktop
+   ============================================ */
+
+@media (min-width: 1024px) {
+    .myreview-container {
+        padding: 4rem 2rem;
+    }
+
+    .myreview-grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+
+    .myreview-card-content {
+        grid-template-columns: 160px 1fr;
+        gap: 2rem;
+        padding: 1.5rem;
+    }
+
+    .myreview-image-wrapper {
+        height: 160px;
+    }
+}
+
+/* ============================================
+   Responsive Design - Mobile
+   ============================================ */
+
+@media (max-width: 767px) {
+    .myreview-container {
+        padding: 1.5rem 1rem;
+    }
+
+    .myreview-header {
+        gap: 1rem;
+        margin-bottom: 1rem;
+        padding: 1rem 0;
+    }
+
+    .myreview-title {
+        font-size: 1.75rem;
+    }
+
+    .myreview-icon-buttons {
+        opacity: 1;
+        top: 0.75rem;
+        right: 0.75rem;
+    }
+
+    .myreview-grid {
+        gap: 1.5rem;
+        padding: 0;
+    }
+
+    .myreview-card-content {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        padding: 1.5rem;
+    }
+
+    .myreview-image-wrapper {
+        height: 200px;
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto;
+    }
+
+    .myreview-details {
+        text-align: center;
+    }
+
+    .myreview-product-link {
+        text-align: center;
+    }
+
+    .myreview-star-rating {
+        justify-content: center;
+    }
+
+    .product-myreview-card:hover {
+        transform: translateY(-4px);
+    }
+}
+
+/* ============================================
+   Large Desktop
+   ============================================ */
+
+@media (min-width: 1440px) {
+    .myreview-grid {
+        max-width: 1400px;
+    }
+}
+
+/* ============================================
+   Empty State
+   ============================================ */
+
+.myreview-container h2 {
+    font-family: 'Bitter', serif;
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    color: #6b7280;
     text-align: center;
-    padding: 16px 14px 18px;
-    color: #616467;
-    box-shadow: inset 0 0 0 2px #616467;
-    background-color: transparent;
-    height: 48px;
-
-
+    margin: 4rem auto;
+    padding: 2rem;
 }
-
-button.editreview-modal-button:hover {
-    color: #fff;
-    background-color: #616467;
-}
-
-/*
-button.editreview-modal-button:active {
-    transform: scale(0.95);
-} */

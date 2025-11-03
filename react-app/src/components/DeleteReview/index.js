@@ -8,16 +8,18 @@ const DeleteReview = ({ setDeleteReview, setShowDelete, reviewId, setShowModal }
     const handleDelete = async e => {
         e.preventDefault()
         await dispatch(deleteReviewThunk(reviewId))
-        // await dispatch(getMyReviewThunk())
-        setShowModal(false)
+        await dispatch(getMyReviewThunk())
+        setShowDelete(false)
         setShowModal(false)
     }
 
     return (
         <div className='delete-confirmation-modal'>
-            <h1 className='delete-confirmation-question'>Are you sure you want to delete this Review?</h1>
-            <button className='delete-confirmation-yes' onClick={handleDelete}>Yes</button>
-            <button className='delete-confirmation-no' onClick={() => setShowDelete(false)}>No</button>
+            <h1 className='delete-confirmation-question'>Are you sure you want to delete this review?</h1>
+            <div className='delete-confirmation-buttons'>
+                <button className='delete-confirmation-yes' onClick={handleDelete}>Delete</button>
+                <button className='delete-confirmation-no' onClick={() => setShowDelete(false)}>Cancel</button>
+            </div>
         </div>
     )
 }

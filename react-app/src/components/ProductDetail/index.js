@@ -1,13 +1,11 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
-import { Redirect, useHistory, useParams } from "react-router-dom"
+import { useParams } from "react-router-dom"
 import DeleteProduct from "../DeleteProduct";
 import UpdateProduct from "../UpdateProduct";
 import { Modal } from "../../context/Modal";
 import { getProductsThunk } from "../../store/products";
-import { deleteProductThunk } from "../../store/products";
 import { addCartItemThunk, getCartItemsThunk } from "../../store/cart";
-import Stars from "../Reviews/Stars";
 import Reviews from '../Reviews'
 import './ProductDetail.css'
 import AddAReview from '../CreateReview'
@@ -18,11 +16,10 @@ const ProductDetail = () => {
     const [showDelete, setShowDelete] = useState(false)
     const [quantity, setQuantity] = useState(1);
     const [isLoaded, setIsLoaded] = useState(false);
+    const [addedToCart, setAddedToCart] = useState(false);
     const product = useSelector(state => state.products[id]);
-    const rating = product?.avgScore;
     const sessionUser = useSelector(state => state.session.user);
     const dispatch = useDispatch();
-    const history = useHistory();
 
     useEffect(() => {
         dispatch(getProductsThunk()).then(() => setIsLoaded(true));
@@ -36,7 +33,8 @@ const ProductDetail = () => {
     const addToCart = async () => {
         await dispatch(addCartItemThunk(id, { quantity }));
         await dispatch(getCartItemsThunk());
-        history.push('/cart');
+        setAddedToCart(true);
+        setTimeout(() => setAddedToCart(false), 3000);
     }
 
     const options = [];
@@ -64,9 +62,6 @@ const ProductDetail = () => {
             <div className="product-detail-right">
                 <div className="product-detail-name">
                     <p>{product.name}</p>
-                </div>
-                <div className="product-detail-stars">
-                    <Stars rating={rating} />
                 </div>
                 <div className="product-detail-price">
                     <p>{formatter.format(product.price)}</p>
@@ -101,7 +96,7 @@ const ProductDetail = () => {
                         <p>How many do you wish to purchase?</p>
                     </label>
                     <div className="custom-select">
-                        <select id='quantity' value={quantity} onChange={e => setQuantity(e.target.value)}>
+                        <select id='quantity' value={quantity} onChange={e => setQuantity(Number(e.target.value))}>
                         {options.map(option => (
                             <option key={option} value={option}>{option}</option>
                         ))}
@@ -109,6 +104,11 @@ const ProductDetail = () => {
                     </div>
                     <div className="button add-to-cart">
                         <button className="button" id='add-button' onClick={() => addToCart()}>Add to Cart</button>
+                        {addedToCart && (
+                            <div className="cart-success-indicator">
+                                <span>✓ Added to cart!</span>
+                            </div>
+                        )}
                     </div>
                 </div>
                 )}

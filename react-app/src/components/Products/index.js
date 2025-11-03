@@ -52,7 +52,7 @@ const Products = ({ products, sessionUser }) => {
                 <h2 className='more-products-text'>More Products from Our Sellers</h2>
                 <div className='remainder-products-container'>
                     {remainingProducts.map(product => (
-                        <Product key={product.id} product={product}/>
+                        <Product key={product.id} product={product} showStars={false}/>
                     ))}
                 </div>
             </section>
