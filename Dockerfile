@@ -2,7 +2,7 @@
 FROM python:3.9
 # Set the following enviroment variables
 # REACT_APP_BASE_URL -> Your deployment URL
-ENV REACT_APP_BASE_URL=https://swetsy-app.herokuapp.com/
+ENV REACT_APP_BASE_URL=https://swetsy-app-2-a892cfb2b203.herokuapp.com/
 # FLASK_APP -> entry point to your flask app
 ENV FLASK_APP=app
 # FLASK_ENV -> Tell flask to use the production server
@@ -24,4 +24,5 @@ RUN pip install -r requirements.txt
 RUN pip install psycopg2
 # Start the flask environment by setting our
 # closing command to gunicorn app:app
-CMD gunicorn app:app
+# Heroku sets PORT automatically, use sh to expand the variable
+CMD sh -c "gunicorn --bind 0.0.0.0:${PORT:-5000} app:app"
