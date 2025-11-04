@@ -42,6 +42,11 @@ jobs:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       run: heroku container:login 
 
+    - name: Set Heroku stack to container
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      run: heroku stack:set container -a ${{ secrets.HEROKU_APP_NAME }}
+
     - name: Build Container and push
       env:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
