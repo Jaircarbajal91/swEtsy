@@ -4,6 +4,7 @@ from app.models import db, Product, User, Cart, Review
 from app.forms import ListForm, CartItemForm, ReviewForm
 from datetime import datetime, date, timedelta
 from .auth_routes import validation_errors_to_error_messages
+from sqlalchemy import func
 import statistics
 
 product_routes = Blueprint('products', __name__)
@@ -13,9 +14,10 @@ product_routes = Blueprint('products', __name__)
 def all_products():
     # products = Product.query.all()
     products = db.session.query(Product) \
-                .options(db.joinedload(Product.reviews)).all()
+                .options(db.joinedload(Product.reviews)) \
+                .order_by(func.random()).all()
+    product_details = []
     if products is not None and len(products)>0:
-        product_details = []
         for item in products:
             reviews = [r.to_dict() for r in item.reviews]
             stars = [int(r.stars) for r in item.reviews]
