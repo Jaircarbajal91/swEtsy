@@ -4,6 +4,7 @@ from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, generate_csrf
 from flask_login import LoginManager
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 from .models import db, User, Product
 from .api.user_routes import user_routes
@@ -18,6 +19,11 @@ from .seeds import seed_commands
 from .config import Config
 
 app = Flask(__name__)
+
+# Configure Flask to trust proxy headers (needed for Heroku)
+# This ensures Flask-Login redirects use HTTPS
+if os.environ.get('FLASK_ENV') == 'production':
+    app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
 # Setup login manager
 login = LoginManager(app)
