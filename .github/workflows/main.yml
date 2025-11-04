@@ -34,6 +34,9 @@ jobs:
       run: |
         pipenv install --system --deploy || pipenv install --system
         pipenv requirements > requirements.txt || pipenv lock --requirements > requirements.txt
+        # Verify requests is included
+        grep -q "requests" requirements.txt || echo "requests==2.31.0" >> requirements.txt
+        cat requirements.txt
 
     - name: Install Heroku CLI
       run: |
