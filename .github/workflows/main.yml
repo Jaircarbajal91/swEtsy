@@ -30,8 +30,10 @@ jobs:
         cache: 'pip'
     - run: pip install pipenv
 
-    - name: Update requirements.txt for container install
-      run: pipenv requirements > requirements.txt
+    - name: Install dependencies and generate requirements.txt
+      run: |
+        pipenv install --system --deploy || pipenv install --system
+        pipenv requirements > requirements.txt || pipenv lock --requirements > requirements.txt
 
     - name: Install Heroku CLI
       run: |
