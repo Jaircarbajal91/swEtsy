@@ -4,10 +4,13 @@ import { logout } from '../../store/session';
 import SignOut from '../images/SignOut.svg'
 import './Logout.css'
 
-const LogoutButton = () => {
+const LogoutButton = ({ setShowDropDown }) => {
   const dispatch = useDispatch()
   const onLogout = async (e) => {
     await dispatch(logout());
+    if (setShowDropDown) {
+      setShowDropDown(false);
+    }
   };
 
   return (

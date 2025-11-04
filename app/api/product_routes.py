@@ -33,11 +33,17 @@ def product_details(id):
     # product = db.session.query(Product).filter(Product.id == id) \
     #             .options(db.joinedload(Product.reviews)).first()
     if product is not None:
-        return product.to_dict()
+        product_dict = product.to_dict()
+        # Calculate average rating from reviews
+        reviews = [r.to_dict() for r in product.reviews]
+        stars = [int(r.stars) for r in product.reviews]
+        avg = statistics.mean(stars) if len(stars) else 0
+        product_dict['avgScore'] = round(float(avg), 2)
+        return product_dict
     else:
         return {'errors':['product not found']}, 404
 
-today = date.today()
+today = datetime.now()
 
 @product_routes.route('/',methods=['POST'])
 @product_routes.route('',methods=['POST'])
@@ -112,24 +118,39 @@ def delete_product(id):
 @product_routes.route('/<int:id>/cart', methods=['POST'])
 @login_required
 def add_product_to_cart(id):
-    uid = int(current_user.get_id())
-    product = Product.query.get(id)
-    if product is None:
-        return {'errors':['product not found']}, 404
-    # if product.owner_id == uid:
-    #     return {'errors':['You cannot purchase your own product!']}, 400
-    cart_prod = db.session.query(Cart) \
-                .filter(Cart.user_id == uid) \
-                .filter(Cart.product_id == id) \
-                .first()
-    form = CartItemForm()
-    form['csrf_token'].data = request.cookies['csrf_token']
-    if form.validate_on_submit():
+    import traceback
+    try:
+        uid = int(current_user.get_id())
+        product = Product.query.get(id)
+        if product is None:
+            return {'errors':['product not found']}, 404
+        # if product.owner_id == uid:
+        #     return {'errors':['You cannot purchase your own product!']}, 400
+        cart_prod = db.session.query(Cart) \
+                    .filter(Cart.user_id == uid) \
+                    .filter(Cart.product_id == id) \
+                    .first()
+        
+        # Handle JSON data from frontend
+        if request.is_json:
+            json_data = request.get_json()
+            if json_data and 'quantity' in json_data:
+                quantity = json_data['quantity']
+            else:
+                return {'errors': ['Quantity is required']}, 400
+        else:
+            return {'errors': ['Request must be JSON']}, 400
+        
+        # Validate quantity
+        if quantity is None or quantity < 1 or quantity > 200:
+            return {'errors': ['Quantity must be between 1 and 200']}, 400
+        
+        # If validation passes, process the cart item
         if cart_prod is None:
             item = Cart(
                 user_id=uid,
                 product_id=id,
-                quantity=form.data["quantity"],
+                quantity=quantity,
                 create_at=today,
                 update_at=today
             )
@@ -137,14 +158,17 @@ def add_product_to_cart(id):
             db.session.commit()
             res = item.to_dict()
         else:
-            if form.validate_on_submit():
-                cart_prod.quantity = form.data["quantity"]
-                cart_prod.update_at = today
-                db.session.commit()
-                res = cart_prod.to_dict()
+            cart_prod.quantity = quantity
+            cart_prod.update_at = today
+            db.session.commit()
+            res = cart_prod.to_dict()
         res['product_detail'] = product.to_dict()
-        # return {"new_cartitem":[res]}
         return res
+    except Exception as e:
+        print(f"ERROR in add_product_to_cart: {e}")
+        traceback.print_exc()
+        db.session.rollback()
+        return {'errors': [str(e)]}, 500
 
 @product_routes.route('/<int:id>/reviews', methods=['GET'])
 @product_routes.route('/<int:id>/reviews/', methods=['GET'])

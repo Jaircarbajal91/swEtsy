@@ -8,6 +8,9 @@
   justify-content: center;
   align-items: center;
   z-index: 999;
+  padding: 40px;
+  box-sizing: border-box;
+  overflow-y: auto;
 }
 
 #modal-background {
@@ -16,11 +19,18 @@
   right: 0;
   left: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
 
 #modal-content {
-  position: absolute;
-  background-color: white;
-  border-radius: .7em;
+  position: relative;
+  background-color: transparent;
+  border-radius: 0;
+  width: auto;
+  max-width: none;
+  max-height: none;
+  overflow: visible;
+  margin: 0;
 }

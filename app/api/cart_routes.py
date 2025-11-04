@@ -1,9 +1,7 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required,current_user
 from app.models import db, Product, User, Cart
-from app.forms import ListForm, CartItemForm
 from datetime import datetime, date, timedelta
-from .auth_routes import validation_errors_to_error_messages
 
 cart_routes = Blueprint('cart', __name__)
 
@@ -27,7 +25,7 @@ def get_cart():
     else:
         return {'message':'Cart is Empty!', 'cart_details':[]}
 
-today = date.today()
+today = datetime.now()
 
 @cart_routes.route('/<int:id>',methods=['PUT'])
 @login_required
@@ -37,15 +35,27 @@ def edit_cart(id):
         return {'errors':['cart item not found']}, 404
     if item.user_id != int(current_user.get_id()):
         return {'errors':['Forbbiden: you are not the user having the cart!']}, 403
-    form = CartItemForm()
-    form['csrf_token'].data = request.cookies['csrf_token']
-    if form.validate_on_submit():
-        item.update_at = today
-        item.quantity = form.data['quantity']
-        db.session.commit()
-        return item.to_dict()
+    
+    # Handle JSON data from frontend
+    if request.is_json:
+        json_data = request.get_json()
+        if json_data and 'quantity' in json_data:
+            quantity = json_data['quantity']
+        else:
+            return {'errors': ['Quantity is required']}, 400
     else:
-        return {'errors':validation_errors_to_error_messages(form.errors)},400
+        return {'errors': ['Request must be JSON']}, 400
+    
+    # Validate quantity
+    if quantity is None or quantity < 1 or quantity > 200:
+        return {'errors': ['Quantity must be between 1 and 200']}, 400
+    
+    item.update_at = today
+    item.quantity = quantity
+    db.session.commit()
+    result = item.to_dict()
+    result['product_detail'] = item.product.to_dict()
+    return result
 
 @cart_routes.route('/<int:id>',methods=['DELETE'])
 @login_required
@@ -55,8 +65,6 @@ def delete_cart(id):
         return {'errors':['Cart item not found']}, 404
     if item.user_id != int(current_user.get_id()):
         return {'errors':['Forbidden: This is not your cart!']}, 403
-    form = CartItemForm()
-    form['csrf_token'].data = request.cookies['csrf_token']
     db.session.delete(item)
     db.session.commit()
     # return item.to_dict()
@@ -70,8 +78,6 @@ def delete_all_cart():
     cart_prods = db.session.query(Cart).filter(Cart.user_id == uid).all()
     if len(cart_prods) == 0:
         return {'errors':['Your cart is already empty!']}, 404
-    form = CartItemForm()
-    form['csrf_token'].data = request.cookies['csrf_token']
     for item in cart_prods:
         db.session.delete(item)
     db.session.commit()

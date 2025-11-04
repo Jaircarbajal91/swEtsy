@@ -22,8 +22,9 @@ def seed():
 # Creates the `flask seed undo` command
 @seed_commands.command('undo')
 def undo():
-    undo_users()
-    undo_products()
-    undo_carts()
+    # Undo in reverse order of dependencies
     undo_reviews()
+    undo_carts()
+    undo_products()
+    undo_users()
     # Add other undo functions here

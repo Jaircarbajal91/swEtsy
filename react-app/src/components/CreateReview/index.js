@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink } from 'react-router-dom'
 import { Modal } from '../../context/Modal';
 import { getReviewsThunk, createReviewThunk } from "../../store/review";
 import { getProductsThunk } from '../../store/products'
@@ -12,61 +11,76 @@ export default function AddAReview({ product }) {
     const [showModal, setShowModal] = useState(false)
     const [reviewStars, setReviewStars] = useState()
     const [reviewBody, setReviewBody] = useState('')
-    const [allstars, setAllstars] = useState('☆☆☆☆☆')
     const [errors, setErrors] = useState([])
     const [isDisabled, setIsDisabled] = useState(true);
+    const [hoveredStar, setHoveredStar] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [showSuccess, setShowSuccess] = useState(false);
 
     const sessionUser = useSelector(state => state.session.user);
-    // const productReviews = useSelector(state => state.products.reviews);
-    const id = product.id
+    const id = product?.id
 
-    useEffect(() => {
-        dispatch(getReviewsThunk(id))
-    }, [id, showModal])
-
-    const newErrors = [];
-
-    useEffect(() => {
-        if (sessionUser && product.reviews.some(e => e.user_id === sessionUser.id)) {
-            // newErrors.push(`You have already reviewed this product.`, `Please edit/delete under My Reviews.`, <Navlink className='review-redirect' to='/myreviews' style={{ color: '#472600', textDecoration: 'none' }}>Take me to My Reviews ...</NavLink>)
-            newErrors.push(`You have already reviewed this product.`, `Please edit/delete under  - My Reviews - `)
+    const getReviews = useCallback(() => {
+        if (id) {
+            dispatch(getReviewsThunk(id))
         }
-        else {
-            if (reviewStars == undefined) {
-                newErrors.push('* Please give this product a rating.')
+    }, [dispatch, id])
+
+    useEffect(() => {
+        getReviews()
+    }, [getReviews, showModal])
+
+    const validateReview = useCallback(() => {
+        const newErrors = [];
+
+        if (sessionUser && product?.reviews && Array.isArray(product.reviews) && product.reviews.some(e => e.user_id === sessionUser.id)) {
+            newErrors.push(`You have already reviewed this product.`, `Please edit/delete under My Reviews`)
+        } else {
+            if (reviewStars === undefined) {
+                newErrors.push('Please give this product a rating.')
             }
             if (reviewBody.length > 500) {
                 newErrors.push('You may only enter review in 500 characters.')
             }
         }
+        
         setErrors(newErrors)
-        if (!errors.length) setIsDisabled(false);
-        else setIsDisabled(true)
-    }, [reviewStars, reviewBody.length, errors.length, showModal])
+        setIsDisabled(newErrors.length > 0)
+    }, [reviewStars, reviewBody.length, sessionUser, product?.reviews])
 
-    // console.log('starr--', reviewStars)
-    // console.log(errors)
+    useEffect(() => {
+        validateReview()
+    }, [validateReview])
 
     const handleSubmit = async e => {
         e.preventDefault();
         setErrors([]);
+        setIsLoading(true);
         const payload = {
             stars: reviewStars,
             review_body: reviewBody,
-            product_id: product.id,
-            user_id: sessionUser.id
+            product_id: product?.id,
+            user_id: sessionUser?.id
         }
 
-        dispatch(createReviewThunk(id, payload)).then((res) => {
-            setReviewStars()
-            setReviewBody('')
-            setShowModal(false)
-        })
-            .then(() => dispatch(getProductsThunk()))
-            .catch(async (res) => {
-                const data = await res.json();
-                if (data && data.errors) newErrors.push(data.errors)
-            })
+        try {
+            await dispatch(createReviewThunk(id, payload))
+            setIsLoading(false);
+            setShowSuccess(true);
+            setTimeout(() => {
+                setReviewStars()
+                setReviewBody('')
+                setShowSuccess(false);
+                setShowModal(false)
+                dispatch(getProductsThunk())
+            }, 1500);
+        } catch (res) {
+            setIsLoading(false);
+            const data = await res.json();
+            if (data && data.errors) {
+                setErrors(prev => [...prev, ...data.errors])
+            }
+        }
     }
 
     const handleCancel = async e => {
@@ -74,81 +88,150 @@ export default function AddAReview({ product }) {
         setReviewStars()
         setReviewBody('')
         setShowModal(false)
-        setAllstars('☆☆☆☆☆')
     }
 
     const handleStars = async e => {
         e.preventDefault()
-        if (e.target.value == 1) {
-            setAllstars('☆☆☆☆★')
-        }
-        if (e.target.value == 2) {
-            setAllstars('☆☆☆★★')
-        }
-        if (e.target.value == 3) {
-            setAllstars('☆☆★★★')
-        }
-        if (e.target.value == 4) {
-            setAllstars('☆★★★★')
-        }
-        if (e.target.value == 5) {
-            setAllstars('★★★★★')
-        }
-        setReviewStars(e.target.value)
+        const value = parseInt(e.target.value)
+        setReviewStars(value)
     }
 
     return sessionUser && (
         <>
             <div className="add-a-review">
-                <button className="button button-add-a-review" onClick={() => setShowModal(true)} hidden={product.owner_id === sessionUser.id}>Add a Review</button>
+                <button 
+                    className="button button-add-a-review" 
+                    onClick={() => setShowModal(true)} 
+                    hidden={product?.owner_id === sessionUser?.id}
+                >
+                    Add a Review
+                </button>
             </div>
             {showModal &&
                 <Modal className='createreview-modal' onClose={() => setShowModal(false)} >
                     <form className='createreview-form'>
-                        <div className='createreview-name'>{product.name}</div>
-                        <div className='createreview-des'>{product.description}</div>
-                        <div className='createreview-img'><img src={product.image} alt={'product image'}></img></div>
-                        <div>
-                            {errors.map((error, ind) => (
-                                <div className='createreview-error' key={ind}>{error}</div>
-                            ))}
+                        <div className='createreview-name'>{product?.name || 'Product'}</div>
+                        <div className='createreview-des'>{product?.description || ''}</div>
+                        <div className='createreview-img'>
+                            <img src={product?.image || ''} alt={`${product?.name || 'Product'} product`} />
                         </div>
-                        {/* <section className="star-rating-container">
-                            <input type="radio" name="ratingStar" className="rating" value="1" onClick={e => setReviewStars(e.target.value)} />
-                            <input type="radio" name="ratingStar" className="rating" value="2" onClick={e => setReviewStars(e.target.value)} />
-                            <input type="radio" name="ratingStar" className="rating" value="3" onClick={e => setReviewStars(e.target.value)} />
-                            <input type="radio" name="ratingStar" className="rating" value="4" onClick={e => setReviewStars(e.target.value)} />
-                            <input type="radio" name="ratingStar" className="rating" value="5" onClick={e => setReviewStars(e.target.value)} />
-                        </section> */}
-                        < div className="star-rating-container" >
-                            <div className="radio-label-container">
-                                <label htmlFor='r6' className='rating-label-all'>{allstars}</label>
-                                <input type="radio" id='r1' className="rating-radio" value="5" onClick={handleStars}></input>
-                                <label htmlFor='r1' className='rating-label'>☆</label>
-                                <input type="radio" id='r2' className="rating-radio" value="4" onClick={handleStars}></input>
-                                <label htmlFor='r2' className='rating-label'>☆</label>
-                                <input type="radio" id='r3' className="rating-radio" value="3" onClick={handleStars}></input>
-                                <label htmlFor='r3' className='rating-label'>☆</label>
-                                <input type="radio" id='r4' className="rating-radio" value="2" onClick={handleStars}></input>
-                                <label htmlFor='r4' className='rating-label'>☆</label>
-                                <input type="radio" id='r5' className="rating-radio" value="1" onClick={handleStars}></input>
-                                <label htmlFor='r5' className='rating-label'>☆</label>
+                        {errors.length > 0 && (
+                            <div className="error-container">
+                                {errors.map((error, ind) => (
+                                    <div className='createreview-error' key={ind}>
+                                        <svg className="error-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 8V12M12 16H12.01M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                        </svg>
+                                        <span>{error}</span>
+                                    </div>
+                                ))}
                             </div>
-                        </div >
-                        <textarea
-                            type='textarea'
-                            placeholder='write a review for this item'
-                            onChange={e => setReviewBody(e.target.value)}
-                            value={reviewBody}
-                            maxLength={501}
-                            className='createreview-reviewbody'
-                        ></textarea>
-                        <div>
-                            <button className='createreview-button' onClick={handleCancel}>Cancel</button>
-                            <button className='createreview-button' onClick={handleSubmit} disabled={isDisabled}>Submit Review</button>
+                        )}
+                        <div className="star-rating-container">
+                            <label className="rating-prompt">Rate this product</label>
+                            <div 
+                                className="star-rating-wrapper" 
+                                data-selected-rating={reviewStars || 0}
+                                data-hover-rating={hoveredStar || 0}
+                                onMouseLeave={() => setHoveredStar(null)}
+                            >
+                                {reviewStars && (
+                                    <div className="rating-value-display">
+                                        {reviewStars} {reviewStars === 1 ? 'star' : 'stars'}
+                                    </div>
+                                )}
+                                {[5, 4, 3, 2, 1].map((starValue) => {
+                                    // Array is [5,4,3,2,1] so star 5 is leftmost, star 1 is rightmost
+                                    // Fill stars from right: if rating is N, we want the N rightmost stars filled
+                                    // Example: rating 1 means fill star 1 (rightmost)
+                                    // rating 2 means fill stars 1, 2 (rightmost 2)
+                                    // rating 5 means fill all stars 5,4,3,2,1
+                                    const shouldBeFilled = reviewStars && starValue <= reviewStars;
+                                    // For hover: if hovering star with value N, highlight all stars <= N (rightmost up to N)
+                                    // hoveredStar = 1 (rightmost) → highlight star 1 only
+                                    // hoveredStar = 2 → highlight stars 1, 2
+                                    // hoveredStar = 5 (leftmost) → highlight all stars 5,4,3,2,1
+                                    const isHovered = hoveredStar && starValue <= hoveredStar && !reviewStars;
+                                    return (
+                                        <React.Fragment key={starValue}>
+                                            <input 
+                                                type="radio" 
+                                                id={`r${starValue}`} 
+                                                className="rating-radio" 
+                                                value={starValue} 
+                                                onChange={handleStars} 
+                                                checked={reviewStars === starValue} 
+                                            />
+                                            <label 
+                                                htmlFor={`r${starValue}`} 
+                                                className={`rating-star-label ${shouldBeFilled ? 'star-filled' : ''} ${isHovered ? 'star-hovered' : ''}`}
+                                                data-rating={starValue}
+                                                onMouseEnter={() => setHoveredStar(starValue)}
+                                            >
+                                                <svg className="star-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                                </svg>
+                                            </label>
+                                        </React.Fragment>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                        <div className="textarea-wrapper">
+                            <textarea
+                                placeholder='Share your experience with this product... What did you like? What could be improved?'
+                                onChange={e => setReviewBody(e.target.value)}
+                                value={reviewBody}
+                                maxLength={500}
+                                className='createreview-reviewbody'
+                            />
+                            <div className="character-count">
+                                <span className={reviewBody.length > 450 ? 'character-count-warning' : ''}>
+                                    {reviewBody.length}
+                                </span>
+                                <span className="character-count-separator">/</span>
+                                <span>500</span>
+                            </div>
+                        </div>
+                        {showSuccess && (
+                            <div className="success-message">
+                                <svg className="success-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 6L9 17L4 12" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                </svg>
+                                <span>Review submitted successfully!</span>
+                            </div>
+                        )}
+                        <div className="review-buttons">
+                            <button 
+                                type="button" 
+                                className='createreview-button' 
+                                onClick={handleCancel}
+                                disabled={isLoading}
+                            >
+                                Cancel
+                            </button>
+                            <button 
+                                type="submit" 
+                                className='createreview-button' 
+                                onClick={handleSubmit} 
+                                disabled={isDisabled || isLoading}
+                            >
+                                {isLoading ? (
+                                    <>
+                                        <svg className="spinner" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeDasharray="31.416" strokeDashoffset="31.416">
+                                                <animate attributeName="stroke-dasharray" dur="2s" values="0 31.416;15.708 15.708;0 31.416;0 31.416" repeatCount="indefinite"/>
+                                                <animate attributeName="stroke-dashoffset" dur="2s" values="0;-15.708;-31.416;-31.416" repeatCount="indefinite"/>
+                                            </circle>
+                                        </svg>
+                                        <span>Submitting...</span>
+                                    </>
+                                ) : (
+                                    'Submit Review'
+                                )}
+                            </button>
                         </div>
                     </form>
-
                 </Modal>}
         </>
     )

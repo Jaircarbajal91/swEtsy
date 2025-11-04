@@ -1,0 +1,261 @@
+.purchase-confirmation-container {
+    background-color: white;
+    border-radius: 12px;
+    padding: 32px;
+    max-width: 600px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+}
+
+.success-header {
+    text-align: center;
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.success-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 16px;
+    background-color: #10b981;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    color: white;
+    font-weight: bold;
+}
+
+.success-header h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #111827;
+    margin: 0 0 8px 0;
+}
+
+.order-number {
+    color: #6b7280;
+    font-size: 14px;
+    margin: 0;
+}
+
+.order-items-section {
+    margin-bottom: 24px;
+}
+
+.order-items-section h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #374151;
+    margin: 0 0 16px 0;
+}
+
+.order-items-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.order-item-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    background-color: #f9fafb;
+    border-radius: 8px;
+}
+
+.order-item-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+}
+
+.order-item-image {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #e5e7eb;
+}
+
+.order-item-details {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.order-item-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: #111827;
+    margin: 0;
+}
+
+.order-item-price {
+    font-size: 13px;
+    color: #6b7280;
+    margin: 0;
+}
+
+.order-item-total {
+    font-size: 15px;
+    font-weight: 600;
+    color: #111827;
+}
+
+.order-summary-section {
+    margin-bottom: 24px;
+    padding: 16px;
+    background-color: #f9fafb;
+    border-radius: 8px;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.summary-row span:first-child {
+    font-weight: 500;
+}
+
+.summary-row span:last-child {
+    font-weight: 600;
+}
+
+.discount-amount,
+.shipping-amount {
+    color: #059669;
+}
+
+.total-row {
+    margin-top: 8px;
+    padding-top: 16px;
+    border-top: 2px solid #e5e7eb;
+    font-size: 16px;
+    color: #111827;
+}
+
+.total-row span:first-child {
+    font-weight: 600;
+}
+
+.total-amount {
+    font-size: 18px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.confirmation-footer {
+    display: flex;
+    justify-content: center;
+}
+
+.continue-shopping-btn {
+    width: 100%;
+    padding: 14px 24px;
+    background-color: #111827;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.continue-shopping-btn:hover {
+    background-color: #000000;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .purchase-confirmation-container {
+        padding: 24px;
+        max-width: 90vw;
+    }
+
+    .success-icon {
+        width: 56px;
+        height: 56px;
+        font-size: 32px;
+    }
+
+    .success-header h2 {
+        font-size: 20px;
+    }
+
+    .order-item-image {
+        width: 50px;
+        height: 50px;
+    }
+
+    .order-item-name {
+        font-size: 13px;
+    }
+
+    .order-item-price {
+        font-size: 12px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .purchase-confirmation-container {
+        padding: 20px;
+    }
+
+    .success-icon {
+        width: 48px;
+        height: 48px;
+        font-size: 28px;
+        margin-bottom: 12px;
+    }
+
+    .success-header h2 {
+        font-size: 18px;
+    }
+
+    .order-number {
+        font-size: 13px;
+    }
+
+    .order-items-section h3 {
+        font-size: 15px;
+    }
+
+    .order-item-row {
+        padding: 10px;
+    }
+
+    .order-item-image {
+        width: 45px;
+        height: 45px;
+    }
+
+    .summary-row {
+        font-size: 13px;
+    }
+
+    .total-row {
+        font-size: 15px;
+    }
+
+    .total-amount {
+        font-size: 16px;
+    }
+
+    .continue-shopping-btn {
+        padding: 12px 20px;
+        font-size: 14px;
+    }
+}
+

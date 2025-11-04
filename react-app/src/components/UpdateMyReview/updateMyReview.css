@@ -1,49 +1,91 @@
 @import url('https://fonts.googleapis.com/css2?family=Aboreto&family=Bitter:wght@100;200;400&family=Comfortaa:wght@300&family=DM+Serif+Display&display=swap');
 
 form.editreview-form {
-    /* background-color: rgb(240, 240, 240); */
-    min-width: 800px;
+    min-width: 600px;
     max-width: 800px;
-    max-height: 800px;
     min-height: fit-content;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    padding: 5px 30px;
+    margin: 20px auto;
+    padding: 30px 40px;
     display: block;
     justify-content: space-between;
-    border-radius: 30px;
-    font-size: 28px;
-    color: #56504C;
+    border-radius: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
     font-family: 'DM Serif Display', serif;
 }
 
-textarea.editreview-reviewbody {
-    max-height: 400px;
-    min-height: 200px;
-    max-width: 80%;
-    min-width: 90%;
-    padding: 5px 30px;
-    font-size: 22px;
+.editreview-title {
+    font-size: 28px;
+    color: #1a1a1a;
+    margin: 0 0 20px 0;
+    text-align: center;
     font-family: 'Bitter', serif;
-    border-radius: 20px;
-    background: rgb(249, 250, 250);
+    font-weight: 700;
+}
+
+.editreview-product-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.editreview-product-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.editreview-product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.editreview-textarea-container {
+    margin: 20px 0;
+}
+
+.editreview-textarea,
+textarea.editreview-textarea {
+    width: 100%;
+    min-height: 150px;
+    max-height: 300px;
+    padding: 15px;
+    font-size: 18px;
+    font-family: 'Bitter', serif;
     border-radius: 10px;
+    background: rgb(249, 250, 250);
     border: 1px solid rgb(181, 189, 196);
-    height: 30px;
-    overflow-y: scroll;
+    overflow-y: auto;
     scrollbar-color: grey;
     scrollbar-width: thin;
     color: rgb(8, 9, 10);
     word-break: break-word;
     resize: vertical;
+    box-sizing: border-box;
 }
 
 
-input.editreview-reviewbody:focus {
+.editreview-textarea:focus,
+textarea.editreview-textarea:focus {
+    outline: none;
     background-color: #fff;
     border-color: #3b49df;
-    box-shadow: 1px 1px 0 #3b49df;
-    overflow-y: scroll;
+    box-shadow: 0 0 0 2px rgba(59, 73, 223, 0.1);
+}
+
+.editreview-buttons {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    margin-top: 30px;
 }
 
 button.editreview-button {
@@ -52,36 +94,57 @@ button.editreview-button {
     border: 0;
     font-family: 'Bitter', serif;
     cursor: pointer;
-    transition: box-shadow 0.15s ease, transform 0.15s ease;
-    will-change: box-shadow, transform;
-    background: #FCFCFD;
-    box-shadow: 0px 2px 4px rgb(45 35 66 / 40%), 0px 7px 13px -3px rgb(45 35 66 / 30%), inset 0px -3px 0px #d6d6e7;
-    height: 40px;
-    margin: 2px 35px;
-    padding: 0 20px;
+    transition: all 0.2s ease;
+    height: 48px;
+    margin: 0;
+    padding: 0 32px;
     font-size: 16px;
-    border-radius: 10px;
-    color: #36395a;
-    transition: box-shadow 0.15s ease;
-    transform: 0.15s ease;
-
+    font-weight: 600;
+    border-radius: 8px;
+    flex: 1 1 0;
 }
 
+.editreview-button-primary {
+    background: linear-gradient(135deg, #1a1a1a 0%, #3a3a3a 100%);
+    color: white;
+    box-shadow: 0 2px 8px rgba(26, 26, 26, 0.2);
+}
 
-button.editreview-button:hover {
-    box-shadow: 0px 4px 8px rgb(45 35 66 / 40%), 0px 7px 13px -3px rgb(45 35 66 / 30%), inset 0px -3px 0px #d6d6e7;
+.editreview-button-primary:hover:not(:disabled) {
+    background: linear-gradient(135deg, #3a3a3a 0%, #1a1a1a 100%);
+    box-shadow: 0 4px 16px rgba(26, 26, 26, 0.3);
     transform: translateY(-2px);
 }
 
-button.editreview-button:active {
-    box-shadow: inset 0px 3px 7px #d6d6e7;
-    transform: translateY(2px);
+.editreview-button-primary:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(26, 26, 26, 0.2);
 }
 
-button.editreview-button:disabled {
-    box-shadow: 0px 4px 8px rgb(0 0 0 / 40%);
-    color: #534C45;
-    background-color: grey;
+.editreview-button-primary:disabled {
+    background: #d1d5db;
+    color: #9ca3af;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.editreview-button-secondary {
+    background: white;
+    color: #1a1a1a;
+    border: 2px solid #e5e7eb;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.editreview-button-secondary:hover {
+    background: #f9fafb;
+    border-color: #d1d5db;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+.editreview-button-secondary:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 div.updatereview-error {
@@ -92,82 +155,79 @@ div.updatereview-error {
 }
 
 .editreview-name {
-    max-height: 200px;
-    max-width: 80%;
-    margin-top: 20px;
-    color: black;
-}
-
-.editreview-reviewbody {
-    max-height: 800px;
-    max-width: 800px;
-    font-size: 20px;
-    padding: 5px;
-}
-
-.dropdown-myreviews {
-    cursor: pointer;
-    display: inline-block;
-    position: relative;
-    font-size: 20px;
-    color: #270070;
-    background-color: aliceblue;
-    border-style: none;
-    width: 100%;
-    height: 40px;
-    border-radius: 20px;
-    padding-left: 1em;
-    margin: 10px 0;
-}
-
-.dropdown-title {
-    font-size: 20px;
-    margin-bottom: 0px;
-    padding: 0px;
+    font-size: 22px;
+    color: #1a1a1a;
+    font-weight: 600;
+    font-family: 'Bitter', serif;
 }
 
 
 /* --- star rating --- */
-.star-rating-container {
-    /* unicode-bidi: bidi-override; */
-    direction: rtl;
-    padding: 5px 30px;
+.editreview-star-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin: 20px 0;
+    justify-content: center;
 }
 
-.radio-label-container>label:hover:before,
-.radio-label-container>label:hover~label:before {
-    /* content: "\2605"; */
-    content: "★";
-    position: absolute;
-}
-
-/* ////////// no need for the below */
-/* .radio-label-container>label:focus:before,
-.radio-label-container>input:checked+label:before {
-    content: "\2605";
-    position: absolute;
-} */
-/* .radio-label-container>label:selection:after,
-.radio-label-container>label:checked:before {
-    content: "\2605";
-    position: absolute;
-} */
-#r1,
-#r2,
-#r3,
-#r4,
-#r5 {
-    display: none;
-}
-
-.rating-label,
-.rating-label-all {
+.editreview-star {
+    font-size: 32px;
+    color: #e0e0e0;
     cursor: pointer;
-    transition: color 200ms;
-    /* size: 200px;
-    opacity: 1; */
+    transition: all 0.2s ease;
+    user-select: none;
 }
 
-.rating-label-all {
-    position: absolute;
+.editreview-star:hover {
+    color: #ffc107;
+    transform: scale(1.1);
+}
+
+.editreview-star.active {
+    color: #ffc107;
+}
+
+.editreview-star.active:hover {
+    color: #ffa000;
+}
+
+/* ============================================
+   Responsive Design - Mobile
+   ============================================ */
+
+@media (max-width: 767px) {
+    form.editreview-form {
+        min-width: 90%;
+        max-width: 95%;
+        padding: 20px;
+    }
+
+    .editreview-title {
+        font-size: 24px;
+    }
+
+    .editreview-name {
+        font-size: 18px;
+    }
+
+    .editreview-textarea,
+    textarea.editreview-textarea {
+        font-size: 16px;
+    }
+
+    .editreview-buttons {
+        gap: 8px;
+    }
+
+    button.editreview-button {
+        font-size: 14px;
+        padding: 0 15px;
+        min-width: 90px;
+        height: 36px;
+    }
+
+    .star-rating-container {
+        padding: 5px 15px;
+    }
 }

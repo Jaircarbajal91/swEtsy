@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import LoginForm from './components/auth/LoginForm';
@@ -33,17 +33,21 @@ function App() {
   const reviews = useSelector(state => state.reviews.reviewsList);
   const sessionUser = useSelector(state => state.session.user);
   const dispatch = useDispatch();
+  const hasInitialized = useRef(false);
+  
   useEffect(() => {
+    if (hasInitialized.current) return;
+    
     (async () => {
+      hasInitialized.current = true;
       await dispatch(authenticate());
       await dispatch(getProductsThunk());
-      if (sessionUser) {
-        await dispatch(getCartItemsThunk());
-        setCartLoaded(true)
-      }
+      // Load cart items - API will return empty if user not logged in
+      await dispatch(getCartItemsThunk());
+      setCartLoaded(true);
       setLoaded(true);
     })();
-  }, [dispatch, cartItems?.length]);
+  }, [dispatch]);
 
   if (!loaded) {
     return null;
@@ -53,7 +57,7 @@ function App() {
     <BrowserRouter>
       <div className='content container'>
         <NavBar setShowLogin={setShowLogin} setShowSignup={setShowSignup} sessionUser={sessionUser}
-          searchWords={searchWords} setSearchWords={setSearchWords} />
+          searchWords={searchWords} setSearchWords={setSearchWords} cartItems={cartItems} />
         <Switch>
           <Route path='/' exact={true}>
             <Products sessionUser={sessionUser} products={products} />

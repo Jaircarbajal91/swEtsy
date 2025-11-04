@@ -3,7 +3,8 @@
   align-items: center;
   width: 100%;
   cursor: pointer;
-  border-radius: .7em;
+  border-radius: 0;
+  transition: background-color 0.15s ease, transform 0.1s ease;
 }
 
 .signout-icon {
@@ -14,8 +15,9 @@
 
 .signout-text {
   margin-left: .7em;
-  font-weight: 300;
+  font-weight: 400;
   font-size: medium;
+  color: #1a1a1a;
 }
 
 /* ---- register button ------ */

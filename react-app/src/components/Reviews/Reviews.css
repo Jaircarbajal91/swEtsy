@@ -1,18 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 .reviews-header {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    font-family: "Guardian-EgypTT";
-    font-size: 30px;
+    flex-direction: column;
+    font-family: 'Inter', sans-serif;
     width: 100%;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.reviews-title-wrapper {
+    margin-bottom: 12px;
+}
+
+.review-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.average-rating-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background-color: #f8fafc;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.average-rating-label {
+    font-size: 16px;
+    font-weight: 600;
+    color: #475569;
+}
+
+.average-rating-stars {
+    display: flex;
+    align-items: center;
+}
+
+.average-rating-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1e293b;
 }
 
 .product-review {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 20px;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    word-break:break-all;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    margin-bottom: 16px;
+    border-bottom: 1px solid rgb(228, 228, 228);
+    padding-bottom: 12px;
+}
+
+.product-review:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.review-content-wrapper {
+    position: relative;
+    width: 100%;
+    padding-bottom: 20px;
+}
+
+.review-star {
+    margin-bottom: 6px;
+}
+
+.review-reviewbody {
+    word-break: break-word;
+    line-height: 1.5;
+    font-weight: 400;
+    color: #334155;
+    margin-bottom: 8px;
+}
+
+.review-date {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: #94a3b8;
+    text-align: right;
+    margin-top: 4px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
 }

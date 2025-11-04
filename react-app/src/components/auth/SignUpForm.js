@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { Redirect } from 'react-router-dom';
 import { signUp } from '../../store/session';
-import './Signup.css';
+import './LoginForm.css';
 
 const SignUpForm = ({ setShowSignup, setShowLogin }) => {
   const [errors, setErrors] = useState([]);
@@ -55,70 +55,121 @@ const SignUpForm = ({ setShowSignup, setShowLogin }) => {
   }
 
   return (
-    <form onSubmit={onSignUp} className='register-modal'>
-      <h2>Register</h2>
-      {errors.map((error, ind) => (
-        <div className='auth-validate-error' key={ind}>{error}</div>
-      ))}
-      <label className='register-label'>User Name</label>
-      <input
-        type='text'
-        name='username'
-        onChange={updateUsername}
-        value={username}
-        className='register-input'
-        required={true}
-      ></input>
-      <label className='register-label'>First Name</label>
-      <input
-        type='text'
-        name='firstname'
-        onChange={e => setFirstname(e.target.value)}
-        value={firstname}
-        className='register-input'
-        required={true}
-      ></input>
-      <label className='register-label'>Last Name</label>
-      <input
-        type='text'
-        name='lastname'
-        onChange={e => setLastname(e.target.value)}
-        value={lastname}
-        className='register-input'
-        required={true}
-      ></input>
-      <label className='register-label'>Email</label>
-      <input
-        type='email'
-        name='email'
-        onChange={updateEmail}
-        value={email}
-        className='register-input'
-        required={true}
-      ></input>
-      <label className='register-label'>Password</label>
-      <input
-        type='password'
-        name='password'
-        onChange={updatePassword}
-        value={password}
-        className='register-input'
-        required={true}
-      ></input>
-      <label className='register-label'>Repeat Password</label>
-      <input
-        type='password'
-        name='repeat_password'
-        onChange={updateRepeatPassword}
-        value={repeatPassword}
-        required={true}
-        className='register-input'
-      ></input>
-      <button type='submit'>Sign Up</button>
-      <span className='login-redirect'> Already registered?</span>
-      <br></br>
-      <span className='login-button' onClick={backToLogin}>Log in</span>
-    </form>
+    <div className="login-container">
+      <form className='login-modal' onSubmit={onSignUp}>
+        <div className="login-header">
+          <div className="header-tabs">
+            <div className="tab" onClick={backToLogin}>Sign In</div>
+            <div className="tab active">Register</div>
+          </div>
+          <h2>Create Account</h2>
+          <p>Sign up for your account</p>
+        </div>
+        
+        {errors.length > 0 && (
+          <div className="error-container">
+            {errors.map((error, ind) => (
+              <div className='auth-validate-error' key={ind}>{error}</div>
+            ))}
+          </div>
+        )}
+        
+        <div className="form-group">
+          <label className='signin-label' htmlFor='username'>User Name</label>
+          <input
+            name='username'
+            type='text'
+            placeholder='Enter your username'
+            value={username}
+            onChange={updateUsername}
+            className='signin-input'
+            required={true}
+          />
+        </div>
+        
+        <div className="form-group">
+          <label className='signin-label' htmlFor='firstname'>First Name</label>
+          <input
+            name='firstname'
+            type='text'
+            placeholder='Enter your first name'
+            value={firstname}
+            onChange={e => setFirstname(e.target.value)}
+            className='signin-input'
+            required={true}
+          />
+        </div>
+        
+        <div className="form-group">
+          <label className='signin-label' htmlFor='lastname'>Last Name</label>
+          <input
+            name='lastname'
+            type='text'
+            placeholder='Enter your last name'
+            value={lastname}
+            onChange={e => setLastname(e.target.value)}
+            className='signin-input'
+            required={true}
+          />
+        </div>
+        
+        <div className="form-group">
+          <label className='signin-label' htmlFor='email'>Email</label>
+          <input
+            name='email'
+            type='email'
+            placeholder='Enter your email'
+            value={email}
+            onChange={updateEmail}
+            className='signin-input'
+            required={true}
+          />
+        </div>
+        
+        <div className="form-group">
+          <label className='signin-label' htmlFor='password'>Password</label>
+          <input
+            name='password'
+            type='password'
+            placeholder='Enter your password'
+            value={password}
+            onChange={updatePassword}
+            className='signin-input'
+            required={true}
+          />
+        </div>
+        
+        <div className="form-group">
+          <label className='signin-label' htmlFor='repeat_password'>Repeat Password</label>
+          <input
+            name='repeat_password'
+            type='password'
+            placeholder='Repeat your password'
+            value={repeatPassword}
+            onChange={updateRepeatPassword}
+            className='signin-input'
+            required={true}
+          />
+        </div>
+        
+        <div className='signin-button-container'>
+          <button 
+            className='signin-button primary' 
+            type='submit'
+          >
+            Sign Up
+          </button>
+        </div>
+        
+        <div className="login-footer">
+          <p>Already have an account? 
+            <span className="register-link" onClick={backToLogin}>
+              Sign in here
+            </span>
+          </p>
+        </div>
+      </form>
+    </div>
   );
 };
 
