@@ -20,7 +20,7 @@ const Products = ({ products, sessionUser }) => {
                 <h2 className='section-title'>Featured Products</h2>
                 <div className='circle-display-container products'>
                     {sixCircleDisplayProducts.map(product => (
-                        <Product key={product.id} product={product} />
+                        <Product key={product.id} product={product} showStars={true} />
                     ))}
                 </div>
             </section>

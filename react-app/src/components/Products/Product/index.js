@@ -16,7 +16,15 @@ const Product = ({ product, showStars = true }) => {
         }}>
             <div className='card-container'>
                 <div className='product image-container'>
-                    <img className='product image' src={product.image} alt='product' />
+                    <img 
+                        className='product image' 
+                        src={product.image} 
+                        alt={product.name || 'product'}
+                        onError={(e) => {
+                            e.target.src = 'https://via.placeholder.com/400x400/f3f4f6/9ca3af?text=Product+Image';
+                            e.target.onerror = null; // Prevent infinite loop
+                        }}
+                    />
                 </div>
                 <div className='product name'>
                     {product.name}

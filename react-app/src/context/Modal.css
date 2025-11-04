@@ -7,7 +7,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 999;
+  z-index: 10001;
   padding: 40px;
   box-sizing: border-box;
   overflow-y: auto;
@@ -19,9 +19,11 @@
   right: 0;
   left: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.75);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  transition: opacity 0.3s ease;
+  z-index: 10001;
 }
 
 #modal-content {
@@ -33,4 +35,5 @@
   max-height: none;
   overflow: visible;
   margin: 0;
+  z-index: 10002;
 }

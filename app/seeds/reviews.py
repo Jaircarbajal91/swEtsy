@@ -297,15 +297,15 @@ def seed_reviews():
     # Generate reviews for each product (0-15 reviews per product, average ~5-6)
     for product in products:
         # Realistic review count distribution: some products have many reviews, some have few
-        # Use weighted random: 30% chance of 0-2, 40% chance of 3-7, 20% chance of 8-12, 10% chance of 13-15
+        # Use weighted random: 5% chance of 0, 25% chance of 1-2, 40% chance of 3-7, 20% chance of 8-12, 10% chance of 13-15
         rand = random.randint(1, 100)
-        if rand <= 15:
+        if rand <= 5:
             num_reviews = 0
-        elif rand <= 35:
+        elif rand <= 30:
             num_reviews = random.randint(1, 2)
-        elif rand <= 75:
+        elif rand <= 70:
             num_reviews = random.randint(3, 7)
-        elif rand <= 95:
+        elif rand <= 90:
             num_reviews = random.randint(8, 12)
         else:
             num_reviews = random.randint(13, 15)

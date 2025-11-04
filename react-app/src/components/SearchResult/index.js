@@ -171,19 +171,22 @@ const SearchResult = ({ searchWords, setSearchWords }) => {
             {showFilterModal &&
                 <Modal onClose={() => setShowFilterModal(false)}>
                     <div className='filter-slide-bar'>
-                        <h1 className='filter-title'>Filters</h1>
-                        {/* <fieldset> Keyword Search
-                            <br></br>
-                            <input
-                                type='text'
-                                placeholder="search for anything"
-                                value={keyword}
-                                onChange={e => setKeyWord(e.target.value)}
-                            ></input>
-                            <button onClick={e => setKeyWord('')}>clear</button>
-                        </fieldset> */}
-                        <br></br>
-                        <fieldset className='filter-price-field'><span className='filter-price-field-title'>Price ($)</span>
+                        <div className='filter-header'>
+                            <h1 className='filter-title'>Filters</h1>
+                            <button 
+                                className='filter-close-button' 
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setShowFilterModal(false);
+                                }}
+                                aria-label="Close filters"
+                                type="button"
+                            >
+                                ×
+                            </button>
+                        </div>
+                        <fieldset className='filter-price-field'>
+                            <span className='filter-price-field-title'>Price ($)</span>
                             <div className='filter-price-0 filter-price-radio'>
                                 <input
                                     type="radio"
@@ -271,10 +274,9 @@ const SearchResult = ({ searchWords, setSearchWords }) => {
                                     value={radioMax}
                                     onChange={e => setRadioMax(e.target.value)}
                                     disabled={customPrice}
-                                /><br></br>
+                                />
                             </div>
                         </fieldset>
-                        <br></br>
                         <div className='filter-button-container'>
                             <button className='filter-button filter-clear-button' onClick={handleCancel}>Clear</button>
                             <button className='filter-button filter-apply-button' onClick={handleSearch}>Apply</button>

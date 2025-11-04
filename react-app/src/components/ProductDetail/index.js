@@ -23,7 +23,7 @@ const ProductDetail = () => {
 
     useEffect(() => {
         dispatch(getProductsThunk()).then(() => setIsLoaded(true));
-    }, [dispatch]);
+    }, [dispatch, id]);
 
     const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
@@ -42,18 +42,38 @@ const ProductDetail = () => {
         options.push(i);
     }
 
-    if (!product) {
+    // Show loading state while fetching
+    if (!isLoaded) {
+        return (
+            <div className="center-the-page">
+                <h1>Loading...</h1>
+            </div>
+        );
+    }
+
+    // Show 404 only after loading is complete
+    if (isLoaded && !product) {
       return (
-        <h1>404 Page not found</h1>
+        <div className="center-the-page">
+            <h1>404 Page not found</h1>
+            <p>Product with ID {id} does not exist.</p>
+        </div>
       )
     }
 
-    return isLoaded && (
+    return (
         <div className="center-the-page">
         <div className="product-detail-container">
             <div className="product-detail-left">
                 <div className="product-image-container">
-                    <img className="product-image" src={product.image} alt="" />
+                    <img 
+                        className="product-image" 
+                        src={product.image} 
+                        alt="" 
+                        onError={(e) => {
+                            e.target.src = 'https://placehold.co/500x500?text=Product+Image';
+                        }}
+                    />
                 </div>
                 <div className="reviews">
                     <Reviews product={product} isLoaded={isLoaded} />

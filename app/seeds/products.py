@@ -1,315 +1,489 @@
-from app.models import db, User, Product
-from datetime import datetime, date, timedelta
+from app.models import db, Product
+from datetime import date, timedelta, datetime
 import random
-import hashlib
+import requests
+import re
+from urllib.parse import urlparse
+from concurrent.futures import ThreadPoolExecutor, as_completed
+
+ALLOWED_CATEGORIES = {
+    "clothes", "clothing", "apparel", "women", "men", "shoes", "bags", "fashion",
+    "jewelry", "accessories", "watches", "eyewear",
+    "home", "home-decor", "decor", "furniture", "lighting",
+    "art", "prints", "crafts", "handmade",
+    "beauty", "cosmetics", "skincare", "fragrance",
+    "toys", "games", "kids", "baby",
+    "stationery", "office", "paper",
+    "vintage", "retro", "collectibles",
+    "tech", "gadgets", "phone", "laptop", "electronics", "accessories"
+}
+
+FOOD_KEYWORDS = [
+    "food", "drink", "beverage", "snack", "candy", "chocolate", "coffee", "tea", "juice",
+    "sauce", "spice", "condiment", "cereal", "pasta", "bread", "cookie", "cake", "pie",
+    "meat", "chicken", "beef", "pork", "fish", "seafood", "dairy", "cheese", "yogurt",
+    "vegan", "gluten", "organic food", "nutrition", "calories", "ingredients", "kcal"
+]
+
+MAX_FOOD_RATIO = 0.05
+
+PER_SOURCE_SOFT_CAP = {
+    "escuelajs": 700,
+    "dummyjson": 300,
+    "fakestore": 100,
+    "openbeautyfacts": 300
+}
+
+def looks_like_food(name, description, category):
+    text = " ".join([str(name or ""), str(description or ""), str(category or "")]).lower()
+    return any(k in text for k in FOOD_KEYWORDS)
+
+def category_is_allowed(category):
+    c = str(category or "").lower().replace(" & ", " ").replace("/", " ")
+    return any(a in c for a in ALLOWED_CATEGORIES)
+
+def slug(text):
+    if not text:
+        return ''
+    text = str(text).lower()
+    text = re.sub(r'[^a-z0-9]+', '-', text)
+    text = text.strip('-')
+    return text
+
+def is_good_image(url):
+    if not url or not isinstance(url, str):
+        return False
+    
+    if not (url.startswith('http://') or url.startswith('https://')):
+        return False
+    
+    try:
+        parsed = urlparse(url)
+        host = parsed.netloc.lower()
+        
+        placeholder_hosts = [
+            'picsum.photos',
+            'placeimg.com',
+            'lorempixel.com',
+            'loremflickr.com',
+            'dummyimage.com',
+            'via.placeholder.com',
+            'source.unsplash.com'
+        ]
+        
+        for ph_host in placeholder_hosts:
+            if ph_host in host:
+                return False
+    except Exception:
+        return False
+    
+    try:
+        response = requests.head(url, timeout=5, allow_redirects=True)
+        
+        if response.status_code not in range(200, 300):
+            return False
+        
+        content_type = response.headers.get('Content-Type', '').lower()
+        if not content_type.startswith('image/'):
+            return False
+        
+        content_length = response.headers.get('Content-Length')
+        if content_length:
+            try:
+                size = int(content_length)
+                if size < 1024:
+                    return False
+            except (ValueError, TypeError):
+                pass
+        
+        return True
+    except Exception:
+        return False
+
+def normalize_product(api_data, source):
+    name = api_data.get('title') or api_data.get('name') or api_data.get('product_name')
+    if not name or not str(name).strip():
+        return None
+    
+    name = ' '.join(str(name).split())
+    if len(name) > 50:
+        name = name[:47] + "..."
+    
+    description = api_data.get('description') or api_data.get('generic_name') or api_data.get('brands')
+    if not description or not str(description).strip():
+        return None
+    
+    description = ' '.join(str(description).split())
+    if len(description) > 255:
+        description = description[:252] + "..."
+    
+    try:
+        price = float(api_data.get('price', 0))
+    except (ValueError, TypeError):
+        price = 0
+    
+    if price <= 0:
+        price = round(random.uniform(10, 200), 2)
+    else:
+        price = round(price, 2)
+    
+    category = api_data.get('category', '')
+    if isinstance(category, dict):
+        category = category.get('name', '')
+    
+    if not category:
+        if source == 'openbeautyfacts':
+            category = 'beauty'
+        else:
+            category = 'general'
+    
+    category = str(category).lower()
+    
+    image = api_data.get('image') or api_data.get('image_url')
+    
+    if not image:
+        images = api_data.get('images', {})
+        if isinstance(images, dict):
+            for key in ['front', 'front_en', 'front_fr', 'selected_images', 'small']:
+                if key in images and images[key]:
+                    img_val = images[key]
+                    if isinstance(img_val, dict):
+                        img_val = img_val.get('url') or img_val.get('display') or img_val.get('small')
+                    if img_val:
+                        image = img_val
+                        break
+        
+        elif isinstance(images, list) and len(images) > 0:
+            image = images[0]
+    
+    if not image or not isinstance(image, str):
+        return None
+    
+    return {
+        'name': name,
+        'description': description,
+        'price': price,
+        'image': image,
+        'category': category,
+        'source': source,
+        'from_api': True
+    }
+
+def fetch_escuelajs(session, offset, limit):
+    products = []
+    try:
+        url = f'https://api.escuelajs.co/api/v1/products?offset={offset}&limit={limit}'
+        response = session.get(url, timeout=8)
+        if response.status_code == 200:
+            data = response.json()
+            if isinstance(data, list):
+                for item in data:
+                    normalized = normalize_product(item, 'escuelajs')
+                    if normalized:
+                        products.append(normalized)
+    except Exception:
+        pass
+    return products
+
+def fetch_dummyjson(session, skip, limit):
+    products = []
+    try:
+        url = f'https://dummyjson.com/products?limit={limit}&skip={skip}'
+        response = session.get(url, timeout=8)
+        if response.status_code == 200:
+            data = response.json()
+            for item in data.get('products', []):
+                normalized = normalize_product(item, 'dummyjson')
+                if normalized:
+                    products.append(normalized)
+    except Exception:
+        pass
+    return products
+
+def fetch_fakestore(session):
+    products = []
+    try:
+        response = session.get('https://fakestoreapi.com/products', timeout=8)
+        if response.status_code == 200:
+            data = response.json()
+            if isinstance(data, list):
+                for item in data:
+                    normalized = normalize_product(item, 'fakestore')
+                    if normalized:
+                        products.append(normalized)
+    except Exception:
+        pass
+    return products
+
+def fetch_openbeautyfacts(session, page):
+    products = []
+    try:
+        url = f'https://world.openbeautyfacts.org/api/v2/search?fields=product_name,generic_name,brands,image_url,images&page_size=100&page={page}'
+        response = session.get(url, timeout=8)
+        if response.status_code == 200:
+            data = response.json()
+            for item in data.get('products', []):
+                normalized = normalize_product(item, 'openbeautyfacts')
+                if normalized:
+                    products.append(normalized)
+    except Exception:
+        pass
+    return products
+
+def validate_images_batch(products, max_workers=24):
+    def validate_one(product):
+        image_url = product.get('image')
+        if image_url and is_good_image(image_url):
+            return product
+        return None
+    
+    validated = []
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        futures = [executor.submit(validate_one, p) for p in products]
+        for future in as_completed(futures):
+            result = future.result()
+            if result:
+                validated.append(result)
+    
+    return validated
 
 def seed_products():
-    """Create diverse, realistic products across multiple categories - 1000 products"""
-    
-    random.seed(42)  # For reproducibility
+    random.seed(42)
     today = date.today()
+    target_count = 1000
     
-    def get_product_image(category_name, item_name, seed_value=None, product_index=0):
-        """
-        Generate a category-appropriate image URL using multiple free APIs.
-        Rotates through different reliable image services for maximum compatibility.
-        """
-        # Create deterministic seed for consistent image selection
-        if seed_value:
-            combined_seed = f"{product_index}_{seed_value}"
-            seed_hash = int(hashlib.md5(combined_seed.encode()).hexdigest()[:8], 16)
-        else:
-            seed_hash = product_index
+    session = requests.Session()
+    session.headers.update({
+        'User-Agent': 'Mozilla/5.0 (compatible; ProductSeeder/1.0)'
+    })
+    
+    all_products = []
+    seen_name_slugs = set()
+    seen_image_urls = set()
+    food_count = 0
+    source_counts = {"escuelajs": 0, "dummyjson": 0, "fakestore": 0, "openbeautyfacts": 0}
+    
+    offset = 0
+    limit = 100
+    while len(all_products) < target_count and source_counts["escuelajs"] < PER_SOURCE_SOFT_CAP["escuelajs"]:
+        batch = fetch_escuelajs(session, offset, limit)
+        if not batch:
+            break
         
-        # Rotate between multiple reliable image APIs based on product index
-        # This ensures we don't rely on a single service
-        api_choice = product_index % 4  # Rotate through 4 different APIs
+        for product in batch:
+            if source_counts["escuelajs"] >= PER_SOURCE_SOFT_CAP["escuelajs"]:
+                break
+            
+            name_slug = slug(product['name'])
+            image_url = product.get('image', '')
+            
+            if name_slug in seen_name_slugs or image_url in seen_image_urls:
+                continue
+            
+            is_food = looks_like_food(product['name'], product['description'], product['category'])
+            if is_food:
+                if (food_count + 1) / (len(all_products) + 1) > MAX_FOOD_RATIO:
+                    continue
+            else:
+                if not category_is_allowed(product['category']):
+                    continue
+            
+            all_products.append(product)
+            seen_name_slugs.add(name_slug)
+            seen_image_urls.add(image_url)
+            source_counts["escuelajs"] += 1
+            if is_food:
+                food_count += 1
+            
+            if len(all_products) >= target_count:
+                break
         
-        if api_choice == 0:
-            # API 1: Picsum Photos - 100% reliable, deterministic with seed
-            seed = seed_hash % 1000
-            return f'https://picsum.photos/seed/{seed}/500/500'
+        offset += limit
+        if offset > 10000:
+            break
+    
+    if len(all_products) < target_count:
+        skip = 0
+        limit = 100
+        while len(all_products) < target_count and source_counts["dummyjson"] < PER_SOURCE_SOFT_CAP["dummyjson"]:
+            batch = fetch_dummyjson(session, skip, limit)
+            if not batch:
+                break
+            
+            for product in batch:
+                if source_counts["dummyjson"] >= PER_SOURCE_SOFT_CAP["dummyjson"]:
+                    break
+                
+                if len(all_products) >= target_count:
+                    break
+                
+                name_slug = slug(product['name'])
+                image_url = product.get('image', '')
+                
+                if name_slug in seen_name_slugs or image_url in seen_image_urls:
+                    continue
+                
+                is_food = looks_like_food(product['name'], product['description'], product['category'])
+                if is_food:
+                    if (food_count + 1) / (len(all_products) + 1) > MAX_FOOD_RATIO:
+                        continue
+                else:
+                    if not category_is_allowed(product['category']):
+                        continue
+                
+                all_products.append(product)
+                seen_name_slugs.add(name_slug)
+                seen_image_urls.add(image_url)
+                source_counts["dummyjson"] += 1
+                if is_food:
+                    food_count += 1
+            
+            skip += limit
+            if skip > 10000:
+                break
+    
+    if len(all_products) < target_count:
+        batch = fetch_fakestore(session)
+        for product in batch:
+            if source_counts["fakestore"] >= PER_SOURCE_SOFT_CAP["fakestore"]:
+                break
+            
+            if len(all_products) >= target_count:
+                break
+            
+            name_slug = slug(product['name'])
+            image_url = product.get('image', '')
+            
+            if name_slug in seen_name_slugs or image_url in seen_image_urls:
+                continue
+            
+            is_food = looks_like_food(product['name'], product['description'], product['category'])
+            if is_food:
+                if (food_count + 1) / (len(all_products) + 1) > MAX_FOOD_RATIO:
+                    continue
+            else:
+                if not category_is_allowed(product['category']):
+                    continue
+            
+            all_products.append(product)
+            seen_name_slugs.add(name_slug)
+            seen_image_urls.add(image_url)
+            source_counts["fakestore"] += 1
+            if is_food:
+                food_count += 1
+    
+    if len(all_products) < target_count:
+        page = 1
+        while len(all_products) < target_count and source_counts["openbeautyfacts"] < PER_SOURCE_SOFT_CAP["openbeautyfacts"]:
+            batch = fetch_openbeautyfacts(session, page)
+            if not batch or len(batch) < 10:
+                break
+            
+            for product in batch:
+                if source_counts["openbeautyfacts"] >= PER_SOURCE_SOFT_CAP["openbeautyfacts"]:
+                    break
+                
+                if len(all_products) >= target_count:
+                    break
+                
+                name_slug = slug(product['name'])
+                image_url = product.get('image', '')
+                
+                if name_slug in seen_name_slugs or image_url in seen_image_urls:
+                    continue
+                
+                is_food = looks_like_food(product['name'], product['description'], product['category'])
+                if is_food:
+                    if (food_count + 1) / (len(all_products) + 1) > MAX_FOOD_RATIO:
+                        continue
+                else:
+                    if not category_is_allowed(product['category']) and product['source'] != 'openbeautyfacts':
+                        continue
+                
+                all_products.append(product)
+                seen_name_slugs.add(name_slug)
+                seen_image_urls.add(image_url)
+                source_counts["openbeautyfacts"] += 1
+                if is_food:
+                    food_count += 1
+            
+            page += 1
+            if page > 100:
+                break
+    
+    all_products = validate_images_batch(all_products)
+    
+    if len(all_products) > target_count:
+        all_products = all_products[:target_count]
+    
+    seen_name_slugs = set()
+    seen_image_urls = set()
+    final_products = []
+    final_food_count = 0
+    
+    for product in all_products:
+        name_slug = slug(product['name'])
+        image_url = product.get('image', '')
         
-        elif api_choice == 1:
-            # API 2: Placeholder.com - Always works, shows category-based text
-            category_colors = {
-                'home_decor': '8B7355', 'jewelry': 'D4AF37', 'art_prints': 'FF6B6B',
-                'clothing': '4A90E2', 'kitchen': '50C878', 'toys_games': 'FF8C00',
-                'garden': '228B22', 'stationery': '9370DB', 'pet_accessories': 'FF69B4',
-                'bath_body': '87CEEB', 'tech_accessories': '708090', 'vintage': 'CD853F'
-            }
-            color = category_colors.get(category_name, '4A90E2')
-            item_short = item_name.replace(' ', '%20')[:15]
-            return f'https://via.placeholder.com/500x500/{color}/ffffff?text={item_short}'
+        if name_slug in seen_name_slugs or image_url in seen_image_urls:
+            continue
         
-        elif api_choice == 2:
-            # API 3: DummyImage - Reliable placeholder with text
-            category_colors = {
-                'home_decor': '8B7355', 'jewelry': 'D4AF37', 'art_prints': 'FF6B6B',
-                'clothing': '4A90E2', 'kitchen': '50C878', 'toys_games': 'FF8C00',
-                'garden': '228B22', 'stationery': '9370DB', 'pet_accessories': 'FF69B4',
-                'bath_body': '87CEEB', 'tech_accessories': '708090', 'vintage': 'CD853F'
-            }
-            color = category_colors.get(category_name, '4A90E2')
-            item_short = item_name.replace(' ', '%20')[:15]
-            return f'https://dummyimage.com/500x500/{color}/ffffff&text={item_short}'
-        
-        else:
-            # API 4: Unsplash Source with category keywords (if it works)
-            category_keywords = {
-                'home_decor': 'home',
-                'jewelry': 'jewelry',
-                'art_prints': 'art',
-                'clothing': 'fashion',
-                'kitchen': 'kitchen',
-                'toys_games': 'toys',
-                'garden': 'garden',
-                'stationery': 'notebook',
-                'pet_accessories': 'pet',
-                'bath_body': 'soap',
-                'tech_accessories': 'technology',
-                'vintage': 'vintage'
-            }
-            keyword = category_keywords.get(category_name, 'product')
-            # Add seed for variety
-            return f'https://source.unsplash.com/500x500/?{keyword}&sig={seed_hash}'
+        final_products.append(product)
+        seen_name_slugs.add(name_slug)
+        seen_image_urls.add(image_url)
+        if looks_like_food(product['name'], product['description'], product['category']):
+            final_food_count += 1
     
-    # Product categories with templates
-    categories = {
-        'home_decor': {
-            'items': ['Vase', 'Wall Hanging', 'Candle Holder', 'Plant Pot', 'Pillow', 'Throw Blanket', 
-                     'Wall Art', 'Mirror', 'Lamp', 'Coaster Set', 'Trinket Box', 'Picture Frame', 
-                     'Wall Clock', 'Decorative Bowl', 'Wind Chime', 'Dreamcatcher', 'Tapestry', 'Rug'],
-            'adjectives': ['Handmade', 'Handcrafted', 'Artisan', 'Vintage', 'Modern', 'Rustic', 
-                          'Elegant', 'Bohemian', 'Minimalist', 'Scandinavian', 'Industrial', 'Farmhouse'],
-            'materials': ['Ceramic', 'Wooden', 'Metal', 'Glass', 'Textile', 'Rattan', 'Macrame', 
-                         'Leather', 'Brass', 'Copper', 'Bamboo', 'Terracotta'],
-            'price_range': (15, 150),
-            'image_keywords': ['home', 'decor', 'interior', 'vase', 'decoration', 'furniture', 'art', 'design']
-        },
-        'jewelry': {
-            'items': ['Earrings', 'Necklace', 'Bracelet', 'Ring', 'Anklet', 'Brooch', 'Hairpin', 
-                     'Choker', 'Pendant', 'Cufflinks', 'Watch', 'Chain', 'Bangle', 'Tie Clip'],
-            'adjectives': ['Sterling Silver', 'Gold-Plated', 'Rose Gold', 'Vintage', 'Art Deco', 
-                          'Minimalist', 'Statement', 'Delicate', 'Bold', 'Antique', 'Modern', 'Classic'],
-            'materials': ['Silver', 'Gold', 'Pearl', 'Gemstone', 'Crystal', 'Beaded', 'Wire-Wrapped', 
-                         'Hand-forged', 'Engraved', 'Etched', 'Filigree'],
-            'price_range': (12, 200),
-            'image_keywords': ['jewelry', 'necklace', 'earrings', 'ring', 'bracelet', 'gold', 'silver', 'accessories']
-        },
-        'art_prints': {
-            'items': ['Watercolor Print', 'Digital Art Print', 'Photography Print', 'Illustration', 
-                     'Poster', 'Canvas Print', 'Lithograph', 'Etching', 'Woodcut Print', 'Linocut', 
-                     'Screen Print', 'Abstract Print', 'Botanical Print', 'Geometric Art'],
-            'adjectives': ['Original', 'Limited Edition', 'Vintage', 'Modern', 'Abstract', 'Realistic', 
-                          'Minimalist', 'Colorful', 'Monochrome', 'Botanical', 'Geometric', 'Surreal'],
-            'materials': ['Paper', 'Canvas', 'Metal', 'Wood', 'Acrylic'],
-            'price_range': (15, 120),
-            'image_keywords': ['art', 'painting', 'abstract', 'canvas', 'print', 'illustration', 'design', 'creative']
-        },
-        'clothing': {
-            'items': ['Sweater', 'Jacket', 'Dress', 'Bag', 'Hat', 'Scarf', 'Shawl', 'Socks', 
-                     'Gloves', 'Belt', 'Vest', 'Cardigan', 'Blouse', 'Skirt'],
-            'adjectives': ['Hand-knitted', 'Hand-sewn', 'Vintage', 'Bohemian', 'Modern', 'Classic', 
-                          'Casual', 'Elegant', 'Rustic', 'Artisan', 'Embroidered', 'Patchwork'],
-            'materials': ['Wool', 'Cotton', 'Linen', 'Cashmere', 'Silk', 'Denim', 'Leather', 
-                         'Handwoven', 'Organic', 'Alpaca', 'Bamboo'],
-            'price_range': (25, 200),
-            'image_keywords': ['clothing', 'fashion', 'sweater', 'jacket', 'dress', 'apparel', 'style', 'textile']
-        },
-        'kitchen': {
-            'items': ['Cutting Board', 'Dinnerware Set', 'Utensils', 'Mug', 'Apron', 'Pot Holder', 
-                     'Tea Set', 'Serving Tray', 'Bowl Set', 'Plate Set', 'Salt Shaker', 'Pepper Mill', 
-                     'Knife Set', 'Food Storage', 'Bread Box'],
-            'adjectives': ['Handcrafted', 'Artisan', 'Vintage', 'Modern', 'Rustic', 'Farmhouse', 
-                          'Minimalist', 'Traditional', 'Japanese', 'Scandinavian'],
-            'materials': ['Wood', 'Ceramic', 'Glass', 'Stainless Steel', 'Bamboo', 'Stone', 
-                         'Clay', 'Porcelain', 'Cast Iron'],
-            'price_range': (18, 180),
-            'image_keywords': ['kitchen', 'cooking', 'dining', 'cutting', 'board', 'utensils', 'tableware', 'ceramic']
-        },
-        'toys_games': {
-            'items': ['Puzzle', 'Doll', 'Board Game', 'Stuffed Animal', 'Toy Car', 'Building Blocks', 
-                     'Puppet', 'Rattle', 'Marbles', 'Yo-yo', 'Spinning Top', 'Kaleidoscope', 
-                     'Music Box', 'Dollhouse', 'Train Set'],
-            'adjectives': ['Handmade', 'Vintage', 'Educational', 'Classic', 'Wooden', 'Fabric', 
-                          'Eco-friendly', 'Traditional', 'Artisan', 'Unique', 'Custom'],
-            'materials': ['Wood', 'Fabric', 'Wool', 'Cotton', 'Plastic', 'Metal'],
-            'price_range': (15, 150),
-            'image_keywords': ['toys', 'games', 'puzzle', 'doll', 'wooden', 'toy', 'children', 'play']
-        },
-        'garden': {
-            'items': ['Plant Pot', 'Garden Tool', 'Birdhouse', 'Windmill', 'Garden Sign', 
-                     'Plant Marker', 'Watering Can', 'Garden Statue', 'Hanging Planter', 
-                     'Trellis', 'Plant Stand', 'Seed Starter', 'Garden Bench', 'Solar Light'],
-            'adjectives': ['Hand-painted', 'Handcrafted', 'Vintage', 'Rustic', 'Modern', 
-                          'Decorative', 'Functional', 'Artisan', 'Ceramic', 'Terracotta'],
-            'materials': ['Clay', 'Wood', 'Metal', 'Ceramic', 'Terracotta', 'Stone', 'Resin'],
-            'price_range': (12, 120),
-            'image_keywords': ['garden', 'plant', 'pot', 'outdoor', 'nature', 'terracotta', 'flower', 'green']
-        },
-        'stationery': {
-            'items': ['Journal', 'Pen Set', 'Notebook', 'Bookmark', 'Sticker Set', 'Greeting Card', 
-                     'Pen Holder', 'Desk Organizer', 'Sticky Notes', 'Washi Tape', 'Stamps', 
-                     'Ink Set', 'Writing Set', 'Sketchbook'],
-            'adjectives': ['Handbound', 'Handmade', 'Vintage', 'Modern', 'Minimalist', 'Artisan', 
-                          'Leather', 'Hand-stitched', 'Custom', 'Unique'],
-            'materials': ['Leather', 'Paper', 'Wood', 'Metal', 'Fabric', 'Cardboard'],
-            'price_range': (8, 95),
-            'image_keywords': ['notebook', 'journal', 'paper', 'writing', 'pen', 'stationery', 'office', 'desk']
-        },
-        'pet_accessories': {
-            'items': ['Pet Bandana', 'Pet Toy', 'Pet Bed', 'Pet Collar', 'Pet Leash', 'Pet Bowl', 
-                     'Pet Tag', 'Scratching Post', 'Cat Tree', 'Dog Coat', 'Pet Treat Jar', 
-                     'Pet Mat', 'Pet Blanket'],
-            'adjectives': ['Handmade', 'Custom', 'Personalized', 'Colorful', 'Durable', 'Soft', 
-                          'Vintage', 'Modern', 'Cozy'],
-            'materials': ['Fabric', 'Leather', 'Wood', 'Cotton', 'Fleece', 'Rope'],
-            'price_range': (10, 85),
-            'image_keywords': ['pet', 'dog', 'cat', 'animal', 'collar', 'toy', 'bed', 'accessories']
-        },
-        'bath_body': {
-            'items': ['Soap', 'Candle', 'Bath Bomb', 'Lotion', 'Scrub', 'Body Oil', 'Face Mask', 
-                     'Lip Balm', 'Hand Cream', 'Shampoo Bar', 'Body Wash', 'Bath Salts', 
-                     'Diffuser', 'Aromatherapy'],
-            'adjectives': ['Handmade', 'Natural', 'Organic', 'Artisan', 'Luxurious', 'Vegan', 
-                          'Eco-friendly', 'Scented', 'Unscented', 'Custom'],
-            'materials': ['Natural', 'Organic', 'Essential Oils', 'Shea Butter', 'Coconut Oil'],
-            'price_range': (8, 65),
-            'image_keywords': ['soap', 'candle', 'bath', 'spa', 'wellness', 'natural', 'organic', 'aromatherapy']
-        },
-        'tech_accessories': {
-            'items': ['Phone Case', 'Laptop Sleeve', 'Cable Organizer', 'Tablet Stand', 'Desk Mat', 
-                     'Monitor Stand', 'Headphone Stand', 'Phone Stand', 'USB Hub', 'Wireless Charger', 
-                     'Keyboard Wrist Rest', 'Mouse Pad'],
-            'adjectives': ['Handcrafted', 'Leather', 'Wooden', 'Minimalist', 'Modern', 'Elegant', 
-                          'Custom', 'Artisan', 'Personalized'],
-            'materials': ['Leather', 'Wood', 'Fabric', 'Silicone', 'Metal', 'Bamboo'],
-            'price_range': (15, 150),
-            'image_keywords': ['phone', 'laptop', 'tech', 'accessories', 'electronic', 'gadget', 'device', 'modern']
-        },
-        'vintage': {
-            'items': ['Vintage Clock', 'Antique Mirror', 'Retro Lamp', 'Vintage Camera', 'Old Book', 
-                     'Vintage Jewelry Box', 'Antique Vase', 'Retro Radio', 'Vintage Poster', 
-                     'Antique Frame', 'Vintage Typewriter', 'Old Map', 'Vintage Record', 
-                     'Antique Compass'],
-            'adjectives': ['Vintage', 'Antique', 'Retro', 'Classic', 'Collectible', 'Rare', 
-                          'Authentic', 'Restored', 'Original'],
-            'materials': ['Metal', 'Wood', 'Glass', 'Brass', 'Leather', 'Paper'],
-            'price_range': (25, 300),
-            'image_keywords': ['vintage', 'antique', 'retro', 'classic', 'old', 'collectible', 'nostalgia', 'timeless']
-        }
-    }
+    all_products = final_products
     
-    # Description templates
-    description_templates = [
-        "Beautiful {adjective} {item} made with {material}. Each piece is unique and handcrafted with attention to detail. Perfect for {use_case}.",
-        "{adjective} {item} crafted from premium {material}. This one-of-a-kind piece adds charm to any space. Carefully made by hand.",
-        "Stunning {adjective} {item} featuring {material} construction. Meticulously handcrafted for quality and durability. A special piece for your collection.",
-        "{adjective} {item} made with care and precision. Each {material} element is thoughtfully designed. Ideal for {use_case}.",
-        "Unique {adjective} {item} featuring {material} details. Handcrafted with love and attention to detail. Makes a perfect gift.",
-        "Elegant {adjective} {item} crafted from {material}. This artisan piece showcases traditional techniques with modern appeal.",
-        "{adjective} {item} made from sustainable {material}. Each piece is carefully finished by hand. Available in multiple {variations}.",
-        "Exquisite {adjective} {item} featuring {material} construction. Handmade with traditional methods. Perfect addition to any collection.",
-        "Beautifully crafted {adjective} {item} made from premium {material}. Each piece is unique with natural variations. Ideal for {use_case}.",
-        "{adjective} {item} handcrafted from {material}. This special piece combines functionality with artistic beauty. Carefully made by skilled artisans."
-    ]
+    final_count = len(all_products)
+    assert 0 < final_count <= target_count, f"Expected 0 < count <= {target_count}, got {final_count}"
     
-    use_cases = [
-        "your home", "gifting", "everyday use", "special occasions", "your collection",
-        "decorating", "daily life", "special moments", "your space", "home styling"
-    ]
+    final_name_slugs = {slug(p['name']) for p in all_products}
+    assert len(final_name_slugs) == final_count, f"Name slugs not unique: {len(final_name_slugs)} unique, {final_count} total"
     
-    variations = [
-        "colors", "sizes", "styles", "finishes", "designs", "patterns", "shapes"
-    ]
+    final_image_urls = {p['image'] for p in all_products}
+    assert len(final_image_urls) == final_count, f"Image URLs not unique: {len(final_image_urls)} unique, {final_count} total"
     
+    assert all(p.get('image') for p in all_products), "Some products have empty images"
+    assert all(p.get('from_api') for p in all_products), "Some products have synthesized titles/descriptions"
+    
+    food_ratio = final_food_count / max(1, final_count)
+    assert food_ratio <= MAX_FOOD_RATIO + 0.01, f"Food ratio {food_ratio:.2%} exceeds cap"
+    
+    user_ids = list(range(1, 122))
     products = []
-    product_count = 1000
-    user_ids = list(range(1, 122))  # 121 users (1 demo + 120 generated)
     
-    # Track product index for unique image generation
-    product_index_counter = 0
-    
-    # Distribute products across categories
-    category_items = list(categories.items())
-    products_per_category = product_count // len(category_items)
-    remainder = product_count % len(category_items)
-    
-    for cat_idx, (cat_name, cat_data) in enumerate(category_items):
-        num_items = products_per_category + (1 if cat_idx < remainder else 0)
+    for prod_data in all_products:
+        days_ago = random.randint(1, 365)
+        create_date = today - timedelta(days=days_ago)
+        update_date = create_date + timedelta(days=random.randint(0, 30))
+        if update_date > today:
+            update_date = today
         
-        for _ in range(num_items):
-            # Generate unique product name
-            adjective = random.choice(cat_data['adjectives'])
-            item = random.choice(cat_data['items'])
-            name = f"{adjective} {item}"
-            
-            # Ensure name doesn't exceed 50 characters (database constraint)
-            if len(name) > 50:
-                name = name[:47] + "..."
-            
-            # Generate description
-            material = random.choice(cat_data['materials'])
-            use_case = random.choice(use_cases)
-            variation = random.choice(variations)
-            template = random.choice(description_templates)
-            description = template.format(
-                adjective=adjective.lower(),
-                item=item.lower(),
-                material=material.lower(),
-                use_case=use_case,
-                variations=variation
-            )
-            
-            # Ensure description doesn't exceed 255 characters
-            if len(description) > 255:
-                description = description[:252] + "..."
-            
-            # Generate price
-            min_price, max_price = cat_data['price_range']
-            # Add some decimal variation
-            price = round(random.uniform(min_price, max_price), 2)
-            
-            # Generate dates (1-365 days ago)
-            days_ago = random.randint(1, 365)
-            create_date = today - timedelta(days=days_ago)
-            # Update date can be same or up to 30 days later
-            update_date = create_date + timedelta(days=random.randint(0, 30))
-            # Ensure update date doesn't exceed today
-            if update_date > today:
-                update_date = today
-            
-            # Generate image URL - use multiple APIs for reliability
-            # Create unique seed for this product to ensure variety
-            seed_value = f"{name}{days_ago}{price}"
-            image = get_product_image(category_name=cat_name, item_name=item, seed_value=seed_value, product_index=product_index_counter)
-            product_index_counter += 1
-            
-            # Assign to random user
-            owner_id = random.choice(user_ids)
-            
-            product = Product(
-                name=name,
-                description=description,
-                image=image,
-                price=price,
-                create_at=create_date,
-                update_at=update_date,
-                owner_id=owner_id
-            )
-            products.append(product)
+        owner_id = random.choice(user_ids)
+        
+        product = Product(
+            name=prod_data['name'],
+            description=prod_data['description'],
+            image=prod_data['image'],
+            price=prod_data['price'],
+            create_at=datetime.combine(create_date, datetime.min.time()),
+            update_at=datetime.combine(update_date, datetime.min.time()),
+            owner_id=owner_id
+        )
+        products.append(product)
     
-    # Shuffle products for more realistic distribution
     random.shuffle(products)
     
-    # Batch insert for better performance
     batch_size = 100
     for i in range(0, len(products), batch_size):
         batch = products[i:i + batch_size]
         for product in batch:
             db.session.add(product)
         db.session.commit()
+    
+    print(f"Seeded {len(products)} products (food ratio: {food_ratio:.2%})")
 
 def undo_products():
     db.session.execute('TRUNCATE products RESTART IDENTITY CASCADE;')

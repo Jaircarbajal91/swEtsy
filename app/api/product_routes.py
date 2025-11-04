@@ -41,6 +41,7 @@ def product_details(id):
         stars = [int(r.stars) for r in product.reviews]
         avg = statistics.mean(stars) if len(stars) else 0
         product_dict['avgScore'] = round(float(avg), 2)
+        product_dict['reviews'] = reviews
         return product_dict
     else:
         return {'errors':['product not found']}, 404

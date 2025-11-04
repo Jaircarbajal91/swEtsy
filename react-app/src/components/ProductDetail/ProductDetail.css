@@ -39,17 +39,26 @@
     /* flex-flow: column; */
     /* border: 1px solid black; */
     border-radius: 5px;
-    width: auto;
+    width: 100%;
     max-width: 600px;
-    height:33.0729167vw;
+    aspect-ratio: 1 / 1;
+    max-height: 600px;
+    overflow: hidden;
     border: 1px solid rgb(228, 228, 228);
+    background: #f9fafb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .product-image {
-    object-fit: cover;
+    object-fit: contain;
+    object-position: center;
     border-radius: 6px;
     width: 100%;
-    height:33.0729167vw;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
 }
 
 .reviews {

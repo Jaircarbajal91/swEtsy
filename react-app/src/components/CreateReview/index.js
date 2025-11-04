@@ -137,21 +137,20 @@ export default function AddAReview({ product }) {
                             >
                                 {reviewStars && (
                                     <div className="rating-value-display">
-                                        {reviewStars} {reviewStars === 1 ? 'star' : 'stars'}
+                                        {6 - reviewStars} {(6 - reviewStars) === 1 ? 'star' : 'stars'}
                                     </div>
                                 )}
                                 {[5, 4, 3, 2, 1].map((starValue) => {
                                     // Array is [5,4,3,2,1] so star 5 is leftmost, star 1 is rightmost
-                                    // Fill stars from right: if rating is N, we want the N rightmost stars filled
-                                    // Example: rating 1 means fill star 1 (rightmost)
-                                    // rating 2 means fill stars 1, 2 (rightmost 2)
-                                    // rating 5 means fill all stars 5,4,3,2,1
-                                    const shouldBeFilled = reviewStars && starValue <= reviewStars;
-                                    // For hover: if hovering star with value N, highlight all stars <= N (rightmost up to N)
-                                    // hoveredStar = 1 (rightmost) → highlight star 1 only
-                                    // hoveredStar = 2 → highlight stars 1, 2
-                                    // hoveredStar = 5 (leftmost) → highlight all stars 5,4,3,2,1
-                                    const isHovered = hoveredStar && starValue <= hoveredStar && !reviewStars;
+                                    // Fill stars from left: if rating is N, we want the N leftmost stars filled
+                                    // When a star with value N is hovered/selected, highlight all stars with value >= N
+                                    // Example: hover/select star 5 (1st position) → highlight star 5 only (1 star)
+                                    // Example: hover/select star 4 (2nd position) → highlight stars 5, 4 (2 stars)
+                                    // Example: hover/select star 3 (3rd position) → highlight stars 5, 4, 3 (3 stars)
+                                    // Example: hover/select star 2 (4th position) → highlight stars 5, 4, 3, 2 (4 stars)
+                                    // Example: hover/select star 1 (5th position) → highlight all stars 5,4,3,2,1 (5 stars)
+                                    const shouldBeFilled = reviewStars && starValue >= reviewStars;
+                                    const isHovered = hoveredStar && starValue >= hoveredStar && !reviewStars;
                                     return (
                                         <React.Fragment key={starValue}>
                                             <input 
