@@ -1,6 +1,13 @@
 react-app/node_modules
+react-app/build
 .venv
-Pipfile
-Pipfile.lock
+.git
+.github
 .env
 .DS_Store
+Pipfile
+Pipfile.lock
+journey
+*.md
+.dockerignore
+Dockerfile
